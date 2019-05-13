@@ -604,22 +604,55 @@
             </div>
 
             <div class="seat-choosing-row seat-choosing-row_space-between">
-              <div class="train-info">
-                <div class="train__icon">
-                  <img src="./img/train.svg" alt="">
+              <div class="train-data">
+                <div class="train__icon train__icon_content">
+                  <img src="./img/train_yellow.svg" alt="">
                 </div>
                 <div class="train__route">
-                  <div class="train__name train__name_inner">116С</div>
+                  <div class="train__name train__name_content">116С</div>
                   <p class="train__route-point train__route-point_inactive">Адлер <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
                   <p class="train__route-point">Москва <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
                   <p class="train__route-point">Санкт-Петербург</p>
                 </div>
               </div>
-              <div class="route-points">
-                
+
+              <div class="train__info train__info_leave train__info_content">
+                <div class="train__info_leave_departure">
+                  <p class="train__info-time">00:10</p>
+                  <p class="train__info-city">Москва</p>
+                  <p class="train__info-station">Курский вокзал</p>
+                </div>
+                <div class="train__info_leave_arrow">
+                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </div>
+                <div class="train__info_leave_arrival">
+                  <p class="train__info-time">09:52</p>
+                  <p class="train__info-city">Санкт-Петербург</p>
+                  <p class="train__info-station">Ладожский вокзал</p>
+                </div>
               </div>
+
               <div class="travel-time">
-                
+                <img class="travel-time__icon" src="./img/clock.svg" alt="Clock">
+                <p class="travel-time__text">9 часов<br/>42 минуты</p>
+              </div>
+            </div>
+
+            <div class="seat-choosing-row">
+              <h3 class="tickets-num-title">Количество билетов</h3>
+            </div>
+
+            <div class="seat-choosing-row tickets-num">
+              <div class="tickets-num__type tickets-num__type_adult tickets-num__type_active">
+                <input type="text" value="Взрослых - 2">
+                <p>Можно добавить еще 3 пассажиров</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_child">
+                <input type="text" value="Детских - 1">
+                <p>Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_baby">
+                <input type="text" value="Детских «без места» — 0">
               </div>
             </div>
 
