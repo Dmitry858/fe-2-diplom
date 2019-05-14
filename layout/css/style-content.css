@@ -973,7 +973,12 @@
   margin-right: 12px;
 }
 
-.tickets-num-title {
+.tickets-num {
+  padding-bottom: 40px;
+  border-bottom: 1px dotted #C4C4C4;
+}
+
+.tickets-num-title, .wagon-title {
   margin: 30px 19px 20px;
   font-weight: bold;
   font-size: 30px;
@@ -1005,6 +1010,130 @@
   background: #F7F6F6;
   border: 1px solid #F7F6F6;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.tickets-num__input {
+  width: 94%;
+  height: 50px;
+  padding: 15px;
+  background: #FFFFFF;
+  border: 1px solid #928F94;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #292929;
+}
+
+.tickets-num__comment {
+  width: 90%;
+  color: #928F94;
+}
+
+.tickets-num__comment_active {
+  color: #000000;
+}
+
+.wagon-type {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 25%;
+}
+
+.wagon-type__icon {
+  width: 57px;
+  height: 50px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+.wagon-type__icon_seat {
+  background-image: url(../img/seat_place.png);
+}
+
+.wagon-type__icon_seat_active {
+  background-image: url(../img/seat_place_active.png);
+}
+
+.wagon-type__icon_reserved {
+  background-image: url(../img/reserved_seat.png);
+}
+
+.wagon-type__icon_reserved_active {
+  background-image: url(../img/reserved_seat_active.png);
+}
+
+.wagon-type__icon_coupe {
+  background-image: url(../img/coupe.png);
+}
+
+.wagon-type__icon_coupe_active {
+  background-image: url(../img/coupe_active.png);
+}
+
+.wagon-type__icon_lux {
+  background-image: url(../img/lux_seat.png);
+}
+
+.wagon-type__icon_lux_active {
+  background-image: url(../img/lux_seat_active.png);
+}
+
+.wagon-type__name {
+  margin: 18px 0;
+  font-size: 24px;
+  color: #928F94;
+  cursor: pointer;
+}
+
+.wagon-type__name_active {
+  color: #FFA800;
+}
+
+.wagon {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wagon__available, .wagon__note {
+  min-height: 34px;
+  margin: 0;
+  padding: 8px 19px 4px;
+  background: rgba(255, 168, 0, 0.44);
+  color: #292929;
+}
+
+.wagon__available {
+  flex-basis: 30%;
+  font-size: 18px;
+}
+
+.wagon__note {
+  flex-basis: 70%;
+  text-align: right;
+  font-size: 15px;
+}
+
+.wagon__available_num {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2D2B2F;
+  cursor: pointer;
+}
+
+.wagon__available_num_active {
+  color: #ffffff;
 }
 
 @media (min-width: 1920px) {

@@ -645,16 +645,48 @@
 
             <div class="seat-choosing-row tickets-num">
               <div class="tickets-num__type tickets-num__type_adult tickets-num__type_active">
-                <input type="text" value="Взрослых - 2">
-                <p>Можно добавить еще 3 пассажиров</p>
+                <input class="tickets-num__input" type="text" value="Взрослых - 2">
+                <p class="tickets-num__comment tickets-num__comment_active">Можно добавить еще 3 пассажиров</p>
               </div>
               <div class="tickets-num__type tickets-num__type_child">
-                <input type="text" value="Детских - 1">
-                <p>Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
+                <input class="tickets-num__input" type="text" value="Детских - 1">
+                <p class="tickets-num__comment">Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
               </div>
               <div class="tickets-num__type tickets-num__type_baby">
-                <input type="text" value="Детских «без места» — 0">
+                <input class="tickets-num__input" type="text" value="Детских «без места» - 0">
               </div>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <h3 class="wagon-title">Тип вагона</h3>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_seat"></div>
+                <div class="wagon-type__name">Сидячий</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_reserved"></div>
+                <div class="wagon-type__name">Плацкарт</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_coupe_active"></div>
+                <div class="wagon-type__name wagon-type__name_active">Купе</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_lux"></div>
+                <div class="wagon-type__name">Люкс</div>
+              </div>
+            </div>
+            
+            <div class="seat-choosing-row wagon">
+                <p class="wagon__available">
+                  Вагоны
+                  <span class="wagon__available_num wagon__available_num_active">07</span>
+                  <span class="wagon__available_num">09</span>
+                </p>
+                <p class="wagon__note">Нумерация вагонов начинается с головы поезда</p>
             </div>
 
           </div>
