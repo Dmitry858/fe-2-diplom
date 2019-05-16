@@ -701,10 +701,18 @@
                 <div class="wagon__service">
                   <p class="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
                   <div class="wagon__service-icons">
-                    <div class="wagon__service-icon wagon__service-icon_cond"></div>
-                    <div class="wagon__service-icon wagon__service-icon_wifi"></div>
-                    <div class="wagon__service-icon wagon__service-icon_linen_active"></div>
-                    <div class="wagon__service-icon wagon__service-icon_tea_active"></div>
+                    <div class="wagon__service-icon wagon__service-icon_cond">
+                      <div class="wagon__service_desc wagon__service_desc_cond">кондиционер</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_wifi">
+                      <div class="wagon__service_desc wagon__service_desc_wifi">wi-fi</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_linen_active">
+                      <div class="wagon__service_desc wagon__service_desc_linen">белье</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_tea_active">
+                      <div class="wagon__service_desc wagon__service_desc_tea">чай</div>
+                    </div>
                   </div>
                 </div>
                 
@@ -717,6 +725,140 @@
             </div>
   
           </div>
+
+
+          <div class="seat-choosing-wrap">
+            <div class="seat-choosing-row seat-choosing-row_back seat-choosing-row_padding">
+              <div class="back__arrow back__arrow_content">
+                <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+              </div>
+              <a class="seat-choosing__other" href="#">Выбрать другой поезд</a>
+            </div>
+
+            <div class="seat-choosing-row seat-choosing-row_space-between">
+              <div class="train-data">
+                <div class="train__icon train__icon_content">
+                  <img src="./img/train_yellow.svg" alt="">
+                </div>
+                <div class="train__route">
+                  <div class="train__name train__name_content">116С</div>
+                  <p class="train__route-point train__route-point_inactive">Адлер <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                  <p class="train__route-point">Москва <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                  <p class="train__route-point">Санкт-Петербург</p>
+                </div>
+              </div>
+
+              <div class="train__info train__info_leave train__info_content">
+                <div class="train__info_back_departure">
+                  <p class="train__info-time">00:10</p>
+                  <p class="train__info-city">Москва</p>
+                  <p class="train__info-station">Курский вокзал</p>
+                </div>
+                <div class="train__info_back_arrow">
+                  <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                </div>
+                <div class="train__info_back_arrival">
+                  <p class="train__info-time">09:52</p>
+                  <p class="train__info-city">Санкт-Петербург</p>
+                  <p class="train__info-station">Ладожский вокзал</p>
+                </div>
+              </div>
+
+              <div class="travel-time">
+                <img class="travel-time__icon" src="./img/clock.svg" alt="Clock">
+                <p class="travel-time__text">9 часов<br/>42 минуты</p>
+              </div>
+            </div>
+
+            <div class="seat-choosing-row">
+              <h3 class="tickets-num-title">Количество билетов</h3>
+            </div>
+
+            <div class="seat-choosing-row tickets-num">
+              <div class="tickets-num__type tickets-num__type_adult tickets-num__type_active">
+                <input class="tickets-num__input" type="text" value="Взрослых - 2">
+                <p class="tickets-num__comment tickets-num__comment_active">Можно добавить еще 3 пассажиров</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_child">
+                <input class="tickets-num__input" type="text" value="Детских - 1">
+                <p class="tickets-num__comment">Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_baby">
+                <input class="tickets-num__input" type="text" value="Детских «без места» - 0">
+              </div>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <h3 class="wagon-title">Тип вагона</h3>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_seat"></div>
+                <div class="wagon-type__name">Сидячий</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_reserved"></div>
+                <div class="wagon-type__name">Плацкарт</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_coupe_active"></div>
+                <div class="wagon-type__name wagon-type__name_active">Купе</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_lux"></div>
+                <div class="wagon-type__name">Люкс</div>
+              </div>
+            </div>
+            
+            <div class="seat-choosing-row wagon">
+                <p class="wagon__available">
+                  Вагоны
+                  <span class="wagon__available_num wagon__available_num_active">07</span>
+                  <span class="wagon__available_num">09</span>
+                </p>
+                <p class="wagon__note">Нумерация вагонов начинается с головы поезда</p>
+                <div class="wagon__number">07<span class="wagon__number_caption">вагон</span></div>
+                <div class="wagon__seats">
+                  <p class="wagon__seats_general">Места <span class="wagon__seats_general_num">11</span></p>
+                  <p class="wagon__seats_upper">Верхние <span class="wagon__seats_upper_num">3</span></p>
+                  <p class="wagon__seats_lower">Нижние <span class="wagon__seats_lower_num">8</span></p>
+                </div>
+                <div class="wagon__price">
+                  <p class="wagon__price_subtitle">Стоимость</p>
+                  <p class="wagon__price_upper">2 920 <i class="fa fa-rub" aria-hidden="true"></i></p>
+                  <p class="wagon__price_lower">3 530 <i class="fa fa-rub" aria-hidden="true"></i></p>
+                </div>
+                <div class="wagon__service">
+                  <p class="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
+                  <div class="wagon__service-icons">
+                    <div class="wagon__service-icon wagon__service-icon_cond">
+                      <div class="wagon__service_desc wagon__service_desc_cond">кондиционер</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_wifi">
+                      <div class="wagon__service_desc wagon__service_desc_wifi">wi-fi</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_linen_active">
+                      <div class="wagon__service_desc wagon__service_desc_linen">белье</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_tea_active">
+                      <div class="wagon__service_desc wagon__service_desc_tea">чай</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="wagon__message-wrap">
+                  <div class="wagon__message">11 человек выбирают места в этом поезде</div>
+                </div>
+                <div class="wagon__scheme">
+                  <img src="./img/wagon-scheme.png" alt="Схема вагона">
+                </div>
+            </div>
+  
+          </div>
+
+
+          <a href="#" class="next-button">Далее</a>
           
         </section>
       
