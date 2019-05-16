@@ -178,13 +178,13 @@
 
 .sidebar {
   flex-basis: 27%;
-  padding: 20px;
+  padding: 20px 20px 20px 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-.search-filter {
+.search-filter, .details {
   padding: 20px;
   background: #3E3C41;
   color: #ffffff;
@@ -210,19 +210,28 @@
   color: #2D2B2F;
 }
 
-.search-filter .fa{
+.search-filter .fa, .details .fa {
   display: inherit;  
 }
 
-.search-filter .fa:before {
+.search-filter .fa:before, .details .fa:before {
   position: absolute;
+  color: #d4d4d4;
+}
+
+.search-filter .fa:before {
   top: 11px;
   right: 12px;
-  color: #d4d4d4;
   font-size: 22px;
 }
 
-.search-filter hr {
+.details .fa:before {
+  top: 9px;
+  right: 0;
+  font-size: 34px;
+}
+
+.search-filter hr, .details hr {
   margin: 24px -20px;
   border-top: 1px solid #E5E5E5;
   border-bottom: 0;
@@ -452,23 +461,23 @@
 }
 /* End input range styles */
 
-.leave-wrap .fa-minus, .back-wrap .fa-minus {
+.leave-wrap .fa-minus, .back-wrap .fa-minus, .passengers-wrap .fa-minus {
   display: none;
 }
 
-.leave-wrap[open] .fa-minus, .back-wrap[open] .fa-minus  {
+.leave-wrap[open] .fa-minus, .back-wrap[open] .fa-minus, .passengers-wrap[open] .fa-minus {
   display: block;
 }
 
-.leave-wrap .fa-plus, .back-wrap .fa-plus {
+.leave-wrap .fa-plus, .back-wrap .fa-plus, .passengers-wrap .fa-plus {
   display: block;
 }
 
-.leave-wrap[open] .fa-plus, .back-wrap[open] .fa-plus {
+.leave-wrap[open] .fa-plus, .back-wrap[open] .fa-plus, .passengers-wrap[open] .fa-plus {
   display: none;
 }
 
-.leave, .back {
+.leave, .back, .passengers {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -507,13 +516,18 @@
   color: #ffffff;
 }
 
-.leave__title, .back__title {
+.leave__title, .back__title, .passengers__title {
   margin: 7px 0 7px 12px;
   font-size: 23px;
   flex-grow: 1;
 }
 
-.leave__button, .back__button {
+.leave__date, .back__date {
+  margin: 2px 8px 0 0;
+  font-size: 15px;
+}
+
+.leave__button, .back__button, .passengers__button {
   position: relative;
   width: 20px;
   height: 20px;
@@ -522,7 +536,7 @@
   border-radius: 5px; 
 }
 
-.leave__button .fa:before, .back__button .fa:before {
+.leave__button .fa:before, .back__button .fa:before, .passengers__button .fa:before {
   top: 2px;
   left: 3px;
   font-size: 12px;
@@ -1361,6 +1375,165 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid #FFA800;
   box-sizing: border-box;
+}
+
+.next-button_inactive {
+  background: #928F94;
+  border: 1px solid #928F94;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.next-button_inactive {
+  box-shadow: none;
+}
+
+.details__title, .details__total_subtitle {
+  font-weight: 500;
+  font-size: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #E5E5E5;
+}
+
+.details__title {
+  margin: 15px 0 35px;
+}
+
+.details__row {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.details__row_center {
+  align-items: center;
+}
+
+.train-num__caption, .train-name__caption {
+  color: #E5E5E5;
+}
+
+.train-name__caption {
+  margin-top: 10px;
+}
+
+.train-num__value {
+  margin: 16px 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.train-name__value {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.details__arrow {
+  position: relative;
+}
+
+.details__info-time {
+  margin-bottom: 5px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.details__info-date {
+  margin: 0;
+  font-size: 15px;
+  color: #928F94;
+}
+
+.details__info-city, .details__info-station {
+  font-size: 14px;
+}
+
+.details__info-city {
+  margin-bottom: 5px;
+}
+
+.details__info-station {
+  margin-top: 0;
+  color: #928F94;
+}
+
+.details__travel-time {
+  margin: 0;
+  color: #E5E5E5;
+}
+
+.details__info_leave_arrow {
+  text-align: center;
+}
+
+.fa.details__arrow:before {
+  top: 0;
+  left: 2px;
+  right: 0;
+  font-size: 26px;
+  color: #FFA800;
+}
+
+.details__info_leave_arrival {
+  text-align: right;
+}
+
+.details__total_subtitle {
+  margin: 15px 0;
+}
+
+.details__total {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.details__total_price {
+  position: relative;
+  margin: 0;
+  padding-right: 30px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #FFA800;
+}
+
+.passengers-info__row {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.passengers-info__item {
+  color: #E5E5E5;
+}
+
+.passengers-info__price {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.passengers-info__price .fa:before {
+  position: relative;
+  top: 4px;
+  margin-left: 8px;
+  font-size: 22px;
 }
 
 @media (min-width: 1920px) {

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>Пассажиры</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style-header.css">
+    <link rel="stylesheet" href="css/style-content.css">
+    <link rel="stylesheet" href="css/style-reviews-slider.css">
+    <link rel="stylesheet" href="css/style-footer.css">
+    <link rel="shortcut icon" href="./favicon.png">
+  </head>
+
+  <body>
+    <header id="top" class="header_inner">
+      <div class="header__logo-wrap">
+        <div class="container">
+          <a href="/"><img class="header__logo" src="./img/logo.png" alt="Лого" /></a>
+        </div>
+      </div>
+
+      <div class="header__nav-wrap">
+        <input type="checkbox" id="menu-checkbox" />
+        <nav class="container">
+          <a href="/"><img class="header__logo_mobile" src="./img/logo.png" alt="Лого" /></a>
+          <label for="menu-checkbox" class="toggle-button" data-open="Menu" data-close="Close" onclick></label>
+          <ul class="header__nav">
+            <li class="header__nav-item"><a href="#">О нас</a></li>
+            <li class="header__nav-item"><a href="#">Как это работает</a></li>
+            <li class="header__nav-item"><a href="#">Отзывы</a></li>
+            <li class="header__nav-item"><a href="#">Контакты</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header__row header__row_inner container">
+        <div class="header__form-wrap header__form-wrap_inner">
+          <form class="header__form" action="">
+            <p class="header__form-field-title header__form-field-title_inner">Направление</p>
+            <p class="header__form-field-title header__form-field-title_inner">Дата</p>
+            <div class="header__form-field-wrap header__form-field-wrap_inner">
+              <input class="header__form-field" type="text" placeholder="Откуда">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </div>
+            <img class="form-round-arrows form-round-arrows_inner" src="./img/round_arrows.png" alt="">
+            <div class="header__form-field-wrap header__form-field-wrap_inner">
+              <input class="header__form-field" type="text" placeholder="Куда">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </div>
+            
+            <div class="header__form-field-wrap header__form-field-wrap_inner">
+              <input class="header__form-field" type="text" placeholder="ДД/ММ/ГГ">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              
+              <div class="calendar">
+                <div class="calendar__header">
+                  <i class="fa fa-caret-left" aria-hidden="true"></i>
+                  <p class="calendar__header-month">Август</p>
+                  <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </div>
+                <div class="calendar__days-wrap">
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day calendar__day_inactive">30</li>
+                    <li class="calendar__day calendar__day_inactive">31</li>
+                    <li class="calendar__day">1</li>
+                    <li class="calendar__day">2</li>
+                    <li class="calendar__day">3</li>
+                    <li class="calendar__day">4</li>
+                    <li class="calendar__day">5</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">6</li>
+                    <li class="calendar__day">7</li>
+                    <li class="calendar__day">8</li>
+                    <li class="calendar__day">9</li>
+                    <li class="calendar__day">10</li>
+                    <li class="calendar__day">11</li>
+                    <li class="calendar__day">12</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">13</li>
+                    <li class="calendar__day">14</li>
+                    <li class="calendar__day">15</li>
+                    <li class="calendar__day">16</li>
+                    <li class="calendar__day">17</li>
+                    <li class="calendar__day">18</li>
+                    <li class="calendar__day">19</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">20</li>
+                    <li class="calendar__day">21</li>
+                    <li class="calendar__day">22</li>
+                    <li class="calendar__day">23</li>
+                    <li class="calendar__day">24</li>
+                    <li class="calendar__day">25</li>
+                    <li class="calendar__day">26</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">27</li>
+                    <li class="calendar__day">28</li>
+                    <li class="calendar__day">29</li>
+                    <li class="calendar__day">30</li>
+                    <li class="calendar__day">31</li>
+                    <li class="calendar__day calendar__day_inactive">1</li>
+                    <li class="calendar__day calendar__day_inactive">2</li>
+                  </ul>
+                </div>
+              </div>
+              
+            </div>
+            
+            <div class="header__form-field-wrap header__form-field-wrap_inner">
+              <input class="header__form-field" type="text" placeholder="ДД/ММ/ГГ">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              
+              <div class="calendar">
+                <div class="calendar__header">
+                  <i class="fa fa-caret-left" aria-hidden="true"></i>
+                  <p class="calendar__header-month">Август</p>
+                  <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </div>
+                <div class="calendar__days-wrap">
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day calendar__day_inactive">30</li>
+                    <li class="calendar__day calendar__day_inactive">31</li>
+                    <li class="calendar__day">1</li>
+                    <li class="calendar__day">2</li>
+                    <li class="calendar__day">3</li>
+                    <li class="calendar__day">4</li>
+                    <li class="calendar__day">5</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">6</li>
+                    <li class="calendar__day">7</li>
+                    <li class="calendar__day">8</li>
+                    <li class="calendar__day">9</li>
+                    <li class="calendar__day">10</li>
+                    <li class="calendar__day">11</li>
+                    <li class="calendar__day">12</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">13</li>
+                    <li class="calendar__day">14</li>
+                    <li class="calendar__day">15</li>
+                    <li class="calendar__day">16</li>
+                    <li class="calendar__day">17</li>
+                    <li class="calendar__day">18</li>
+                    <li class="calendar__day">19</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">20</li>
+                    <li class="calendar__day">21</li>
+                    <li class="calendar__day">22</li>
+                    <li class="calendar__day">23</li>
+                    <li class="calendar__day">24</li>
+                    <li class="calendar__day">25</li>
+                    <li class="calendar__day">26</li>
+                  </ul>
+                  
+                  <ul class="calendar__days-row">
+                    <li class="calendar__day">27</li>
+                    <li class="calendar__day">28</li>
+                    <li class="calendar__day">29</li>
+                    <li class="calendar__day">30</li>
+                    <li class="calendar__day">31</li>
+                    <li class="calendar__day calendar__day_inactive">1</li>
+                    <li class="calendar__day calendar__day_inactive">2</li>
+                  </ul>
+                </div>
+              </div>
+              
+            </div>
+            <button class="header__form-button header__form-button_inner" type="submit">Найти билеты</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    
+    <div class="steps">
+      <div class="steps-wrap container">
+        <div class="steps__item steps__item_yellow">
+          <div class="steps__item-number">1</div>
+          <p class="steps__item-name">Билеты</p>
+        </div>
+        <div class="steps__triangle steps__triangle_yellow steps__triangle_yellow-full">
+          <div class="steps__triangle-lines"></div>
+        </div>
+        <div class="steps__item steps__item_yellow">
+          <div class="steps__item-number">2</div>
+          <p class="steps__item-name">Пассажиры</p>
+        </div>
+        <div class="steps__triangle steps__triangle_yellow">
+          <div class="steps__triangle-lines"></div>
+        </div>
+        <div class="steps__item">
+          <div class="steps__item-number">3</div>
+          <p class="steps__item-name">Оплата</p>
+        </div>
+        <div class="steps__triangle">
+          <div class="steps__triangle-lines"></div>
+        </div>
+        <div class="steps__item">
+          <div class="steps__item-number">4</div>
+          <p class="steps__item-name">Проверка</p>
+        </div>
+      </div>
+    </div>
+     
+    <div class="content-wrap">
+      <div class="container">
+        <section class="sidebar">
+          <div class="details">
+            <h3 class="details__title">Детали поездки</h3>
+            <hr/>
+
+            <details class="leave-wrap" open>
+              <summary class="leave">
+                <div class="leave__arrow">
+                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </div>
+                <p class="leave__title">Туда</p>
+                <p class="leave__date">30.08.2018</p>
+                <div class="leave__button">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </div>
+              </summary>
+
+              <div class="details__row details__row_center">
+                <p class="train-num__caption">№ Поезда</p>
+                <p class="train-num__value train-num__value_leave">116C</p>
+              </div>
+              <div class="details__row">
+                <p class="train-name__caption">Название</p>
+                <p class="train-name__value train-name__value_leave">Адлер<br/>Санкт-Петербург</p>
+              </div>
+
+              <div class="details__row">
+                <div class="details__info_leave_departure">
+                  <p class="details__info-time">00:10</p>
+                  <p class="details__info-date">30.08.2018</p>
+                  <p class="details__info-city">Москва</p>
+                  <p class="details__info-station">Курский вокзал</p>
+                </div>
+                <div class="details__info_leave_arrow">
+                  <p class="details__travel-time">9:42</p>
+                  <i class="fa fa-long-arrow-right details__arrow" aria-hidden="true"></i>
+                </div>
+                <div class="details__info_leave_arrival">
+                  <p class="details__info-time">09:52</p>
+                  <p class="details__info-date">31.08.2018</p>
+                  <p class="details__info-city">Санкт-Петербург</p>
+                  <p class="details__info-station">Ладожский вокзал</p>
+                </div>
+              </div>
+
+            </details>
+            <hr/>
+
+            <details class="back-wrap" open>
+              <summary class="back">
+                <div class="back__arrow">
+                  <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                </div>
+                <p class="back__title">Обратно</p>
+                <p class="back__date">09.09.2018</p>
+                <div class="back__button">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </div>
+              </summary>
+
+              <div class="">
+                текст2
+              </div>
+
+            </details>
+            <hr/>
+
+            <details class="passengers-wrap" open>
+              <summary class="passengers">
+                <div class="passengers__icon">
+                  <img src="./img/passenger.svg" alt="Пассажиры">
+                </div>
+                <p class="passengers__title">Пассажиры</p>
+                <div class="passengers__button">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </div>
+              </summary>
+
+              <div class="passengers-info">
+                <div class="passengers-info__row">
+                  <p class="passengers-info__item">2 Взрослых</p>
+                  <div class="passengers-info__price">5 840 <i class="fa fa-rub" aria-hidden="true"></i></div>
+                </div>
+                <div class="passengers-info__row">
+                  <p class="passengers-info__item">1 Ребенок</p>
+                  <div class="passengers-info__price">1 920 <i class="fa fa-rub" aria-hidden="true"></i></div>
+                </div>
+              </div>
+
+            </details>
+            <hr/>
+
+            <div class="details__total">
+              <h3 class="details__total_subtitle">Итог</h3>
+              <p class="details__total_price">7 760 <i class="fa fa-rub" aria-hidden="true"></i></p>
+            </div>
+
+          </div>
+
+        </section>
+        
+        <section class="content">
+          
+<!--           <div class="seat-choosing-wrap">
+            <div class="seat-choosing-row seat-choosing-row_padding">
+              <div class="leave__arrow leave__arrow_content">
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+              </div>
+              <a class="seat-choosing__other" href="#">Выбрать другой поезд</a>
+            </div>
+
+            <div class="seat-choosing-row seat-choosing-row_space-between">
+              <div class="train-data">
+                <div class="train__icon train__icon_content">
+                  <img src="./img/train_yellow.svg" alt="">
+                </div>
+                <div class="train__route">
+                  <div class="train__name train__name_content">116С</div>
+                  <p class="train__route-point train__route-point_inactive">Адлер <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                  <p class="train__route-point">Москва <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                  <p class="train__route-point">Санкт-Петербург</p>
+                </div>
+              </div>
+
+              <div class="train__info train__info_leave train__info_content">
+                <div class="train__info_leave_departure">
+                  <p class="train__info-time">00:10</p>
+                  <p class="train__info-city">Москва</p>
+                  <p class="train__info-station">Курский вокзал</p>
+                </div>
+                <div class="train__info_leave_arrow">
+                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </div>
+                <div class="train__info_leave_arrival">
+                  <p class="train__info-time">09:52</p>
+                  <p class="train__info-city">Санкт-Петербург</p>
+                  <p class="train__info-station">Ладожский вокзал</p>
+                </div>
+              </div>
+
+              <div class="travel-time">
+                <img class="travel-time__icon" src="./img/clock.svg" alt="Clock">
+                <p class="travel-time__text">9 часов<br/>42 минуты</p>
+              </div>
+            </div>
+
+            <div class="seat-choosing-row">
+              <h3 class="tickets-num-title">Количество билетов</h3>
+            </div>
+
+            <div class="seat-choosing-row tickets-num">
+              <div class="tickets-num__type tickets-num__type_adult tickets-num__type_active">
+                <input class="tickets-num__input" type="text" value="Взрослых - 2">
+                <p class="tickets-num__comment tickets-num__comment_active">Можно добавить еще 3 пассажиров</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_child">
+                <input class="tickets-num__input" type="text" value="Детских - 1">
+                <p class="tickets-num__comment">Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
+              </div>
+              <div class="tickets-num__type tickets-num__type_baby">
+                <input class="tickets-num__input" type="text" value="Детских «без места» - 0">
+              </div>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <h3 class="wagon-title">Тип вагона</h3>
+            </div>
+            
+            <div class="seat-choosing-row">
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_seat"></div>
+                <div class="wagon-type__name">Сидячий</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_reserved"></div>
+                <div class="wagon-type__name">Плацкарт</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_coupe_active"></div>
+                <div class="wagon-type__name wagon-type__name_active">Купе</div>
+              </div>
+              <div class="wagon-type">
+                <div class="wagon-type__icon wagon-type__icon_lux"></div>
+                <div class="wagon-type__name">Люкс</div>
+              </div>
+            </div>
+            
+            <div class="seat-choosing-row wagon">
+                <p class="wagon__available">
+                  Вагоны
+                  <span class="wagon__available_num wagon__available_num_active">07</span>
+                  <span class="wagon__available_num">09</span>
+                </p>
+                <p class="wagon__note">Нумерация вагонов начинается с головы поезда</p>
+                <div class="wagon__number">07<span class="wagon__number_caption">вагон</span></div>
+                <div class="wagon__seats">
+                  <p class="wagon__seats_general">Места <span class="wagon__seats_general_num">11</span></p>
+                  <p class="wagon__seats_upper">Верхние <span class="wagon__seats_upper_num">3</span></p>
+                  <p class="wagon__seats_lower">Нижние <span class="wagon__seats_lower_num">8</span></p>
+                </div>
+                <div class="wagon__price">
+                  <p class="wagon__price_subtitle">Стоимость</p>
+                  <p class="wagon__price_upper">2 920 <i class="fa fa-rub" aria-hidden="true"></i></p>
+                  <p class="wagon__price_lower">3 530 <i class="fa fa-rub" aria-hidden="true"></i></p>
+                </div>
+                <div class="wagon__service">
+                  <p class="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
+                  <div class="wagon__service-icons">
+                    <div class="wagon__service-icon wagon__service-icon_cond">
+                      <div class="wagon__service_desc wagon__service_desc_cond">кондиционер</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_wifi">
+                      <div class="wagon__service_desc wagon__service_desc_wifi">wi-fi</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_linen_active">
+                      <div class="wagon__service_desc wagon__service_desc_linen">белье</div>
+                    </div>
+                    <div class="wagon__service-icon wagon__service-icon_active wagon__service-icon_tea_active">
+                      <div class="wagon__service_desc wagon__service_desc_tea">чай</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="wagon__message-wrap">
+                  <div class="wagon__message">11 человек выбирают места в этом поезде</div>
+                </div>
+                <div class="wagon__scheme">
+                  <img src="./img/wagon-scheme.png" alt="Схема вагона">
+                </div>
+            </div>
+  
+          </div> -->
+
+
+          <a href="#" class="next-button next-button_inactive">Далее</a>
+          
+        </section>
+      
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__col">
+          <h3 class="footer__col-title">Свяжитесь с нами</h3>
+          <p class="footer__col-text footer__col-text_margin"><i class="fa fa-phone" aria-hidden="true"></i> 8 (800) 000 00 00</p>
+          <p class="footer__col-text footer__col-text_margin"><i class="fa fa-envelope" aria-hidden="true"></i> inbox@mail.ru</p>
+          <p class="footer__col-text footer__col-text_margin"><i class="fa fa-skype" aria-hidden="true"></i> tu.train.tickets</p>
+          <p class="footer__col-text footer__col-text_margin"><i class="fa fa-map-marker" aria-hidden="true"></i> г. Москва ул. Московская, 27/35, оф. 55</p>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__col-title">Подписка</h3>
+          <p class="footer__col-text">Будьте в курсе событий</p>
+          <form class="footer-form" action="">
+            <input class="footer-form__input" type="text" placeholder="Email">
+            <button class="footer-form__button" type="submit">Отправить</button>
+          </form>
+          <h3 class="footer__col-title footer__col-title_social">Подписывайтесь на нас</h3>
+          <p class="footer__col-icons">
+            <a href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          </p>
+        </div>        
+      </div>
+      <div class="footer__copyright">
+        <div class="container">
+          <img class="footer__logo" src="./img/logo.png" alt="Лого" />
+          <a class="back-to-top" href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
+          <p class="footer__col-text">2019 WEB</p>
+        </div>
+      </div>
+    </footer>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/common.js"></script>
+  </body>
+</html>
