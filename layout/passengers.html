@@ -281,8 +281,32 @@
                 </div>
               </summary>
 
-              <div class="">
-                текст2
+              <div class="details__row details__row_center">
+                <p class="train-num__caption">№ Поезда</p>
+                <p class="train-num__value train-num__value_back">116C</p>
+              </div>
+              <div class="details__row">
+                <p class="train-name__caption">Название</p>
+                <p class="train-name__value train-name__value_back">Адлер<br/>Санкт-Петербург</p>
+              </div>
+
+              <div class="details__row">
+                <div class="details__info_back_departure">
+                  <p class="details__info-time">00:10</p>
+                  <p class="details__info-date">30.08.2018</p>
+                  <p class="details__info-city">Москва</p>
+                  <p class="details__info-station">Курский вокзал</p>
+                </div>
+                <div class="details__info_back_arrow">
+                  <p class="details__travel-time">9:42</p>
+                  <i class="fa fa-long-arrow-left details__arrow" aria-hidden="true"></i>
+                </div>
+                <div class="details__info_back_arrival">
+                  <p class="details__info-time">09:52</p>
+                  <p class="details__info-date">31.08.2018</p>
+                  <p class="details__info-city">Санкт-Петербург</p>
+                  <p class="details__info-station">Ладожский вокзал</p>
+                </div>
               </div>
 
             </details>
@@ -325,6 +349,78 @@
         
         <section class="content">
           
+          <div class="passenger">
+            <div class="passenger__announce">
+              <div class="passenger__toggle">
+                <i class="fa fa-minus" aria-hidden="true"></i>
+              </div>
+              <p class="passenger__title">Пассажир 1</p>
+              <div class="passenger__close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="passenger__detail">
+              <div class="passenger__detail-row">
+                <select class="passenger__type">
+                  <option class="passenger__type-item" value="взрослый">Взрослый</option>
+                  <option class="passenger__type-item" value="детский">Детский</option>
+                </select>
+              </div>
+              <div class="passenger__detail-row">
+                <label class="passenger__name">
+                  Фамилия
+                  <input class="passenger__input" name="surname" type="text" />
+                </label>
+
+                <label class="passenger__name">
+                  Имя
+                  <input class="passenger__input" name="name" type="text" />
+                </label>
+
+                <label class="passenger__name">
+                  Отчество
+                  <input class="passenger__input" name="patronymic" type="text" />
+                </label>
+              </div>
+
+              <div class="passenger__detail-row passenger__detail-row_left">
+                <div class="passenger__gender">
+                  Пол
+                  <div class="passenger__gender-field">
+                    <div class="passenger__gender-value passenger__gender-value_man">М</div>
+                    <div class="passenger__gender-value passenger__gender-value_woman passenger__gender-value_active">Ж</div>
+                  </div>
+                </div>
+
+                <label class="passenger__date-birth">
+                  Дата рождения
+                  <input class="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД/ММ/ГГ" />
+                </label>
+              </div>
+
+              <div class="passenger__detail-row">
+                ограниченная подвижность
+              </div>
+
+            </div>
+          </div>
+
+          <div class="passenger">
+            <div class="passenger__announce passenger__announce_collapse">
+              <div class="passenger__toggle passenger__toggle_collapse">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </div>
+              <p class="passenger__title">Пассажир 3</p>
+              <div class="passenger__close hidden">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="passenger__detail hidden"></div>
+          </div>
+
+
 <!--           <div class="seat-choosing-wrap">
             <div class="seat-choosing-row seat-choosing-row_padding">
               <div class="leave__arrow leave__arrow_content">

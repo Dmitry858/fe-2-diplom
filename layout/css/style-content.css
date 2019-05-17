@@ -901,7 +901,7 @@
   border-radius: 5px;
 }
 
-.seat-choosing-wrap {
+.seat-choosing-wrap, .passenger {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -1466,7 +1466,7 @@
   color: #E5E5E5;
 }
 
-.details__info_leave_arrow {
+.details__info_leave_arrow, .details__info_back_arrow {
   text-align: center;
 }
 
@@ -1478,7 +1478,7 @@
   color: #FFA800;
 }
 
-.details__info_leave_arrival {
+.details__info_leave_arrival, .details__info_back_arrival {
   text-align: right;
 }
 
@@ -1534,6 +1534,157 @@
   top: 4px;
   margin-left: 8px;
   font-size: 22px;
+}
+
+.passenger__announce, .passenger__toggle {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+}
+
+.passenger__announce {
+  justify-content: space-between;
+  width: 100%;
+  padding: 30px 20px;
+  background: #eeeeee;
+}
+
+.passenger__announce_collapse {
+  background: #ffffff; 
+}
+
+.passenger__toggle {
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 13px;
+  border: 2px solid #928F94;
+  border-radius: 50%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.passenger__toggle_collapse {
+  border: 2px solid #FFA800;
+}
+
+.passenger__toggle .fa-minus {
+  color: #928F94;
+}
+
+.passenger__toggle_collapse .fa-plus {
+  color: #FFA800;
+}
+
+.passenger__title {
+  flex-grow: 1;
+  margin: 0 15px 0 0;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.passenger__close {
+  color: #928F94;
+  cursor: pointer;
+}
+
+.passenger__detail {
+  width: 100%;
+  border-top: 1px dotted #928F94;
+}
+
+.passenger__detail-row {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  box-sizing: border-box;
+}
+
+.passenger__detail-row:first-child {
+  margin-top: 10px;
+}
+
+.passenger__detail-row_left {
+  justify-content: flex-start;
+}
+
+.passenger__type, .passenger__input, .passenger__gender-field {
+  padding: 10px 13px;
+  border: 1px solid #928F94;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 22px;
+  color: #292929;
+}
+
+.passenger__type, .passenger__name, .passenger__date-birth {
+  width: 30%;
+}
+
+.passenger__gender {
+  width: 20%;
+  margin-right: 35px;
+}
+
+.passenger__gender-field {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  margin-top: 6px;
+  padding: 0;
+}
+
+.passenger__gender-value {
+  flex-basis: 50%;
+  height: 100%;
+  font-weight: 700;
+  font-size: 28px;
+  text-align: center;
+  line-height: 48px;
+  cursor: pointer;
+}
+
+.passenger__gender-value_man {
+  border-right: 1px solid #928F94;
+}
+
+.passenger__gender-value_active {
+  background: #FFA800;
+}
+
+.passenger__name, .passenger__gender, .passenger__date-birth {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  flex-direction: column;
+  color: #928F94;
+}
+
+.passenger__input {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.passenger__input_date-birth::placeholder {
+  font-size: 19px;
+}
+
+.passenger__type-item {
+  background: #F4F3F6;
 }
 
 @media (min-width: 1920px) {
