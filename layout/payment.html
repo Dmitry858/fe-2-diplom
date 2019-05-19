@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
-    <title>Пассажиры</title>
+    <title>Оплата</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -200,14 +200,14 @@
           <div class="steps__item-number">2</div>
           <p class="steps__item-name">Пассажиры</p>
         </div>
-        <div class="steps__triangle steps__triangle_yellow">
+        <div class="steps__triangle steps__triangle_yellow steps__triangle_yellow-full">
           <div class="steps__triangle-lines"></div>
         </div>
-        <div class="steps__item">
+        <div class="steps__item steps__item_yellow">
           <div class="steps__item-number">3</div>
           <p class="steps__item-name">Оплата</p>
         </div>
-        <div class="steps__triangle">
+        <div class="steps__triangle steps__triangle_yellow">
           <div class="steps__triangle-lines"></div>
         </div>
         <div class="steps__item">
@@ -349,127 +349,54 @@
         
         <section class="content">
           
-          <div class="passenger">
-            <div class="passenger__announce">
-              <div class="passenger__toggle">
-                <i class="fa fa-minus" aria-hidden="true"></i>
-              </div>
-              <p class="passenger__title">Пассажир 1</p>
-              <div class="passenger__close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </div>
+          <div class="payment">
+            <div class="payment-row payment-row_title">
+              <p class="payment__title">Персональные данные</p>
             </div>
+            
+            <div class="payment-row payment-row_dotted">
+              <label class="passenger__name passenger__name_dark">
+                Фамилия
+                <input class="passenger__input" name="surname" type="text" />
+              </label>
 
-            <div class="passenger__detail">
-              <div class="passenger__detail-row">
-                <select class="passenger__type">
-                  <option class="passenger__type-item" value="взрослый">Взрослый</option>
-                  <option class="passenger__type-item" value="детский">Детский</option>
-                </select>
-              </div>
-              <div class="passenger__detail-row">
-                <label class="passenger__name">
-                  Фамилия
-                  <input class="passenger__input" name="surname" type="text" />
-                </label>
+              <label class="passenger__name passenger__name_dark">
+                Имя
+                <input class="passenger__input" name="name" type="text" />
+              </label>
 
-                <label class="passenger__name">
-                  Имя
-                  <input class="passenger__input" name="name" type="text" />
-                </label>
-
-                <label class="passenger__name">
-                  Отчество
-                  <input class="passenger__input" name="patronymic" type="text" />
-                </label>
-              </div>
-
-              <div class="passenger__detail-row passenger__detail-row_left">
-                <div class="passenger__gender">
-                  Пол
-                  <div class="passenger__gender-field">
-                    <div class="passenger__gender-value passenger__gender-value_man">М</div>
-                    <div class="passenger__gender-value passenger__gender-value_woman passenger__gender-value_active">Ж</div>
-                  </div>
-                </div>
-
-                <label class="passenger__date-birth">
-                  Дата рождения
-                  <input class="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД/ММ/ГГ" />
-                </label>
-              </div>
-
-              <div class="passenger__detail-row">
-                <input type="checkbox" id="checkbox_passenger1" />
-                <label for="checkbox_passenger1">ограниченная подвижность</label>
-              </div>
-              
-              <div class="passenger__detail-row passenger__document-wrap">
-                <label class="passenger__document">
-                  Тип документа
-                  <select class="passenger__document-type">
-                    <option class="passenger__document-item" value="паспорт">Паспорт РФ</option>
-                    <option class="passenger__document-item" value="свидетельство">Свидетельство о рождении</option>
-                  </select>
-                </label>
-
-                <label class="passenger__document">
-                  Серия
-                  <input class="passenger__input" name="doc-series" type="text" />
-                </label>
-
-                <label class="passenger__document">
-                  Номер
-                  <input class="passenger__input" name="doc-number" type="text" />
-                </label>
-              </div>
-              
-              <div class="passenger__detail-row passenger__next-wrap passenger__next-wrap_allow">
-                <div class="passenger__next-message passenger__next-message_allow">
-                  <div class="passenger__message-icon passenger__message-icon_allow">
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                  </div>
-                  Готово
-                </div>
-<!--
-                for disallow
-                <div class="passenger__next-message">
-                  <div class="passenger__message-icon">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </div>
-                  Номер свидетельства о рожденни указан некорректно<br/> Пример: VIII-ЫП-123456
-                </div>
--->
-                <a class="passenger__next-button" href="#">Следующий пассажир</a>
-              </div>
-
+              <label class="passenger__name passenger__name_dark">
+                Отчество
+                <input class="passenger__input" name="patronymic" type="text" />
+              </label>
             </div>
+            
+            <div class="payment-row">
+              <label class="passenger__phone">
+                Контактный телефон
+                <input class="passenger__input" name="phone" type="text" placeholder="+7 ___ ___ __ __" />
+              </label>
+            </div>
+            
+            <div class="payment-row">
+              <label class="passenger__phone">
+                E-mail
+                <input class="passenger__input" name="email" type="text" placeholder="inbox@gmail.com" />
+              </label>
+            </div>
+            
+            <div class="payment-row payment-row_title payment-row_ways">
+              <p class="payment__title">Способы оплаты</p>
+            </div>
+            
+            <div class="payment-row">
+              <input class="yellow-checkbox" type="checkbox" id="checkbox_pay-online" />
+              <label class="payment__checkbox-label" for="checkbox_pay-online">Онлайн</label>
+            </div>
+            
           </div>
 
-          <div class="passenger">
-            <div class="passenger__announce passenger__announce_collapse">
-              <div class="passenger__toggle passenger__toggle_collapse">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </div>
-              <p class="passenger__title">Пассажир 3</p>
-              <div class="passenger__close hidden">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </div>
-            </div>
-
-            <div class="passenger__detail hidden"></div>
-          </div>
-
-          <div class="add-passenger">
-            <div class="passenger__announce passenger__announce_collapse">
-              <p class="add-passenger__title">Добавить пассажира</p>
-              <div class="add-passenger__icon">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-
-          <a href="#" class="next-button next-button_inactive">Далее</a>
+          <a href="#" class="next-button">Купить билеты</a>
           
         </section>
       
