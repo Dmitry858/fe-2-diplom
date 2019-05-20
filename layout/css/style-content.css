@@ -1772,10 +1772,38 @@
   border-bottom: 1px dotted #928F94;
 }
 
+.payment-row_methods {
+  justify-content: flex-start;
+  padding-top: 5px;
+}
+
+.payment-row_margin-top {
+  margin-top: 20px;
+}
+
+.payment-row_margin-bottom {
+  margin-bottom: 20px;
+}
+
+.payment__method {
+  margin: 0 50px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.payment__method:last-child {
+  margin-right: 0;
+}
+
 .payment__checkbox-label {
   padding-left: 40px !important;
   font-size: 20px;
   color: #928F94;
+}
+
+.payment__checkbox-label_cash {
+  margin: 20px 0;
 }
 
 @media (min-width: 1920px) {
