@@ -14,6 +14,12 @@
   border-bottom: 8px solid #FFA800;
 }
 
+.header_end {
+  background-image: url('../img/header_bg_end.png');
+  background-color: #292929;
+  border-bottom: none;
+}
+
 .header_inner {
   background-image: url('../img/header_bg_inner.png');
   background-color: #928F94;
@@ -115,6 +121,10 @@
   padding-top: 119px;
 }
 
+.header__row_end {
+  padding-top: 170px;
+}
+
 .header__title, .header__form-wrap {
   flex-basis: 50%;
 }
@@ -122,6 +132,11 @@
 .header__title {
   margin-top: 94px;
   font-size: 34px;
+}
+
+.header__title_end {
+  flex-basis: 100%;
+  margin: 20px 0 140px;
 }
 
 .header__form-wrap {
