@@ -1,7 +1,7 @@
 .header, .header_inner {
   position: relative;
   width: 100%;
-  padding: 0 0 1px;
+  padding: 0;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -221,7 +221,7 @@
 }
 
 .header__row.header__row_inner {
-  padding-top: 82px;
+  padding-top: 78px;
 }
 
 .header__form-field-title.header__form-field-title_inner {

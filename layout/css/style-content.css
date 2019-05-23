@@ -171,6 +171,13 @@
   background: #E5E5E5;
 }
 
+.content-wrap_loader {
+  position: relative;
+  padding: 60px 0;
+  background: #3e3c41;
+  text-align: center;
+}
+
 .content-wrap .container {
   display: -webkit-flex;
   display: -moz-flex;
@@ -2047,6 +2054,21 @@
 .order-card__link:active {
   background: #E5E5E5;
   color: #292929;
+}
+
+.loader-text {
+  position: relative;
+  margin: 0;
+  font-weight: bold;
+  font-size: 19px;
+  color: #928F94;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.loader {
+  position: relative;
+  top: -60px;
 }
 
 @media (min-width: 1920px) {
