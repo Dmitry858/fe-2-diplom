@@ -1,7 +1,7 @@
 .header, .header_inner {
   position: relative;
   width: 100%;
-  padding: 0 0 1px;
+  padding: 0;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -12,6 +12,12 @@
   background-image: url('../img/header_bg.png');
   background-color: #9B6909;
   border-bottom: 8px solid #FFA800;
+}
+
+.header_end {
+  background-image: url('../img/header_bg_end.png');
+  background-color: #292929;
+  border-bottom: none;
 }
 
 .header_inner {
@@ -115,6 +121,10 @@
   padding-top: 119px;
 }
 
+.header__row_end {
+  padding-top: 170px;
+}
+
 .header__title, .header__form-wrap {
   flex-basis: 50%;
 }
@@ -122,6 +132,11 @@
 .header__title {
   margin-top: 94px;
   font-size: 34px;
+}
+
+.header__title_end {
+  flex-basis: 100%;
+  margin: 20px 0 140px;
 }
 
 .header__form-wrap {
@@ -206,7 +221,7 @@
 }
 
 .header__row.header__row_inner {
-  padding-top: 82px;
+  padding-top: 78px;
 }
 
 .header__form-field-title.header__form-field-title_inner {
