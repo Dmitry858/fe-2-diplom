@@ -2,20 +2,132 @@ import React, { Component } from 'react';
 import logo from './img/logo.png';
 import roundArrows from './img/round_arrows.png';
 import './css/style-header.css';
+import Calendar from './Calendar.js';
+
+import {
+  Router,
+  Route,
+  NavLink,
+  Switch
+} from 'react-router-dom';
 
 export default class Header extends Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {
+      citiesFrom: [],
+      citiesTo: [],
+      cityFrom: '',
+      cityTo: '',
+      trainChoosingAllow: false
+    };
+  }
+  
+  handleButton(event) {
+    event.preventDefault();
+  }
+  
+  handleChangeFrom(event) {
+    fetch( `https://netology-trainbooking.herokuapp.com/routes/cities?name=${event.target.value}` )
+      .then( response => response.json())
+      .then( data => {
+              if (Array.isArray(data) && data.length > 0) {
+                this.setState({
+                  citiesFrom: data,
+                  cityFrom: ''
+                });
+              } else {
+                this.setState({
+                  citiesFrom: []
+                });
+              };
+            }
+           );
+  }
+  
+  handleChangeTo(event) {
+    fetch( `https://netology-trainbooking.herokuapp.com/routes/cities?name=${event.target.value}` )
+      .then( response => response.json())
+      .then( data => {
+              if (Array.isArray(data) && data.length > 0) {
+                this.setState({
+                  citiesTo: data,
+                  cityTo: ''
+                });
+              } else {
+                this.setState({
+                  citiesTo: []
+                });
+              };
+            }
+           );
+  }
+  
+  selectCity(item, direction, event) {
+    let city = item.name[0].toUpperCase() + item.name.substring(1);
+    event.target.parentElement.parentElement.firstChild.value = city;
+    
+    if (direction === 'from' && this.state.cityTo === '') {
+      this.setState({
+        cityFrom: item,
+        citiesFrom: []
+      });
+    } else if (direction === 'from' && typeof this.state.cityTo !== 'string') {
+      this.setState({
+        cityFrom: item,
+        citiesFrom: [],
+        trainChoosingAllow: true
+      });
+    } else if (direction === 'to' && this.state.cityFrom === '') {
+      this.setState({
+        cityTo: item,
+        citiesTo: []
+      });
+    } else if (direction === 'to' && typeof this.state.cityFrom !== 'string') {
+      this.setState({
+        cityTo: item,
+        citiesTo: [],
+        trainChoosingAllow: true
+      });
+    }
+  }
+  
+  getHeaderClasses(el) {
+    const { currentPage } = this.props;
+    
+    if (el === 'header' && currentPage === 'home') return "header";
+    if (el === 'header' && currentPage === 'inner') return "header_inner";
+    
+    if (el === 'row' && currentPage === 'home') return "header__row container";
+    if (el === 'row' && currentPage === 'inner') return "header__row header__row_inner container";
+    
+    if (el === 'header-title' && currentPage === 'home') return "header__title";
+    if (el === 'header-title' && currentPage === 'inner') return "header__title hidden";
+
+    if (el === 'form-wrap' && currentPage === 'home') return "header__form-wrap";
+    if (el === 'form-wrap' && currentPage === 'inner') return "header__form-wrap header__form-wrap_inner";
+    
+    if (el === 'field-title' && currentPage === 'home') return "header__form-field-title";
+    if (el === 'field-title' && currentPage === 'inner') return "header__form-field-title header__form-field-title_inner";
+    
+    if (el === 'field-wrap' && currentPage === 'home') return "header__form-field-wrap";
+    if (el === 'field-wrap' && currentPage === 'inner') return "header__form-field-wrap header__form-field-wrap_inner";
+    
+    if (el === 'arrows' && currentPage === 'home') return "form-round-arrows";
+    if (el === 'arrows' && currentPage === 'inner') return "form-round-arrows form-round-arrows_inner";
+  
   }
   
   render() {
+    const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo } = this.state;
+    const { currentPage } = this.props;
+    
     return (
       <React.Fragment>
-        <header id="top" className="header">
+        <header id="top" className={this.getHeaderClasses('header')}>
           <div className="header__logo-wrap">
             <div className="container">
-              <a href="/"><img className="header__logo" src={logo} alt="Лого" /></a>
+              <NavLink to="/"><img className="header__logo" src={logo} alt="Лого" /></NavLink>
             </div>
           </div>
 
@@ -33,153 +145,55 @@ export default class Header extends Component {
             </nav>
           </div>
 
-          <div className="header__row container">
-            <div className="header__title">
+          <div className={this.getHeaderClasses('row')}>
+            <div className={this.getHeaderClasses('header-title')}>
               <h1><span className="thin-text">Вся жизнь -</span> <br/>путешествие!</h1>
             </div>
-            <div className="header__form-wrap">
+            <div className={this.getHeaderClasses('form-wrap')}>
               <form className="header__form" action="">
-                <p className="header__form-field-title">Направление</p>
-                <div className="header__form-field-wrap">
-                  <input className="header__form-field" type="text" placeholder="Откуда" />
+                <p className={this.getHeaderClasses('field-title')}>Направление</p>
+                <p className={(currentPage === 'home') ? "hidden" : "header__form-field-title header__form-field-title_inner"}>Дата</p>
+                <div className={this.getHeaderClasses('field-wrap')}>
+                  <input className="header__form-field" type="text" placeholder="Откуда" onChange={this.handleChangeFrom.bind(this)} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
+                  <ul className={(citiesFrom.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
+                    {citiesFrom.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'from')}>{item.name}</li>)}
+                  </ul>
                 </div>
-                <img className="form-round-arrows" src={roundArrows} alt="" />
-                <div className="header__form-field-wrap">
-                  <input className="header__form-field" type="text" placeholder="Куда" />
+                <img className={this.getHeaderClasses('arrows')} src={roundArrows} alt="" />
+                <div className={this.getHeaderClasses('field-wrap')}>
+                  <input className="header__form-field" type="text" placeholder="Куда" onChange={this.handleChangeTo.bind(this)} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
+                  <ul className={(citiesTo.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
+                    {citiesTo.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'to')}>{item.name}</li>)}
+                  </ul>
                 </div>
-                <p className="header__form-field-title">Дата</p>
-                <div className="header__form-field-wrap">
+                <p className={(currentPage === 'home') ? "header__form-field-title" : "hidden"}>Дата</p>
+                <div className={this.getHeaderClasses('field-wrap')}>
                   <input className="header__form-field" type="text" placeholder="ДД/ММ/ГГ" />
                   <i className="fa fa-calendar" aria-hidden="true"></i>
 
-                  <div className="calendar">
-                    <div className="calendar__header">
-                      <i className="fa fa-caret-left" aria-hidden="true"></i>
-                      <p className="calendar__header-month">Август</p>
-                      <i className="fa fa-caret-right" aria-hidden="true"></i>
-                    </div>
-                    <div className="calendar__days-wrap">
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day calendar__day_inactive">30</li>
-                        <li className="calendar__day calendar__day_inactive">31</li>
-                        <li className="calendar__day">1</li>
-                        <li className="calendar__day">2</li>
-                        <li className="calendar__day">3</li>
-                        <li className="calendar__day">4</li>
-                        <li className="calendar__day">5</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">6</li>
-                        <li className="calendar__day">7</li>
-                        <li className="calendar__day">8</li>
-                        <li className="calendar__day">9</li>
-                        <li className="calendar__day">10</li>
-                        <li className="calendar__day">11</li>
-                        <li className="calendar__day">12</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">13</li>
-                        <li className="calendar__day">14</li>
-                        <li className="calendar__day">15</li>
-                        <li className="calendar__day">16</li>
-                        <li className="calendar__day">17</li>
-                        <li className="calendar__day">18</li>
-                        <li className="calendar__day">19</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">20</li>
-                        <li className="calendar__day">21</li>
-                        <li className="calendar__day">22</li>
-                        <li className="calendar__day">23</li>
-                        <li className="calendar__day">24</li>
-                        <li className="calendar__day">25</li>
-                        <li className="calendar__day">26</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">27</li>
-                        <li className="calendar__day">28</li>
-                        <li className="calendar__day">29</li>
-                        <li className="calendar__day">30</li>
-                        <li className="calendar__day">31</li>
-                        <li className="calendar__day calendar__day_inactive">1</li>
-                        <li className="calendar__day calendar__day_inactive">2</li>
-                      </ul>
-                    </div>
-                  </div>
-
+                  <Calendar />
                 </div>
 
-                <div className="header__form-field-wrap">
+                <div className={this.getHeaderClasses('field-wrap')}>
                   <input className="header__form-field" type="text" placeholder="ДД/ММ/ГГ" />
                   <i className="fa fa-calendar" aria-hidden="true"></i>
 
-                  <div className="calendar">
-                    <div className="calendar__header">
-                      <i className="fa fa-caret-left" aria-hidden="true"></i>
-                      <p className="calendar__header-month">Август</p>
-                      <i className="fa fa-caret-right" aria-hidden="true"></i>
-                    </div>
-                    <div className="calendar__days-wrap">
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day calendar__day_inactive">30</li>
-                        <li className="calendar__day calendar__day_inactive">31</li>
-                        <li className="calendar__day">1</li>
-                        <li className="calendar__day">2</li>
-                        <li className="calendar__day">3</li>
-                        <li className="calendar__day">4</li>
-                        <li className="calendar__day">5</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">6</li>
-                        <li className="calendar__day">7</li>
-                        <li className="calendar__day">8</li>
-                        <li className="calendar__day">9</li>
-                        <li className="calendar__day">10</li>
-                        <li className="calendar__day">11</li>
-                        <li className="calendar__day">12</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">13</li>
-                        <li className="calendar__day">14</li>
-                        <li className="calendar__day">15</li>
-                        <li className="calendar__day">16</li>
-                        <li className="calendar__day">17</li>
-                        <li className="calendar__day">18</li>
-                        <li className="calendar__day">19</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">20</li>
-                        <li className="calendar__day">21</li>
-                        <li className="calendar__day">22</li>
-                        <li className="calendar__day">23</li>
-                        <li className="calendar__day">24</li>
-                        <li className="calendar__day">25</li>
-                        <li className="calendar__day">26</li>
-                      </ul>
-
-                      <ul className="calendar__days-row">
-                        <li className="calendar__day">27</li>
-                        <li className="calendar__day">28</li>
-                        <li className="calendar__day">29</li>
-                        <li className="calendar__day">30</li>
-                        <li className="calendar__day">31</li>
-                        <li className="calendar__day calendar__day_inactive">1</li>
-                        <li className="calendar__day calendar__day_inactive">2</li>
-                      </ul>
-                    </div>
-                  </div>
-
+                  <Calendar />
                 </div>
-                <button className="header__form-button" type="submit">Найти билеты</button>
+                
+                { (trainChoosingAllow) ? 
+                <NavLink 
+                  to={{ 
+                    pathname: '/train-choosing/',
+                    search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}`
+                  }}
+                  className={(currentPage === 'home') ? "header__form-button" : "header__form-button header__form-button_inner"}>
+                  Найти билеты
+                </NavLink> :
+                <button className={(currentPage === 'home') ? "header__form-button" : "header__form-button header__form-button_inner"} type="submit" onClick={this.handleButton.bind(this)}>Найти билеты</button> }
+              
               </form>
             </div>
           </div>
