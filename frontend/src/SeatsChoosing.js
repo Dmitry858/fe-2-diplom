@@ -4,6 +4,20 @@ import Steps from './Steps.js';
 import Calendar from './Calendar.js';
 import LastTickets from './LastTickets.js';
 import loader from './img/preloader.gif';
+import wifi from './img/wi_fi.svg';
+import express from './img/express.svg';
+import lux from './img/lux_seat.svg';
+import coupe from './img/coupe.svg';
+import reservedSeat from './img/reserved_seat.svg';
+import seatPlace from './img/seat_place.svg';
+import train from './img/train.svg';
+import trainYellow from './img/train_yellow.svg';
+import clock from './img/clock.svg';
+import wagonScheme from './img/wagon-scheme.png';
+
+import {
+  NavLink
+} from 'react-router-dom';
 
 export default class SeatsChoosing extends Component {
   constructor (props) {
@@ -54,7 +68,7 @@ export default class SeatsChoosing extends Component {
                   <div className="switches">
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/coupe.svg" alt="Купе" />
+                        <img className="switch__icon" src={coupe} alt="Купе" />
                       </div>
                       <div className="switch__name">Купе</div>
                       <div className="switch__toggle">
@@ -68,7 +82,7 @@ export default class SeatsChoosing extends Component {
 
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/reserved_seat.svg" alt="Плацкарт" />
+                        <img className="switch__icon" src={reservedSeat} alt="Плацкарт" />
                       </div>
                       <div className="switch__name">Плацкарт</div>
                       <div className="switch__toggle">
@@ -82,7 +96,7 @@ export default class SeatsChoosing extends Component {
 
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/seat_place.svg" alt="Сидячий" />
+                        <img className="switch__icon" src={seatPlace} alt="Сидячий" />
                       </div>
                       <div className="switch__name">Сидячий</div>
                       <div className="switch__toggle">
@@ -96,7 +110,7 @@ export default class SeatsChoosing extends Component {
 
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/lux_seat.svg" alt="Люкс" />
+                        <img className="switch__icon" src={lux} alt="Люкс" />
                       </div>
                       <div className="switch__name">Люкс</div>
                       <div className="switch__toggle">
@@ -110,7 +124,7 @@ export default class SeatsChoosing extends Component {
 
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/wi_fi.svg" alt="Wi-Fi" />
+                        <img className="switch__icon" src={wifi} alt="Wi-Fi" />
                       </div>
                       <div className="switch__name">Wi-Fi</div>
                       <div className="switch__toggle">
@@ -124,7 +138,7 @@ export default class SeatsChoosing extends Component {
 
                     <div className="switch">
                       <div className="switch__icon-wrap">
-                        <img className="switch__icon" src="./img/express.svg" alt="Экспресс" />
+                        <img className="switch__icon" src={express} alt="Экспресс" />
                       </div>
                       <div className="switch__name">Экспресс</div>
                       <div className="switch__toggle">
@@ -258,7 +272,7 @@ export default class SeatsChoosing extends Component {
                   <div className="seat-choosing-row seat-choosing-row_space-between">
                     <div className="train-data">
                       <div className="train__icon train__icon_content">
-                        <img src="./img/train_yellow.svg" alt="" />
+                        <img src={trainYellow} alt="" />
                       </div>
                       <div className="train__route">
                         <div className="train__name train__name_content">116С</div>
@@ -285,7 +299,7 @@ export default class SeatsChoosing extends Component {
                     </div>
 
                     <div className="travel-time">
-                      <img className="travel-time__icon" src="./img/clock.svg" alt="Clock" />
+                      <img className="travel-time__icon" src={clock} alt="Clock" />
                       <p className="travel-time__text">9 часов<br/>42 минуты</p>
                     </div>
                   </div>
@@ -371,7 +385,7 @@ export default class SeatsChoosing extends Component {
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
                       <div className="wagon__scheme">
-                        <img src="./img/wagon-scheme.png" alt="Схема вагона" />
+                        <img src={wagonScheme} alt="Схема вагона" />
                       </div>
                   </div>
 
@@ -389,7 +403,7 @@ export default class SeatsChoosing extends Component {
                   <div className="seat-choosing-row seat-choosing-row_space-between">
                     <div className="train-data">
                       <div className="train__icon train__icon_content">
-                        <img src="./img/train_yellow.svg" alt="" />
+                        <img src={trainYellow} alt="" />
                       </div>
                       <div className="train__route">
                         <div className="train__name train__name_content">116С</div>
@@ -416,7 +430,7 @@ export default class SeatsChoosing extends Component {
                     </div>
 
                     <div className="travel-time">
-                      <img className="travel-time__icon" src="./img/clock.svg" alt="Clock" />
+                      <img className="travel-time__icon" src={clock} alt="Clock" />
                       <p className="travel-time__text">9 часов<br/>42 минуты</p>
                     </div>
                   </div>
@@ -502,13 +516,13 @@ export default class SeatsChoosing extends Component {
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
                       <div className="wagon__scheme">
-                        <img src="./img/wagon-scheme.png" alt="Схема вагона" />
+                        <img src={wagonScheme} alt="Схема вагона" />
                       </div>
                   </div>
 
                 </div>
 
-                <a href="#" className="next-button">Далее</a>
+                <NavLink to={{ pathname: '/passengers/' }} className="next-button">Далее</NavLink>
 
               </section>
 

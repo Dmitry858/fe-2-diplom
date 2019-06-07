@@ -97,15 +97,19 @@ export default class Header extends Component {
     
     if (el === 'header' && currentPage === 'home') return "header";
     if (el === 'header' && currentPage === 'inner') return "header_inner";
+    if (el === 'header' && currentPage === 'end') return "header header_end";
     
     if (el === 'row' && currentPage === 'home') return "header__row container";
     if (el === 'row' && currentPage === 'inner') return "header__row header__row_inner container";
+    if (el === 'row' && currentPage === 'end') return "header__row header__row_end container";
     
     if (el === 'header-title' && currentPage === 'home') return "header__title";
     if (el === 'header-title' && currentPage === 'inner') return "header__title hidden";
+    if (el === 'header-title' && currentPage === 'end') return "header__title header__title_end";
 
     if (el === 'form-wrap' && currentPage === 'home') return "header__form-wrap";
     if (el === 'form-wrap' && currentPage === 'inner') return "header__form-wrap header__form-wrap_inner";
+    if (el === 'form-wrap' && currentPage === 'end') return "hidden";
     
     if (el === 'field-title' && currentPage === 'home') return "header__form-field-title";
     if (el === 'field-title' && currentPage === 'inner') return "header__form-field-title header__form-field-title_inner";
@@ -127,14 +131,14 @@ export default class Header extends Component {
         <header id="top" className={this.getHeaderClasses('header')}>
           <div className="header__logo-wrap">
             <div className="container">
-              <NavLink to="/"><img className="header__logo" src={logo} alt="Лого" /></NavLink>
+              <NavLink to={{ pathname: '/' }}><img className="header__logo" src={logo} alt="Лого" /></NavLink>
             </div>
           </div>
 
           <div className="header__nav-wrap">
             <input type="checkbox" id="menu-checkbox" />
             <nav className="container">
-              <a href="/"><img className="header__logo_mobile" src={logo} alt="Лого" /></a>
+              <NavLink to={{ pathname: '/' }}><img className="header__logo_mobile" src={logo} alt="Лого" /></NavLink>
               <label htmlFor="menu-checkbox" className="toggle-button" data-open="Menu" data-close="Close" onclick></label>
               <ul className="header__nav">
                 <li className="header__nav-item"><a href="#about-us">О нас</a></li>
@@ -147,8 +151,10 @@ export default class Header extends Component {
 
           <div className={this.getHeaderClasses('row')}>
             <div className={this.getHeaderClasses('header-title')}>
-              <h1><span className="thin-text">Вся жизнь -</span> <br/>путешествие!</h1>
+              <h1 className={(currentPage === 'home') ? "" : "hidden"}><span className="thin-text">Вся жизнь -</span> <br/>путешествие!</h1>
+              <h1 className={(currentPage === 'end') ? "" : "hidden"}>Благодарим Вас за заказ!</h1>
             </div>
+            
             <div className={this.getHeaderClasses('form-wrap')}>
               <form className="header__form" action="">
                 <p className={this.getHeaderClasses('field-title')}>Направление</p>

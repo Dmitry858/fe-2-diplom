@@ -5,6 +5,10 @@ import Footer from './Footer.js';
 import Home from './Home.js';
 import TrainChoosing from './TrainChoosing.js';
 import SeatsChoosing from './SeatsChoosing.js';
+import Passengers from './Passengers.js';
+import Payment from './Payment.js';
+import OrderConfirm from './OrderConfirm.js';
+import OrderDone from './OrderDone.js';
 
 import {
   Router,
@@ -34,6 +38,10 @@ export default class App extends Component {
       <Router history={history}>
         <React.Fragment>
           <Switch>
+            <Route path="/order-done/" component={OrderDone} />
+            <Route path="/order-confirm/" component={OrderConfirm} />
+            <Route path="/payment/" component={Payment} />
+            <Route path="/passengers/" component={Passengers} />
             <Route path="/seats-choosing/" component={SeatsChoosing} />
             <Route path="/train-choosing/" component={TrainChoosing} />
             <Route path="/" component={Home} />
