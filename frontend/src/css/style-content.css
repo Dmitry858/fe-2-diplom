@@ -628,6 +628,10 @@
   color: #FFA800;
 }
 
+.last-tickets__item-filter-icon {
+  margin-left: 8px;
+}
+
 .content__header {
   display: -webkit-flex;
   display: -moz-flex;
@@ -645,6 +649,7 @@
 }
 
 .train-sort {
+  margin-left: 4px;
   padding-bottom: 5px;
   font-family: inherit;
   font-size: inherit;
@@ -664,7 +669,15 @@
 }
 
 .show-by__num, .show-by__num_active {
+  margin-left: 4px;
+}
+
+.show-by__num {
   cursor: pointer;
+}
+
+.show-by__num_active {
+  cursor: default;
 }
 
 .show-by__num_active, .train-sort__item {
@@ -682,6 +695,10 @@
   border: 1px solid #C4C4C4;
   box-sizing: border-box;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.train {
+  margin-bottom: 20px;
 }
 
 .content-container {
@@ -833,10 +850,13 @@
   color: #FFA800;
 }
 
+.train__seat-name {
+  min-width: 75px;
+}
+
 .train__seat-number {
   flex-grow: 1;
-  padding-right: 8px;
-  text-align: right;
+  padding-left: 5px;
   font-weight: 500;
   color: #FFA800;
   cursor: pointer;
@@ -853,6 +873,7 @@
   background: #E5E5E5;
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  z-index: 5;
 }
 
 .train__seat_subtypes:before {

@@ -40,6 +40,9 @@ export default class SeatsChoosing extends Component {
         </React.Fragment>
       );
     } else {
+      
+      console.log(this.props.location.state.train);
+      
       return (
         <React.Fragment>
           <Header currentPage={'inner'} />
