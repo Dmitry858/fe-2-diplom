@@ -31,11 +31,22 @@ export default class TrainChoosing extends Component {
   }
   
   componentWillMount() {
+    let regExp = /&limit=\d+/,
+        regExpNum = /\d+/,
+        showByNum;
+    if (regExp.test(this.props.location.search)) {
+      let result = regExp.exec(this.props.location.search);
+      showByNum = parseInt(result[0].replace('&limit=', ''), 10);
+    } else {
+      showByNum = 5;
+    }
+    
     fetch( `https://netology-trainbooking.herokuapp.com/routes${this.props.location.search}` )
       .then( response => response.json())
       .then( data => {
         this.setState({
           data: data,
+          showByNum: showByNum,
           preloader: false
         });
       })
@@ -50,7 +61,15 @@ export default class TrainChoosing extends Component {
   }
   
   showByHandler(num, event) {
-    console.log(num);
+    if (num === this.state.showByNum) return;
+    
+    let regExp = /&limit=\d+/;
+    
+    if (regExp.test(this.props.location.search)) {
+      window.location.href = window.location.href.replace(regExp, `&limit=${num}`);
+    } else {
+      window.location.href = window.location.href + `&limit=${num}`;
+    }
   }
   
   render() {
@@ -95,8 +114,8 @@ export default class TrainChoosing extends Component {
                   <p className="show-by">
                     Показывать по:
                     <span className={(showByNum === 5) ? "show-by__num_active" : "show-by__num"} onClick={this.showByHandler.bind(this, 5)}>5</span> 
-                    <span className={(showByNum === 10) ? "show-by__num_active" : "show-by__num"} onClick={this.showByHandler.bind(this, 10)}>10</span> 
-                    <span className={(showByNum === 20) ? "show-by__num_active" : "show-by__num"} onClick={this.showByHandler.bind(this, 20)}>20</span>
+                    { (data.total_count > 9) && <span className={(showByNum === 10) ? "show-by__num_active" : "show-by__num"} onClick={this.showByHandler.bind(this, 10)}>10</span> } 
+                    { (data.total_count > 19) && <span className={(showByNum === 20) ? "show-by__num_active" : "show-by__num"} onClick={this.showByHandler.bind(this, 20)}>20</span> }        
                   </p>         
                 </div>
 
