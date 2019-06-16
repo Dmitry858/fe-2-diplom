@@ -174,7 +174,7 @@ export default class TrainChoosing extends Component {
                           { item.departure.have_third_class && <img className="last-tickets__item-filter-icon" src={reservedSeat} alt="Плацкарт" /> }
                           { item.departure.have_fourth_class && <img className="last-tickets__item-filter-icon" src={seatPlace} alt="Сидячий" /> }
                         </div>
-                        <NavLink to={{ pathname: '/seats-choosing/', state: {train: item} }} className="train__seats-choice">Выбрать места</NavLink>
+                        <NavLink to={{ pathname: '/seats-choosing/', state: {train: item, getParams: this.props.location.search} }} className="train__seats-choice">Выбрать места</NavLink>
                       </div>
                     </div>
                   );
