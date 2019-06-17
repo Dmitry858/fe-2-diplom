@@ -118,7 +118,7 @@
 
 .header__row {
   display: flex;
-  padding-top: 119px;
+  padding-top: 90px;
 }
 
 .header__row_end {
@@ -130,7 +130,7 @@
 }
 
 .header__title {
-  margin-top: 94px;
+  margin-top: 60px;
   font-size: 34px;
 }
 
@@ -153,7 +153,7 @@
 
 .header__form-field-title {
   flex-basis: 100%;
-  margin: 50px 0 16px;
+  margin: 38px 0 16px;
   font-size: 24px;
   font-weight: 300;
 }
@@ -212,7 +212,7 @@
 .header__form-button {
   flex-basis: 47%;
   height: 50px;
-  margin-top: 90px;
+  margin-top: 78px;
   margin-left: auto;
   padding-top: 2px;
   background: #FFA800;
