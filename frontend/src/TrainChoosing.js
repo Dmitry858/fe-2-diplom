@@ -26,6 +26,7 @@ export default class TrainChoosing extends Component {
     super(props);
     this.state = {
       showByNum: 5,
+      currentPage: 1,
       preloader: true
     };
   }
@@ -33,12 +34,20 @@ export default class TrainChoosing extends Component {
   componentWillMount() {
     let regExp = /&limit=\d+/,
         regExpNum = /\d+/,
-        showByNum;
+        showByNum = 5,
+        currentPage = 1;
     if (regExp.test(this.props.location.search)) {
       let result = regExp.exec(this.props.location.search);
       showByNum = parseInt(result[0].replace('&limit=', ''), 10);
-    } else {
-      showByNum = 5;
+    };
+    
+    if (this.props.location.query.offset) {
+      let offset = parseInt(this.props.location.query.offset, 10);
+      if (offset === 0) {
+        currentPage = 1;
+      } else {
+        currentPage = offset / showByNum + 1;
+      };
     }
     
     fetch( `https://netology-trainbooking.herokuapp.com/routes${this.props.location.search}` )
@@ -47,6 +56,7 @@ export default class TrainChoosing extends Component {
         this.setState({
           data: data,
           showByNum: showByNum,
+          currentPage: currentPage,
           preloader: false
         });
       })
@@ -63,12 +73,33 @@ export default class TrainChoosing extends Component {
   showByHandler(num, event) {
     if (num === this.state.showByNum) return;
     
-    let regExp = /&limit=\d+/;
+    let newUrl = window.location.href,
+        regExp = /&limit=\d+/,
+        regExpOffset = /&offset=\d+/;
+    
+    if (this.props.location.query.offset) {
+      newUrl = newUrl.replace(regExpOffset, '');
+    }
     
     if (regExp.test(this.props.location.search)) {
-      window.location.href = window.location.href.replace(regExp, `&limit=${num}`);
+      newUrl = newUrl.replace(regExp, `&limit=${num}`);
     } else {
-      window.location.href = window.location.href + `&limit=${num}`;
+      newUrl = newUrl + `&limit=${num}`;
+    }
+    
+    window.location.href = newUrl;
+  }
+  
+  trainsListUpdate(pageNum = 1) {
+    const { showByNum, currentPage } = this.state;
+    if (pageNum === currentPage) return;
+
+    let regExp = /&offset=\d+/;
+    
+    if (regExp.test(this.props.location.search)) {
+      window.location.href = window.location.href.replace(regExp, `&offset=${(pageNum - 1) * showByNum}`);
+    } else {
+      window.location.href = window.location.href + `&offset=${(pageNum - 1) * showByNum}`;
     }
   }
   
@@ -85,7 +116,7 @@ export default class TrainChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      const { data, showByNum } = this.state;
+      const { data, showByNum, currentPage } = this.state;
 
       return (
         <React.Fragment>
@@ -182,7 +213,7 @@ export default class TrainChoosing extends Component {
                   }
                 )}
 
-                <Pagination />
+                <Pagination total={data.total_count} showByNum={showByNum} currentPage={currentPage} trainsListUpdate={this.trainsListUpdate.bind(this)} />
               </section>
 
             </div>
