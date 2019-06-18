@@ -27,6 +27,7 @@ export default class TrainChoosing extends Component {
     this.state = {
       showByNum: 5,
       currentPage: 1,
+      sort: 'date',
       preloader: true
     };
   }
@@ -35,7 +36,8 @@ export default class TrainChoosing extends Component {
     let regExp = /&limit=\d+/,
         regExpNum = /\d+/,
         showByNum = 5,
-        currentPage = 1;
+        currentPage = 1,
+        sort = this.state.sort;
     if (regExp.test(this.props.location.search)) {
       let result = regExp.exec(this.props.location.search);
       showByNum = parseInt(result[0].replace('&limit=', ''), 10);
@@ -50,6 +52,8 @@ export default class TrainChoosing extends Component {
       };
     }
     
+    if (this.props.location.query.sort) sort = this.props.location.query.sort;
+    
     fetch( `https://netology-trainbooking.herokuapp.com/routes${this.props.location.search}` )
       .then( response => response.json())
       .then( data => {
@@ -57,6 +61,7 @@ export default class TrainChoosing extends Component {
           data: data,
           showByNum: showByNum,
           currentPage: currentPage,
+          sort: sort,
           preloader: false
         });
       })
@@ -65,9 +70,37 @@ export default class TrainChoosing extends Component {
       });
   }
   
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.preloader && (prevState.sort !== this.state.sort) && (this.state.sort !== 'price')) {
+      let getParams = this.props.location.search.replace(/&sort=[^&]*/, '');
+      window.history.pushState(null, '', `${getParams}&sort=${this.state.sort}`);
+      fetch( `https://netology-trainbooking.herokuapp.com/routes${getParams}&sort=${this.state.sort}` )
+        .then( response => response.json())
+        .then( data => {
+          this.setState({
+            data: data,
+            preloader: false
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+  
   timeFormatConverter(time) {
     if (String(time).length === 1) return `0${time}`;
     return time;
+  }
+  
+  sortHandler(event) {
+    if (event.target.value === 'price') return;
+    if (event.target.value !== this.state.sort) {
+      this.setState({
+        sort: event.target.value,
+        preloader: true
+      });
+    }
   }
   
   showByHandler(num, event) {
@@ -136,10 +169,10 @@ export default class TrainChoosing extends Component {
                 <div className="content__header">
                   <p className="train-found">Найдено <span className="train-found__num">{data.total_count}</span></p>
                   <p className="train-sort-label">Сортировать по:
-                    <select className="train-sort">
-                      <option className="train-sort__item" value="времени">времени</option>
-                      <option className="train-sort__item" value="стоимости">стоимости</option>
-                      <option className="train-sort__item" value="длительности">длительности</option>
+                    <select className="train-sort" value={this.state.sort} onChange={this.sortHandler.bind(this)}>
+                      <option className="train-sort__item" value="date">времени</option>
+                      <option className="train-sort__item" value="price">стоимости</option>
+                      <option className="train-sort__item" value="duration" >длительности</option>
                     </select>
                   </p>
                   <p className="show-by">
