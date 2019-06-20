@@ -19,6 +19,8 @@ export default class Header extends Component {
       citiesTo: [],
       cityFrom: '',
       cityTo: '',
+      calendarFrom: false,
+      calendarTo: false,
       trainChoosingAllow: false
     };
   }
@@ -118,13 +120,51 @@ export default class Header extends Component {
     if (el === 'field-wrap' && currentPage === 'inner') return "header__form-field-wrap header__form-field-wrap_inner";
     
     if (el === 'arrows' && currentPage === 'home') return "form-round-arrows";
-    if (el === 'arrows' && currentPage === 'inner') return "form-round-arrows form-round-arrows_inner";
+    if (el === 'arrows' && currentPage === 'inner') return "form-round-arrows form-round-arrows_inner";  
+  }
   
+  handleCalendar(point, event) {
+    if (point === 'from' && !this.state.calendarFrom && event.type === 'focus') {
+      this.setState({
+        calendarFrom: true
+      });
+    }
+    if (point === 'from' && this.state.calendarFrom) {
+      this.setState({
+        calendarFrom: false
+      });
+    }
+    if (point === 'to' && !this.state.calendarTo && event.type === 'focus') {
+      this.setState({
+        calendarTo: true
+      });
+    }
+    if (point === 'to' && this.state.calendarTo) {
+      this.setState({
+        calendarTo: false
+      });
+    }
+  }
+  
+  handleCalendarResponse(response, direction) {
+    if (direction === 'from') {
+      this.setState({
+        dateFrom: response,
+        calendarFrom: false
+      }); 
+    }
+    if (direction === 'to') {
+      this.setState({
+        dateTo: response,
+        calendarTo: false
+      }); 
+    }
   }
   
   render() {
-    const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo } = this.state;
+    const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo, dateFrom, dateTo } = this.state;
     const { currentPage } = this.props;
+    const currentDate = new Date();
     
     return (
       <React.Fragment>
@@ -176,17 +216,15 @@ export default class Header extends Component {
                 </div>
                 <p className={(currentPage === 'home') ? "header__form-field-title" : "hidden"}>Дата</p>
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="ДД/ММ/ГГ" />
+                  <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'from')} onBlur={this.handleCalendar.bind(this, 'from')} defaultValue={(dateFrom) ? dateFrom.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
                   <i className="fa fa-calendar" aria-hidden="true"></i>
-
-                  <Calendar />
+                  { this.state.calendarFrom && <Calendar currentDate={currentDate} direction={'from'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
                 </div>
 
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="ДД/ММ/ГГ" />
+                  <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'to')} onBlur={this.handleCalendar.bind(this, 'to')} defaultValue={(dateTo) ? dateTo.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
                   <i className="fa fa-calendar" aria-hidden="true"></i>
-
-                  <Calendar />
+                  { this.state.calendarTo && <Calendar currentDate={currentDate} direction={'to'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
                 </div>
                 
                 { (trainChoosingAllow) ? 

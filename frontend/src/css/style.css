@@ -80,9 +80,9 @@ input::placeholder {
 }
 
 .calendar {
-  display: none;
+/*  display: none;*/
   position: absolute;
-  top: 0;
+  top: 54px;
   left: 0;
   right: 0;
   padding: 10px 15px;
@@ -146,6 +146,10 @@ input::placeholder {
 
 .calendar__day_inactive {
   color: #cacaca;
+}
+
+.calendar__day_now {
+  color: #FFA800;
 }
 
 summary:focus {
