@@ -10,25 +10,31 @@ import express from './img/express.svg';
 export default class SidebarFilter extends Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {
+      calendarFrom: false,
+      calendarTo: false
+    };
   }
   
   render() {
+    const currentDate = new Date();
+    
     return (
       <React.Fragment>
         <div className="search-filter">
           <p className="search-filter__field-title">Дата поездки</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД/ММ/ГГ" />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" />
             <i className="fa fa-calendar" aria-hidden="true"></i>
-            <Calendar />
+            { this.state.calendarFrom && <Calendar currentDate={currentDate} /> }
+            
           </div>
 
           <p className="search-filter__field-title">Дата возвращения</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД/ММ/ГГ" />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" />
             <i className="fa fa-calendar" aria-hidden="true"></i>
-            <Calendar />
+            { this.state.calendarTo && <Calendar currentDate={currentDate} /> }
           </div>
           <hr/>
 

@@ -5,10 +5,34 @@ import './css/style-footer.css';
 export default class Footer extends Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {
+      subscribe: false
+    };
+  }
+  
+  subscribeHandler(event) {
+    event.preventDefault();
+    let email = document.querySelector('.footer-form__input').value;
+    if (email === '') return;
+    fetch(`https://netology-trainbooking.herokuapp.com/subscribe?email=${email}`, {
+      method: 'post',
+      body: email
+    })
+        .then( response => response.json())
+        .then( data => {
+          if (data.status) {
+            this.setState({
+              subscribe: true
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   }
   
   render() {
+    const { subscribe } = this.state;
     return (
       <React.Fragment>
         <footer id="contacts" className="footer">
@@ -23,17 +47,18 @@ export default class Footer extends Component {
             <div className="footer__col">
               <h3 className="footer__col-title">Подписка</h3>
               <p className="footer__col-text">Будьте в курсе событий</p>
-              <form className="footer-form" action="">
+              <form className={subscribe ? "footer-form hidden" : "footer-form"} action="">
                 <input className="footer-form__input" type="text" placeholder="Email" />
-                <button className="footer-form__button" type="submit">Отправить</button>
+                <button className="footer-form__button" type="submit" onClick={this.subscribeHandler.bind(this)}>Отправить</button>
               </form>
+              <p className={subscribe ? "subscribe-message" : "subscribe-message hidden"}>Спасибо! Вы успешно подписаны на рассылку</p>
               <h3 className="footer__col-title footer__col-title_social">Подписывайтесь на нас</h3>
               <p className="footer__col-icons">
-                <a href="#"><i className="fa fa-youtube-play" aria-hidden="true"></i></a>
-                <a href="#"><i className="fa fa-linkedin" aria-hidden="true"></i></a>
-                <a href="#"><i className="fa fa-google-plus" aria-hidden="true"></i></a>
-                <a href="#"><i className="fa fa-facebook" aria-hidden="true"></i></a>
-                <a href="#"><i className="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i className="fa fa-youtube-play" aria-hidden="true"></i> </a>
+                <a href="#"><i className="fa fa-linkedin" aria-hidden="true"></i> </a>
+                <a href="#"><i className="fa fa-google-plus" aria-hidden="true"></i> </a>
+                <a href="#"><i className="fa fa-facebook" aria-hidden="true"></i> </a>
+                <a href="#"><i className="fa fa-twitter" aria-hidden="true"></i> </a>
               </p>
             </div>        
           </div>

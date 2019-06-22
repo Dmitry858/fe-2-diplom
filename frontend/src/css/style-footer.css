@@ -79,6 +79,10 @@
   color: #292929;
 }
 
+.subscribe-message {
+  color: #FFA800;
+}
+
 .footer__col-text_bold {
   font-weight: 700;
   font-size: 24px;
