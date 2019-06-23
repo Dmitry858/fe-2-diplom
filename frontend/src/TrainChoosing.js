@@ -35,9 +35,34 @@ export default class TrainChoosing extends Component {
   componentWillMount() {
     let regExp = /&limit=\d+/,
         regExpNum = /\d+/,
+        cityFrom = '',
+        cityTo = '',
+        dateLeave = '',
+        dateBack = '',
         showByNum = 5,
         currentPage = 1,
         sort = this.state.sort;
+    
+    if (this.props.location.state) {
+      sessionStorage.setItem('cityFrom', this.props.location.state.cityFrom);
+      sessionStorage.setItem('cityTo', this.props.location.state.cityTo);
+      cityFrom = this.props.location.state.cityFrom;
+      cityTo = this.props.location.state.cityTo;
+      if (this.props.location.state.dateLeave) {
+        sessionStorage.setItem('dateLeave', this.props.location.state.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}));
+        dateLeave = this.props.location.state.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'});
+      }
+      if (this.props.location.state.dateBack) {
+        sessionStorage.setItem('dateBack', this.props.location.state.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}));
+        dateBack = this.props.location.state.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'});
+      }
+    } else {
+      cityFrom = sessionStorage.getItem('cityFrom');
+      cityTo = sessionStorage.getItem('cityTo');
+      dateLeave = sessionStorage.getItem('dateLeave');
+      dateBack = sessionStorage.getItem('dateBack');
+    }
+    
     if (regExp.test(this.props.location.search)) {
       let result = regExp.exec(this.props.location.search);
       showByNum = parseInt(result[0].replace('&limit=', ''), 10);
@@ -53,16 +78,16 @@ export default class TrainChoosing extends Component {
     }
     
     if (this.props.location.query.sort) sort = this.props.location.query.sort;
-    
+
     fetch( `https://netology-trainbooking.herokuapp.com/routes${this.props.location.search}` )
       .then( response => response.json())
       .then( data => {
         this.setState({
           data: data,
-          cityFrom: this.props.location.state.cityFrom,
-          cityTo: this.props.location.state.cityTo,
-          dateLeave: this.props.location.state.dateLeave,
-          dateBack: this.props.location.state.dateBack,
+          cityFrom: cityFrom,
+          cityTo: cityTo,
+          dateLeave: dateLeave,
+          dateBack: dateBack,
           showByNum: showByNum,
           currentPage: currentPage,
           sort: sort,

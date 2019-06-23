@@ -31,7 +31,7 @@ export default class LastTickets extends Component {
 
   render() {
     const { data, preloader } = this.state;
-    if (this.state.preloader) {
+    if (preloader) {
       return (
         <div className="last-tickets">
           <div className="last-tickets__title">Последние билеты</div>

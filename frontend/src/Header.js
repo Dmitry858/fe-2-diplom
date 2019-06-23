@@ -166,6 +166,13 @@ export default class Header extends Component {
     const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo, dateLeave, dateBack } = this.state;
     const { currentPage } = this.props;
     const currentDate = new Date();
+    let formatDateLeave = '',
+        formatDateBack = '';
+    
+    if (dateLeave && dateBack) {
+      formatDateLeave = `${dateLeave.getFullYear()}-${dateLeave.toLocaleString("ru", {month: '2-digit'})}-${dateLeave.toLocaleString("ru", {day: '2-digit'})}`;
+      formatDateBack = `${dateBack.getFullYear()}-${dateBack.toLocaleString("ru", {month: '2-digit'})}-${dateBack.toLocaleString("ru", {day: '2-digit'})}`;
+    }
     
     return (
       <React.Fragment>
@@ -240,7 +247,7 @@ export default class Header extends Component {
                 <NavLink 
                   to={{ 
                     pathname: '/train-choosing/',
-                    search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}&date_start=&date_end=`,
+                    search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}&date_start=${formatDateLeave}&date_end=${formatDateBack}`,
                     state: {
                       cityFrom: cityFrom.name, 
                       cityTo: cityTo.name,
