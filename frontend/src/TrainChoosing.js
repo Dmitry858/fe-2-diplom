@@ -59,6 +59,10 @@ export default class TrainChoosing extends Component {
       .then( data => {
         this.setState({
           data: data,
+          cityFrom: this.props.location.state.cityFrom,
+          cityTo: this.props.location.state.cityTo,
+          dateLeave: this.props.location.state.dateLeave,
+          dateBack: this.props.location.state.dateBack,
           showByNum: showByNum,
           currentPage: currentPage,
           sort: sort,
@@ -149,18 +153,18 @@ export default class TrainChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      const { data, showByNum, currentPage } = this.state;
+      const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack } = this.state;
 
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
 
           <Steps currentStep={1} />
           
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <SidebarFilter />
+                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} />
 
                 <LastTickets />                
               </section>

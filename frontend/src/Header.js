@@ -94,6 +94,7 @@ export default class Header extends Component {
     }
   }
   
+  // Получение классов элементов хедера в зависимости от текущей страницы
   getHeaderClasses(el) {
     const { currentPage } = this.props;
     
@@ -149,20 +150,20 @@ export default class Header extends Component {
   handleCalendarResponse(response, direction) {
     if (direction === 'from') {
       this.setState({
-        dateFrom: response,
+        dateLeave: response,
         calendarFrom: false
       }); 
     }
     if (direction === 'to') {
       this.setState({
-        dateTo: response,
+        dateBack: response,
         calendarTo: false
       }); 
     }
   }
   
   render() {
-    const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo, dateFrom, dateTo } = this.state;
+    const { trainChoosingAllow, citiesFrom, cityFrom, citiesTo, cityTo, dateLeave, dateBack } = this.state;
     const { currentPage } = this.props;
     const currentDate = new Date();
     
@@ -200,7 +201,7 @@ export default class Header extends Component {
                 <p className={this.getHeaderClasses('field-title')}>Направление</p>
                 <p className={(currentPage === 'home') ? "hidden" : "header__form-field-title header__form-field-title_inner"}>Дата</p>
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="Откуда" onChange={this.handleChangeFrom.bind(this)} />
+                  <input className="header__form-field" type="text" placeholder="Откуда" onChange={this.handleChangeFrom.bind(this)} defaultValue={this.props.cityFrom ? (this.props.cityFrom[0].toUpperCase() + this.props.cityFrom.substring(1)) : ''} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                   <ul className={(citiesFrom.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
                     {citiesFrom.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'from')}>{item.name}</li>)}
@@ -208,7 +209,7 @@ export default class Header extends Component {
                 </div>
                 <img className={this.getHeaderClasses('arrows')} src={roundArrows} alt="" />
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="Куда" onChange={this.handleChangeTo.bind(this)} />
+                  <input className="header__form-field" type="text" placeholder="Куда" onChange={this.handleChangeTo.bind(this)} defaultValue={this.props.cityTo ? (this.props.cityTo[0].toUpperCase() + this.props.cityTo.substring(1)) : ''} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                   <ul className={(citiesTo.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
                     {citiesTo.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'to')}>{item.name}</li>)}
@@ -216,13 +217,21 @@ export default class Header extends Component {
                 </div>
                 <p className={(currentPage === 'home') ? "header__form-field-title" : "hidden"}>Дата</p>
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'from')} onBlur={this.handleCalendar.bind(this, 'from')} defaultValue={(dateFrom) ? dateFrom.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
+                  {
+                    this.props.dateLeave ?
+                    <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'from')} onBlur={this.handleCalendar.bind(this, 'from')} defaultValue={this.props.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'})} /> :
+                    <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'from')} onBlur={this.handleCalendar.bind(this, 'from')} defaultValue={(dateLeave) ? dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
+                  }
                   <i className="fa fa-calendar" aria-hidden="true"></i>
                   { this.state.calendarFrom && <Calendar currentDate={currentDate} direction={'from'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
                 </div>
 
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'to')} onBlur={this.handleCalendar.bind(this, 'to')} defaultValue={(dateTo) ? dateTo.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
+                  {
+                    this.props.dateBack ?
+                    <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'to')} onBlur={this.handleCalendar.bind(this, 'to')} defaultValue={this.props.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'})} /> :
+                    <input className="header__form-field" type="text" placeholder="ДД.ММ.ГГГГ" onFocus={this.handleCalendar.bind(this, 'to')} onBlur={this.handleCalendar.bind(this, 'to')} defaultValue={(dateBack) ? dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
+                  }
                   <i className="fa fa-calendar" aria-hidden="true"></i>
                   { this.state.calendarTo && <Calendar currentDate={currentDate} direction={'to'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
                 </div>
@@ -231,7 +240,13 @@ export default class Header extends Component {
                 <NavLink 
                   to={{ 
                     pathname: '/train-choosing/',
-                    search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}`
+                    search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}&date_start=&date_end=`,
+                    state: {
+                      cityFrom: cityFrom.name, 
+                      cityTo: cityTo.name,
+                      dateLeave: dateLeave,
+                      dateBack: dateBack,
+                    }
                   }}
                   className={(currentPage === 'home') ? "header__form-button" : "header__form-button header__form-button_inner"}>
                   Найти билеты

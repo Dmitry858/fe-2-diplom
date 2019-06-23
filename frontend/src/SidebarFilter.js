@@ -24,7 +24,7 @@ export default class SidebarFilter extends Component {
         <div className="search-filter">
           <p className="search-filter__field-title">Дата поездки</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateLeave ? this.props.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
             <i className="fa fa-calendar" aria-hidden="true"></i>
             { this.state.calendarFrom && <Calendar currentDate={currentDate} /> }
             
@@ -32,7 +32,7 @@ export default class SidebarFilter extends Component {
 
           <p className="search-filter__field-title">Дата возвращения</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateBack ? this.props.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} />
             <i className="fa fa-calendar" aria-hidden="true"></i>
             { this.state.calendarTo && <Calendar currentDate={currentDate} /> }
           </div>
