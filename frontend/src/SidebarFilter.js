@@ -16,7 +16,12 @@ export default class SidebarFilter extends Component {
     };
   }
   
+  checkboxHandler(param) {
+    this.props.sendData(param);
+  }
+  
   render() {
+    const { filterParams } = this.props;
     const currentDate = new Date();
     
     return (
@@ -46,7 +51,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Купе</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_second_class} onChange={this.checkboxHandler.bind(this, 'have_second_class')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>
@@ -60,7 +65,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Плацкарт</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_third_class} onChange={this.checkboxHandler.bind(this, 'have_third_class')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>
@@ -74,7 +79,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Сидячий</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_fourth_class} onChange={this.checkboxHandler.bind(this, 'have_fourth_class')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>
@@ -88,7 +93,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Люкс</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_first_class} onChange={this.checkboxHandler.bind(this, 'have_first_class')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>
@@ -102,7 +107,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Wi-Fi</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_wifi} onChange={this.checkboxHandler.bind(this, 'have_wifi')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>
@@ -116,7 +121,7 @@ export default class SidebarFilter extends Component {
               <div className="switch__name">Экспресс</div>
               <div className="switch__toggle">
                 <div className="switch__toggle-button">
-                  <input type="checkbox" className="switch__checkbox" />
+                  <input type="checkbox" className="switch__checkbox" checked={filterParams.have_express} onChange={this.checkboxHandler.bind(this, 'have_express')} />
                   <div className="switch__knobs"></div>
                   <div className="switch__layer"></div>
                 </div>

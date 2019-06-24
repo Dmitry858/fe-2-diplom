@@ -41,8 +41,23 @@ export default class TrainChoosing extends Component {
         dateBack = '',
         showByNum = 5,
         currentPage = 1,
+        filter = {
+          have_first_class: false,
+          have_second_class: false,
+          have_third_class: false,
+          have_fourth_class: false,
+          have_wifi: false,
+          have_express: false
+        },
         sort = this.state.sort;
-    
+
+    if (window.location.href.includes('&have_first_class=true')) filter.have_first_class = true;
+    if (window.location.href.includes('&have_second_class=true')) filter.have_second_class = true;
+    if (window.location.href.includes('&have_third_class=true')) filter.have_third_class = true;
+    if (window.location.href.includes('&have_fourth_class=true')) filter.have_fourth_class = true;
+    if (window.location.href.includes('&have_wifi=true')) filter.have_wifi = true;
+    if (window.location.href.includes('&have_express=true')) filter.have_express = true;
+
     if (this.props.location.state) {
       sessionStorage.setItem('cityFrom', this.props.location.state.cityFrom);
       sessionStorage.setItem('cityTo', this.props.location.state.cityTo);
@@ -91,6 +106,7 @@ export default class TrainChoosing extends Component {
           showByNum: showByNum,
           currentPage: currentPage,
           sort: sort,
+          filter: filter,
           preloader: false
         });
       })
@@ -165,6 +181,24 @@ export default class TrainChoosing extends Component {
     }
   }
   
+  // Функция, принимающая данные от SidebarFilter
+  getSidebarFilterData(param) {
+    const filter = this.state.filter;
+    
+    for (let key in filter) {
+      if (param === key) {
+        if (filter[key]) {
+          filter[key] = false;
+          window.location.href = window.location.href.replace(`&${param}=true`, '');
+        } else {
+          filter[key] = true;
+          window.location.href = window.location.href + `&${param}=true`;
+        }
+      }
+    }
+    
+  }
+  
   render() {
     if (this.state.preloader) {
       return (
@@ -189,7 +223,7 @@ export default class TrainChoosing extends Component {
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} />
+                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} filterParams={this.state.filter} sendData={this.getSidebarFilterData.bind(this)} />
 
                 <LastTickets />                
               </section>
