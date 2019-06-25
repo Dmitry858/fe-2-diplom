@@ -6,6 +6,7 @@ import seatPlace from './img/seat_place.svg';
 import lux from './img/lux_seat.svg';
 import wifi from './img/wi_fi.svg';
 import express from './img/express.svg';
+import PriceRange from './PriceRange.js';
 
 export default class SidebarFilter extends Component {
   constructor (props) {
@@ -131,22 +132,7 @@ export default class SidebarFilter extends Component {
           <hr/>
 
           <p className="price-range-title">Стоимость</p>
-          <div className="input-range input-range_price">
-            <div className="input-range__labels">
-              <p className="input-range__label">от</p>
-              <p className="input-range__label">до</p>
-            </div>
-            <div className="scale">
-              <div className="scale__band" style={{left: 0 + 'px', right: 0 + 'px'}}>
-                <div className="scale__band-slider scale__band-slider_min">
-                  <span className="scale__band-num scale__band-num_min">0</span>
-                </div>
-                <div className="scale__band-slider scale__band-slider_max">
-                  <span className="scale__band-num scale__band-num_max">3000</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PriceRange />
           <hr/>
 
           <details className="leave-wrap">
