@@ -399,12 +399,12 @@
 }
 
 .input-range_leave_departure, .input-range_back_departure {
-  margin-bottom: 66px;
+  margin-bottom: 82px;
   text-align: left;  
 }
 
 .input-range_leave_return, .input-range_back_return {
-  margin-bottom: 62px;
+  margin-bottom: 82px;
   text-align: right;
 }
 

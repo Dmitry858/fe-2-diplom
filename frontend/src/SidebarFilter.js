@@ -6,7 +6,8 @@ import seatPlace from './img/seat_place.svg';
 import lux from './img/lux_seat.svg';
 import wifi from './img/wi_fi.svg';
 import express from './img/express.svg';
-import PriceRange from './PriceRange.js';
+import PriceRange from './ranges/PriceRange.js';
+import TimeStartDeparture from './ranges/TimeStartDeparture.js';
 
 export default class SidebarFilter extends Component {
   constructor (props) {
@@ -153,16 +154,7 @@ export default class SidebarFilter extends Component {
 
             <div className="input-range input-range_leave_departure">
               <p className="leave-range-title">Время отбытия</p>
-              <div className="scale scale_leave_departure">
-                <div className="scale__band scale__band_leave_departure" style={{left: 0 + 'px', right: 0 + 'px'}}>
-                  <div className="scale__band-slider scale__band-slider_min scale__band-slider_min_leave_departure">
-                    <span className="scale__band-num scale__band-num_min scale__band-num_min_leave_departure">0:00</span>
-                  </div>
-                  <div className="scale__band-slider scale__band-slider_max scale__band-slider_max_leave_departure">
-                    <span className="scale__band-num scale__band-num_max scale__band-num_max_leave_departure">24:00</span>
-                  </div>
-                </div>
-              </div>
+              <TimeStartDeparture />
             </div>
 
             <div className="input-range input-range_leave_return">

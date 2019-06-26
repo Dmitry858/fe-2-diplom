@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import './css/input-range.css';
+import '../css/input-range.css';
 
 export default class PriceRange extends React.Component {
   constructor(props) {
@@ -47,7 +47,6 @@ export default class PriceRange extends React.Component {
           <p className="input-range__label">до</p>
         </div>
         <InputRange
-          draggableTrack
           maxValue={7000}
           minValue={0}
           value={this.state.value}

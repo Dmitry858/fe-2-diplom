@@ -2,6 +2,10 @@
   margin: 0 10px;
 }
 
+.time-range {
+  margin: 10px;
+}
+
 .input-range__slider {
   appearance: none;
   background: #ffffff;
@@ -16,6 +20,12 @@
   top: -23px;
   transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
   width: 25px;
+}
+
+.time-range .input-range__slider {
+  height: 18px;
+  width: 18px;
+  top: -15px;
 }
 
 .input-range__slider:active {
@@ -83,6 +93,10 @@
   top: -1px;
   transition: left 0.3s ease-out, width 0.3s ease-out;
   border: 1px solid #C4C4C4;
+}
+
+.time-range .input-range__track {
+  height: 10px;
 }
 
 .input-range--disabled .input-range__track {
