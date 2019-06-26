@@ -5,15 +5,40 @@ import './css/input-range.css';
 export default class PriceRange extends React.Component {
   constructor(props) {
     super(props);
-
+    this.handleNewPriceInterval = this.debounce(this.handleNewPriceInterval, 2000, this);
     this.state = {
-      value5: {
+      value: {
         min: 0,
         max: 7000
       }
     };
   }
+  
+  componentWillMount() {
+    const { minPrice, maxPrice } = this.props;
+    this.setState({
+      value: {
+        min: minPrice,
+        max: maxPrice
+      }
+    });
+  }
 
+  debounce(callback, delay, context) {
+    let timeout;
+    return () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(function() {
+        timeout = null;
+        callback(context);
+      }, delay);
+    };
+  };
+  
+  handleNewPriceInterval(context) {
+    context.props.priceRangeHandler(context.state.value);
+  }
+  
   render() {
     return (
       <form className="price-range">
@@ -25,10 +50,11 @@ export default class PriceRange extends React.Component {
           draggableTrack
           maxValue={7000}
           minValue={0}
+          value={this.state.value}
           step={500}
-          onChange={value => this.setState({ value5: value })}
-          onChangeComplete={value => console.log(value)}
-          value={this.state.value5} />
+          onChange={value => this.setState({ value: value })}
+          onChangeComplete={this.handleNewPriceInterval.bind(this)}
+          value={this.state.value} />
       </form>
     );
   }

@@ -49,6 +49,8 @@ export default class TrainChoosing extends Component {
           have_wifi: false,
           have_express: false
         },
+        minPrice = 0,
+        maxPrice = 7000,
         sort = this.state.sort;
 
     if (window.location.href.includes('&have_first_class=true')) filter.have_first_class = true;
@@ -57,6 +59,14 @@ export default class TrainChoosing extends Component {
     if (window.location.href.includes('&have_fourth_class=true')) filter.have_fourth_class = true;
     if (window.location.href.includes('&have_wifi=true')) filter.have_wifi = true;
     if (window.location.href.includes('&have_express=true')) filter.have_express = true;
+    if (window.location.href.includes('&price_from=')) {
+      let minPriceStr = /&price_from=\d+/.exec(window.location.href);
+      minPrice = parseInt(minPriceStr[0].substring(12), 10);
+    }
+    if (window.location.href.includes('&price_to=')) {
+      let maxPriceStr = /&price_to=\d+/.exec(window.location.href);
+      maxPrice = parseInt(maxPriceStr[0].substring(10), 10);
+    }
 
     if (this.props.location.state) {
       sessionStorage.setItem('cityFrom', this.props.location.state.cityFrom);
@@ -107,6 +117,8 @@ export default class TrainChoosing extends Component {
           currentPage: currentPage,
           sort: sort,
           filter: filter,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
           preloader: false
         });
       })
@@ -182,21 +194,32 @@ export default class TrainChoosing extends Component {
   }
   
   // Функция, принимающая данные от SidebarFilter
-  getSidebarFilterData(param) {
-    const filter = this.state.filter;
-    
-    for (let key in filter) {
-      if (param === key) {
-        if (filter[key]) {
-          filter[key] = false;
-          window.location.href = window.location.href.replace(`&${param}=true`, '');
-        } else {
-          filter[key] = true;
-          window.location.href = window.location.href + `&${param}=true`;
+  getSidebarFilterData(param, type) {
+    if (type === 'checkbox') {
+      const filter = this.state.filter;
+
+      for (let key in filter) {
+        if (param === key) {
+          if (filter[key]) {
+            filter[key] = false;
+            window.location.href = window.location.href.replace(`&${param}=true`, '');
+          } else {
+            filter[key] = true;
+            window.location.href = window.location.href + `&${param}=true`;
+          }
         }
       }
     }
     
+    if (type === 'pricerange') {
+      if (window.location.href.includes('&price_from=')) {
+        let newUrl = window.location.href.replace(/&price_from=\d+/, `&price_from=${param.min}`);
+        newUrl = newUrl.replace(/&price_to=\d+/, `&price_to=${param.max}`);
+        window.location.href = newUrl;
+      } else {
+        window.location.href = window.location.href + `&price_from=${param.min}&price_to=${param.max}`;
+      }
+    }
   }
   
   render() {
@@ -223,7 +246,7 @@ export default class TrainChoosing extends Component {
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} filterParams={this.state.filter} sendData={this.getSidebarFilterData.bind(this)} />
+                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} filterParams={this.state.filter} minPrice={this.state.minPrice} maxPrice={this.state.maxPrice} sendData={this.getSidebarFilterData.bind(this)} />
 
                 <LastTickets />                
               </section>

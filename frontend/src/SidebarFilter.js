@@ -18,11 +18,15 @@ export default class SidebarFilter extends Component {
   }
   
   checkboxHandler(param) {
-    this.props.sendData(param);
+    this.props.sendData(param, 'checkbox');
+  }
+  
+  priceRangeHandler(param) {
+    this.props.sendData(param, 'pricerange');
   }
   
   render() {
-    const { filterParams } = this.props;
+    const { filterParams, minPrice, maxPrice } = this.props;
     const currentDate = new Date();
     
     return (
@@ -132,7 +136,7 @@ export default class SidebarFilter extends Component {
           <hr/>
 
           <p className="price-range-title">Стоимость</p>
-          <PriceRange />
+          <PriceRange priceRangeHandler={this.priceRangeHandler.bind(this)} minPrice={minPrice} maxPrice={maxPrice} />
           <hr/>
 
           <details className="leave-wrap">
