@@ -302,8 +302,6 @@ export default class TrainChoosing extends Component {
       }
     }
     
-    
-    
     if (type === 'timeenddeprange') {
       if (window.location.href.includes('&end_departure_hour_from=')) {
         let newUrl = window.location.href.replace(/&end_departure_hour_from=\d+/, `&end_departure_hour_from=${param.min}`);
@@ -339,7 +337,7 @@ export default class TrainChoosing extends Component {
       );
     } else {
       const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack, filter, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.state;
-
+//console.log(data.items);
       return (
         <React.Fragment>
           <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
@@ -438,7 +436,25 @@ export default class TrainChoosing extends Component {
                           { item.departure.have_third_class && <img className="last-tickets__item-filter-icon" src={reservedSeat} alt="Плацкарт" /> }
                           { item.departure.have_fourth_class && <img className="last-tickets__item-filter-icon" src={seatPlace} alt="Сидячий" /> }
                         </div>
-                        <NavLink to={{ pathname: '/seats-choosing/', state: {train: item, getParams: this.props.location.search} }} className="train__seats-choice">Выбрать места</NavLink>
+                        <NavLink to={{ 
+                          pathname: '/seats-choosing/',
+                          state: {
+                            cityFrom: cityFrom,
+                            cityTo: cityTo,
+                            direction: item,
+                            getParams: this.props.location.search,
+                            dateLeave: dateLeave,
+                            dateBack: dateBack,
+                            filterParams: filter,
+                            minPrice: minPrice,
+                            maxPrice: maxPrice,
+                            startDepartureTime: startDepartureTime,
+                            startArrivalTime: startArrivalTime,
+                            endDepartureTime: endDepartureTime,
+                            endArrivalTime: endArrivalTime,
+                          }
+                        }} className="train__seats-choice">Выбрать места
+                        </NavLink>
                       </div>
                     </div>
                   );

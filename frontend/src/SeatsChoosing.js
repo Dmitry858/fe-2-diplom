@@ -24,13 +24,28 @@ export default class SeatsChoosing extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      preloader: false,
+      preloader: true,
       ticketsNumLeave: {
         adult: 0,
         child: 0,
         baby: 0
       }
     };
+  }
+  
+  componentWillMount() {
+    const { direction } = this.props.location.state;
+    fetch( `https://netology-trainbooking.herokuapp.com/routes/${direction.departure._id}/seats` )
+      .then( response => response.json())
+      .then( data => {
+        this.setState({
+          seats: data,
+          preloader: false
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   
   timeFormatConverter(time) {
@@ -43,12 +58,15 @@ export default class SeatsChoosing extends Component {
   }
   
   render() {
-    const { preloader, ticketsNumLeave } = this.state;
+    const { preloader, ticketsNumLeave, seats } = this.state;
+    const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
+    
+    console.log(this.state);
     
     if (preloader) {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
 
           <div className="content-wrap content-wrap_loader">
             <p className="loader-text">идет поиск</p>
@@ -58,23 +76,32 @@ export default class SeatsChoosing extends Component {
       );
     } else {
       
-      const { train, getParams } = this.props.location.state;
-      let departureFromTime = new Date(train.departure.from.datetime);
-      let departureToTime = new Date(train.departure.to.datetime);
-      let departureDurationTravel = new Date(train.departure.duration);
+      let departureFromTime = new Date(direction.departure.from.datetime);
+      let departureToTime = new Date(direction.departure.to.datetime);
+      let departureDurationTravel = new Date(direction.departure.duration);
       
-      console.log(train);
+//      console.log(direction); 
       
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
           
           <Steps currentStep={1} />
           
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <SidebarFilter />
+                <SidebarFilter
+                  dateLeave={dateLeave}
+                  dateBack={dateBack}
+                  filterParams={filterParams}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  startDepartureTime={startDepartureTime}
+                  startArrivalTime={startArrivalTime}
+                  endDepartureTime={endDepartureTime}
+                  endArrivalTime={endArrivalTime}
+                />
 
                 <LastTickets />
               </section>
@@ -100,25 +127,25 @@ export default class SeatsChoosing extends Component {
                         <img src={trainYellow} alt="" />
                       </div>
                       <div className="train__route">
-                        <div className="train__name train__name_content">{train.departure.train.name}</div>
-                        <p className="train__route-point">{train.departure.from.city.name[0].toUpperCase() + train.departure.from.city.name.substring(1)} <i className="fa fa-long-arrow-right" aria-hidden="true"></i></p>
-                        <p className="train__route-point">{train.departure.to.city.name[0].toUpperCase() + train.departure.to.city.name.substring(1)}</p>
+                        <div className="train__name train__name_content">{direction.departure.train.name}</div>
+                        <p className="train__route-point">{direction.departure.from.city.name[0].toUpperCase() + direction.departure.from.city.name.substring(1)} <i className="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                        <p className="train__route-point">{direction.departure.to.city.name[0].toUpperCase() + direction.departure.to.city.name.substring(1)}</p>
                       </div>
                     </div>
 
                     <div className="train__info train__info_leave train__info_content">
                       <div className="train__info_leave_departure">
                         <p className="train__info-time">{ `${this.timeFormatConverter(departureFromTime.getHours())}:${this.timeFormatConverter(departureFromTime.getMinutes())}` }</p>
-                        <p className="train__info-city">{train.departure.from.city.name[0].toUpperCase() + train.departure.from.city.name.substring(1)}</p>
-                        <p className="train__info-station">{`${train.departure.from.railway_station_name} вокзал`}</p>
+                        <p className="train__info-city">{direction.departure.from.city.name[0].toUpperCase() + direction.departure.from.city.name.substring(1)}</p>
+                        <p className="train__info-station">{`${direction.departure.from.railway_station_name} вокзал`}</p>
                       </div>
                       <div className="train__info_leave_arrow">
                         <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
                       </div>
                       <div className="train__info_leave_arrival">
                         <p className="train__info-time">{ `${this.timeFormatConverter(departureToTime.getHours())}:${this.timeFormatConverter(departureToTime.getMinutes())}` }</p>
-                        <p className="train__info-city">{train.departure.to.city.name[0].toUpperCase() + train.departure.to.city.name.substring(1)}</p>
-                        <p className="train__info-station">{`${train.departure.to.railway_station_name} вокзал`}</p>
+                        <p className="train__info-city">{direction.departure.to.city.name[0].toUpperCase() + direction.departure.to.city.name.substring(1)}</p>
+                        <p className="train__info-station">{`${direction.departure.to.railway_station_name} вокзал`}</p>
                       </div>
                     </div>
 
