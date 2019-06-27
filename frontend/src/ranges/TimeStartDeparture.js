@@ -5,7 +5,7 @@ import '../css/input-range.css';
 export default class TimeStartDeparture extends React.Component {
   constructor(props) {
     super(props);
-//    this.handleNewPriceInterval = this.debounce(this.handleNewPriceInterval, 2000, this);
+    this.handleTimeStartDeparture = this.debounce(this.handleTimeStartDeparture, 2000, this);
     this.state = {
       value: {
         min: 0,
@@ -14,15 +14,15 @@ export default class TimeStartDeparture extends React.Component {
     };
   }
   
-//  componentWillMount() {
-//    const { minPrice, maxPrice } = this.props;
-//    this.setState({
-//      value: {
-//        min: minPrice,
-//        max: maxPrice
-//      }
-//    });
-//  }
+ componentWillMount() {
+   const { startDepartureTime } = this.props;
+   this.setState({
+     value: {
+       min: startDepartureTime.min,
+       max: startDepartureTime.max
+     }
+   });
+ }
 
   debounce(callback, delay, context) {
     let timeout;
@@ -35,8 +35,8 @@ export default class TimeStartDeparture extends React.Component {
     };
   };
   
-  handleNewPriceInterval(context) {
-//    context.props.priceRangeHandler(context.state.value);
+  handleTimeStartDeparture(context) {
+    context.props.timeStartDepartureHandler(context.state.value);
   }
   
   render() {
@@ -49,7 +49,7 @@ export default class TimeStartDeparture extends React.Component {
           formatLabel={value => value.toFixed(2)}
           value={this.state.value}
           onChange={value => this.setState({ value: value })}
-          onChangeComplete={this.handleNewPriceInterval.bind(this)}
+          onChangeComplete={this.handleTimeStartDeparture.bind(this)}
           value={this.state.value} />
       </form>
     );

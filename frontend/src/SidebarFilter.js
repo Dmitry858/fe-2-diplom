@@ -25,9 +25,13 @@ export default class SidebarFilter extends Component {
   priceRangeHandler(param) {
     this.props.sendData(param, 'pricerange');
   }
+
+  timeStartDepartureHandler(param) {
+    this.props.sendData(param, 'timestartdeprange');
+  }
   
   render() {
-    const { filterParams, minPrice, maxPrice } = this.props;
+    const { filterParams, minPrice, maxPrice, startDepartureTime } = this.props;
     const currentDate = new Date();
     
     return (
@@ -154,7 +158,7 @@ export default class SidebarFilter extends Component {
 
             <div className="input-range input-range_leave_departure">
               <p className="leave-range-title">Время отбытия</p>
-              <TimeStartDeparture />
+              <TimeStartDeparture timeStartDepartureHandler={this.timeStartDepartureHandler.bind(this)} startDepartureTime={startDepartureTime} />
             </div>
 
             <div className="input-range input-range_leave_return">
