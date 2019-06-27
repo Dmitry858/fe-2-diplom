@@ -54,6 +54,18 @@ export default class TrainChoosing extends Component {
         startDepartureTime = {
           min: 0,
           max: 24
+        },
+        startArrivalTime = {
+          min: 0,
+          max: 24
+        },
+        endDepartureTime = {
+          min: 0,
+          max: 24
+        },
+        endArrivalTime = {
+          min: 0,
+          max: 24
         }, 
         sort = this.state.sort;
 
@@ -77,6 +89,37 @@ export default class TrainChoosing extends Component {
       let timeTo = /&start_departure_hour_to=\d+/.exec(window.location.href);
       timeTo = parseInt(timeTo[0].substring(25), 10);
       startDepartureTime = {
+        min: parseInt(timeFrom, 10),
+        max: parseInt(timeTo, 10)
+      };
+    }
+    if (window.location.href.includes('&start_arrival_hour_from=')) {
+      let timeFrom = /&start_arrival_hour_from=\d+/.exec(window.location.href);
+      timeFrom = parseInt(timeFrom[0].substring(25), 10);
+      let timeTo = /&start_arrival_hour_to=\d+/.exec(window.location.href);
+      timeTo = parseInt(timeTo[0].substring(23), 10);
+      startArrivalTime = {
+        min: parseInt(timeFrom, 10),
+        max: parseInt(timeTo, 10)
+      };
+    }
+    
+    if (window.location.href.includes('&end_departure_hour_from=')) {
+      let timeFrom = /&end_departure_hour_from=\d+/.exec(window.location.href);
+      timeFrom = parseInt(timeFrom[0].substring(25), 10);
+      let timeTo = /&end_departure_hour_to=\d+/.exec(window.location.href);
+      timeTo = parseInt(timeTo[0].substring(23), 10);
+      endDepartureTime = {
+        min: parseInt(timeFrom, 10),
+        max: parseInt(timeTo, 10)
+      };
+    }
+    if (window.location.href.includes('&end_arrival_hour_from=')) {
+      let timeFrom = /&end_arrival_hour_from=\d+/.exec(window.location.href);
+      timeFrom = parseInt(timeFrom[0].substring(23), 10);
+      let timeTo = /&end_arrival_hour_to=\d+/.exec(window.location.href);
+      timeTo = parseInt(timeTo[0].substring(21), 10);
+      endArrivalTime = {
         min: parseInt(timeFrom, 10),
         max: parseInt(timeTo, 10)
       };
@@ -134,6 +177,9 @@ export default class TrainChoosing extends Component {
           minPrice: minPrice,
           maxPrice: maxPrice,
           startDepartureTime: startDepartureTime,
+          startArrivalTime: startArrivalTime,
+          endDepartureTime: endDepartureTime,
+          endArrivalTime: endArrivalTime,
           preloader: false
         });
       })
@@ -245,6 +291,38 @@ export default class TrainChoosing extends Component {
         window.location.href = window.location.href + `&start_departure_hour_from=${param.min}&start_departure_hour_to=${param.max}`;
       }
     }
+    
+    if (type === 'timestartarrange') {
+      if (window.location.href.includes('&start_arrival_hour_from=')) {
+        let newUrl = window.location.href.replace(/&start_arrival_hour_from=\d+/, `&start_arrival_hour_from=${param.min}`);
+        newUrl = newUrl.replace(/&start_arrival_hour_to=\d+/, `&start_arrival_hour_to=${param.max}`);
+        window.location.href = newUrl;
+      } else {
+        window.location.href = window.location.href + `&start_arrival_hour_from=${param.min}&start_arrival_hour_to=${param.max}`;
+      }
+    }
+    
+    
+    
+    if (type === 'timeenddeprange') {
+      if (window.location.href.includes('&end_departure_hour_from=')) {
+        let newUrl = window.location.href.replace(/&end_departure_hour_from=\d+/, `&end_departure_hour_from=${param.min}`);
+        newUrl = newUrl.replace(/&end_departure_hour_to=\d+/, `&end_departure_hour_to=${param.max}`);
+        window.location.href = newUrl;
+      } else {
+        window.location.href = window.location.href + `&end_departure_hour_from=${param.min}&end_departure_hour_to=${param.max}`;
+      }
+    }
+    
+    if (type === 'timeendarrange') {
+      if (window.location.href.includes('&end_arrival_hour_from=')) {
+        let newUrl = window.location.href.replace(/&end_arrival_hour_from=\d+/, `&end_arrival_hour_from=${param.min}`);
+        newUrl = newUrl.replace(/&end_arrival_hour_to=\d+/, `&end_arrival_hour_to=${param.max}`);
+        window.location.href = newUrl;
+      } else {
+        window.location.href = window.location.href + `&end_arrival_hour_from=${param.min}&end_arrival_hour_to=${param.max}`;
+      }
+    }
   }
   
   render() {
@@ -260,7 +338,7 @@ export default class TrainChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack, filter, minPrice, maxPrice, startDepartureTime } = this.state;
+      const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack, filter, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.state;
 
       return (
         <React.Fragment>
@@ -271,7 +349,18 @@ export default class TrainChoosing extends Component {
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <SidebarFilter dateLeave={dateLeave} dateBack={dateBack} filterParams={filter} minPrice={minPrice} maxPrice={maxPrice} startDepartureTime={startDepartureTime} sendData={this.getSidebarFilterData.bind(this)} />
+                <SidebarFilter 
+                  dateLeave={dateLeave}
+                  dateBack={dateBack}
+                  filterParams={filter}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  startDepartureTime={startDepartureTime}
+                  startArrivalTime={startArrivalTime}
+                  endDepartureTime={endDepartureTime}
+                  endArrivalTime={endArrivalTime}
+                  sendData={this.getSidebarFilterData.bind(this)}
+                />
 
                 <LastTickets />                
               </section>

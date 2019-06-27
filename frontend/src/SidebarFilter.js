@@ -8,6 +8,9 @@ import wifi from './img/wi_fi.svg';
 import express from './img/express.svg';
 import PriceRange from './ranges/PriceRange.js';
 import TimeStartDeparture from './ranges/TimeStartDeparture.js';
+import TimeStartArrival from './ranges/TimeStartArrival.js';
+import TimeEndDeparture from './ranges/TimeEndDeparture.js';
+import TimeEndArrival from './ranges/TimeEndArrival.js';
 
 export default class SidebarFilter extends Component {
   constructor (props) {
@@ -30,8 +33,20 @@ export default class SidebarFilter extends Component {
     this.props.sendData(param, 'timestartdeprange');
   }
   
+  timeStartArrivalHandler(param) {
+    this.props.sendData(param, 'timestartarrange');
+  }
+  
+  timeEndDepartureHandler(param) {
+    this.props.sendData(param, 'timeenddeprange');
+  }
+  
+  timeEndArrivalHandler(param) {
+    this.props.sendData(param, 'timeendarrange');
+  }
+  
   render() {
-    const { filterParams, minPrice, maxPrice, startDepartureTime } = this.props;
+    const { filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props;
     const currentDate = new Date();
     
     return (
@@ -163,16 +178,7 @@ export default class SidebarFilter extends Component {
 
             <div className="input-range input-range_leave_return">
               <p className="leave-range-title">Время прибытия</p>
-              <div className="scale scale_leave_return">
-                <div className="scale__band scale__band_leave_return" style={{left: 0 + 'px', right: 0 + 'px'}}>
-                  <div className="scale__band-slider scale__band-slider_min scale__band-slider_min_leave_return">
-                    <span className="scale__band-num scale__band-num_min scale__band-num_min_leave_return">0:00</span>
-                  </div>
-                  <div className="scale__band-slider scale__band-slider_max scale__band-slider_max_leave_return">
-                    <span className="scale__band-num scale__band-num_max scale__band-num_max_leave_return">24:00</span>
-                  </div>
-                </div>
-              </div>
+              <TimeStartArrival timeStartArrivalHandler={this.timeStartArrivalHandler.bind(this)} startArrivalTime={startArrivalTime} />
             </div>
           </details>
           <hr/>
@@ -191,30 +197,12 @@ export default class SidebarFilter extends Component {
 
             <div className="input-range input-range_back_departure">
               <p className="back-range-title">Время отбытия</p>
-              <div className="scale scale_back_departure">
-                <div className="scale__band scale__band_back_departure" style={{left: 0 + 'px', right: 0 + 'px'}}>
-                  <div className="scale__band-slider scale__band-slider_min scale__band-slider_min_back_departure">
-                    <span className="scale__band-num scale__band-num_min scale__band-num_min_back_departure">0:00</span>
-                  </div>
-                  <div className="scale__band-slider scale__band-slider_max scale__band-slider_max_back_departure">
-                    <span className="scale__band-num scale__band-num_max scale__band-num_max_back_departure">24:00</span>
-                  </div>
-                </div>
-              </div>
+              <TimeEndDeparture timeEndDepartureHandler={this.timeEndDepartureHandler.bind(this)} endDepartureTime={endDepartureTime} />
             </div>
 
             <div className="input-range input-range_back_return">
               <p className="back-range-title">Время прибытия</p>
-              <div className="scale scale_back_return">
-                <div className="scale__band scale__band_back_return" style={{left: 0 + 'px', right: 0 + 'px'}}>
-                  <div className="scale__band-slider scale__band-slider_min scale__band-slider_min_back_return">
-                    <span className="scale__band-num scale__band-num_min scale__band-num_min_back_return">0:00</span>
-                  </div>
-                  <div className="scale__band-slider scale__band-slider_max scale__band-slider_max_back_return">
-                    <span className="scale__band-num scale__band-num_max scale__band-num_max_back_return">24:00</span>
-                  </div>
-                </div>
-              </div>
+              <TimeEndArrival timeEndArrivalHandler={this.timeEndArrivalHandler.bind(this)} endArrivalTime={endArrivalTime} />
             </div>
           </details>
         </div>
