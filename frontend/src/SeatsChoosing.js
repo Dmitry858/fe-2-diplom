@@ -53,15 +53,54 @@ export default class SeatsChoosing extends Component {
     return time;
   }
   
-  ticketsNumHandler() {
-
+  ticketsNumHandler(param, event) {
+    let value = event.target.value;
+    value = value.replace(/\D+/, '');
+    if (/0\d/.test(value)) value = value.replace(/^0/, '');
+    if (event.target.value === '') value = 0;
+    if (param === 'adult') {
+      this.setState({
+        ticketsNumLeave: {
+          adult: parseInt(value, 10),
+          child: this.state.ticketsNumLeave.child,
+          baby: this.state.ticketsNumLeave.baby
+        }
+      });
+    }
+    if (param === 'child') {
+      this.setState({
+        ticketsNumLeave: {
+          adult: this.state.ticketsNumLeave.adult,
+          child: parseInt(value, 10),
+          baby: this.state.ticketsNumLeave.baby
+        }
+      });
+    }
+    if (param === 'baby') {
+      this.setState({
+        ticketsNumLeave: {
+          adult: this.state.ticketsNumLeave.adult,
+          child: this.state.ticketsNumLeave.child,
+          baby: parseInt(value, 10)
+        }
+      });
+    }
+  }
+  
+  changeParentAndSiblingClass(event) {
+    if (event.type === 'focus') {
+      event.currentTarget.parentElement.classList.add('tickets-num__type_active');
+      event.currentTarget.nextElementSibling.classList.add('tickets-num__comment_active');
+    }
+    if (event.type === 'blur') {
+      event.currentTarget.parentElement.classList.remove('tickets-num__type_active');
+      event.currentTarget.nextElementSibling.classList.remove('tickets-num__comment_active');
+    }
   }
   
   render() {
     const { preloader, ticketsNumLeave, seats } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
-    
-    console.log(this.state);
     
     if (preloader) {
       return (
@@ -79,8 +118,6 @@ export default class SeatsChoosing extends Component {
       let departureFromTime = new Date(direction.departure.from.datetime);
       let departureToTime = new Date(direction.departure.to.datetime);
       let departureDurationTravel = new Date(direction.departure.duration);
-      
-//      console.log(direction); 
       
       return (
         <React.Fragment>
@@ -160,16 +197,41 @@ export default class SeatsChoosing extends Component {
                   </div>
 
                   <div className="seat-choosing-row tickets-num">
-                    <div className="tickets-num__type tickets-num__type_adult tickets-num__type_active">
-                      <input className="tickets-num__input tickets-num__input_adult" type="text" defaultValue="0" onChange={this.ticketsNumHandler.bind(this)} />
-                      <p className="tickets-num__comment tickets-num__comment_active">Можно добавить еще 3 пассажиров</p>
+                    <div className="tickets-num__type tickets-num__type_adult">
+                      <input 
+                        className="tickets-num__input tickets-num__input_adult"
+                        type="text"
+                        maxLength="2"
+                        value={ticketsNumLeave.adult}
+                        onChange={this.ticketsNumHandler.bind(this, 'adult')}
+                        onFocus={this.changeParentAndSiblingClass.bind(this)}
+                        onBlur={this.changeParentAndSiblingClass.bind(this)}
+                      />
+                      <p className="tickets-num__comment">Можно добавить еще 3 пассажиров</p>
                     </div>
                     <div className="tickets-num__type tickets-num__type_child">
-                      <input className="tickets-num__input tickets-num__input_child" type="text" defaultValue="0" />
+                      <input
+                        className="tickets-num__input tickets-num__input_child"
+                        type="text"
+                        maxLength="2"
+                        value={ticketsNumLeave.child}
+                        onChange={this.ticketsNumHandler.bind(this, 'child')}
+                        onFocus={this.changeParentAndSiblingClass.bind(this)}
+                        onBlur={this.changeParentAndSiblingClass.bind(this)}
+                      />
                       <p className="tickets-num__comment">Можно добавить еще 3 детей до 10 лет.Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%</p>
                     </div>
                     <div className="tickets-num__type tickets-num__type_baby">
-                      <input className="tickets-num__input tickets-num__input_baby" type="text" defaultValue="0" />
+                      <input
+                        className="tickets-num__input tickets-num__input_baby"
+                        type="text"
+                        maxLength="2"
+                        value={ticketsNumLeave.baby}
+                        onChange={this.ticketsNumHandler.bind(this, 'baby')}
+                        onFocus={this.changeParentAndSiblingClass.bind(this)}
+                        onBlur={this.changeParentAndSiblingClass.bind(this)}
+                      />
+                      <p className="tickets-num__comment"></p>
                     </div>
                   </div>
 
