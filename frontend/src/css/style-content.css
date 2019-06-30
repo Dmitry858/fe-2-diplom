@@ -1236,18 +1236,19 @@
 .wagon__available, .wagon__note {
   min-height: 34px;
   margin: 0;
-  padding: 8px 19px 4px;
   background: rgba(255, 168, 0, 0.44);
   color: #292929;
 }
 
 .wagon__available {
-  flex-basis: 30%;
+  flex-basis: 50%;
+  padding: 8px 8px 4px 19px;
   font-size: 18px;
 }
 
 .wagon__note {
-  flex-basis: 70%;
+  flex-basis: 50%;
+  padding: 8px 19px 4px 8px;
   text-align: right;
   font-size: 15px;
 }

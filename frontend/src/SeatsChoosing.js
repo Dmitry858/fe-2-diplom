@@ -29,7 +29,8 @@ export default class SeatsChoosing extends Component {
         adult: 0,
         child: 0,
         baby: 0
-      }
+      },
+      wagonTypeLeave: ''
     };
   }
   
@@ -40,6 +41,7 @@ export default class SeatsChoosing extends Component {
       .then( data => {
         this.setState({
           seats: data,
+          wagonTypeLeave: data[0].coach.class_type,
           preloader: false
         });
       })
@@ -98,8 +100,14 @@ export default class SeatsChoosing extends Component {
     }
   }
   
+  changeWagonTypeLeave(param) {
+    this.setState({
+      wagonTypeLeave: param
+    });
+  }
+  
   render() {
-    const { preloader, ticketsNumLeave, seats } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -114,7 +122,7 @@ export default class SeatsChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      
+      console.log(seats);
       let departureFromTime = new Date(direction.departure.from.datetime);
       let departureToTime = new Date(direction.departure.to.datetime);
       let departureDurationTravel = new Date(direction.departure.duration);
@@ -240,32 +248,76 @@ export default class SeatsChoosing extends Component {
                   </div>
 
                   <div className="seat-choosing-row">
-                    <div className="wagon-type">
-                      <div className="wagon-type__icon wagon-type__icon_seat"></div>
-                      <div className="wagon-type__name">Сидячий</div>
+                    <div className="wagon-type" onClick={this.changeWagonTypeLeave.bind(this, 'fourth')}>
+                      <div className={
+                        (wagonTypeLeave === 'fourth') ?
+                        "wagon-type__icon wagon-type__icon_seat_active" :
+                        "wagon-type__icon wagon-type__icon_seat"
+                      }></div>
+                      <div className={
+                        (wagonTypeLeave === 'fourth') ?
+                        "wagon-type__name wagon-type__name_active" :
+                        "wagon-type__name"
+                      }>Сидячий</div>
                     </div>
-                    <div className="wagon-type">
-                      <div className="wagon-type__icon wagon-type__icon_reserved"></div>
-                      <div className="wagon-type__name">Плацкарт</div>
+                    <div className="wagon-type" onClick={this.changeWagonTypeLeave.bind(this, 'third')}>
+                      <div className={
+                        (wagonTypeLeave === 'third') ?
+                        "wagon-type__icon wagon-type__icon_reserved_active" :
+                        "wagon-type__icon wagon-type__icon_reserved"
+                      }></div>
+                      <div className={
+                        (wagonTypeLeave === 'third') ?
+                        "wagon-type__name wagon-type__name_active" :
+                        "wagon-type__name"
+                      }>Плацкарт</div>
                     </div>
-                    <div className="wagon-type">
-                      <div className="wagon-type__icon wagon-type__icon_coupe_active"></div>
-                      <div className="wagon-type__name wagon-type__name_active">Купе</div>
+                    <div className="wagon-type" onClick={this.changeWagonTypeLeave.bind(this, 'second')}>
+                      <div className={
+                        (wagonTypeLeave === 'second') ?
+                        "wagon-type__icon wagon-type__icon_coupe_active" :
+                        "wagon-type__icon wagon-type__icon_coupe"
+                      }></div>
+                      <div className={
+                        (wagonTypeLeave === 'second') ?
+                        "wagon-type__name wagon-type__name_active" :
+                        "wagon-type__name"
+                      }>Купе</div>
                     </div>
-                    <div className="wagon-type">
-                      <div className="wagon-type__icon wagon-type__icon_lux"></div>
-                      <div className="wagon-type__name">Люкс</div>
+                    <div className="wagon-type" onClick={this.changeWagonTypeLeave.bind(this, 'first')}>
+                      <div className={
+                        (wagonTypeLeave === 'first') ?
+                        "wagon-type__icon wagon-type__icon_lux_active" :
+                        "wagon-type__icon wagon-type__icon_lux"
+                      }></div>
+                      <div className={
+                        (wagonTypeLeave === 'first') ?
+                        "wagon-type__name wagon-type__name_active" :
+                        "wagon-type__name"
+                      }>Люкс</div>
                     </div>
                   </div>
 
                   <div className="seat-choosing-row wagon">
                       <p className="wagon__available">
-                        Вагоны
-                        <span className="wagon__available_num wagon__available_num_active">07</span>
-                        <span className="wagon__available_num">09</span>
+                        Вагоны 
+                        {seats.map((item) => 
+                          <span key={item.coach._id} className={
+                            (item.coach.class_type === wagonTypeLeave) ?
+                            "wagon__available_num wagon__available_num_active" :
+                            "wagon__available_num"
+                          }> {item.coach.name}</span>
+                        )}
                       </p>
                       <p className="wagon__note">Нумерация вагонов начинается с головы поезда</p>
-                      <div className="wagon__number">07<span className="wagon__number_caption">вагон</span></div>
+                      <div className="wagon__number">
+                        {seats.map((item) => {
+                          if (item.coach.class_type === wagonTypeLeave) {
+                            return parseInt(item.coach.name.replace(/\D+/g,''), 10);
+                          }
+                        })}
+                        <span className="wagon__number_caption">вагон</span>
+                      </div>
                       <div className="wagon__seats">
                         <p className="wagon__seats_general">Места <span className="wagon__seats_general_num">11</span></p>
                         <p className="wagon__seats_upper">Верхние <span className="wagon__seats_upper_num">3</span></p>
@@ -392,8 +444,8 @@ export default class SeatsChoosing extends Component {
                   <div className="seat-choosing-row wagon">
                       <p className="wagon__available">
                         Вагоны
-                        <span className="wagon__available_num wagon__available_num_active">07</span>
-                        <span className="wagon__available_num">09</span>
+                        <span className="wagon__available_num wagon__available_num_active"> 07</span>
+                        <span className="wagon__available_num"> 09</span>
                       </p>
                       <p className="wagon__note">Нумерация вагонов начинается с головы поезда</p>
                       <div className="wagon__number">07<span className="wagon__number_caption">вагон</span></div>
