@@ -30,7 +30,8 @@ export default class SeatsChoosing extends Component {
         child: 0,
         baby: 0
       },
-      wagonTypeLeave: ''
+      wagonTypeLeave: '',
+      wagonId: ''
     };
   }
   
@@ -42,6 +43,7 @@ export default class SeatsChoosing extends Component {
         this.setState({
           seats: data,
           wagonTypeLeave: data[0].coach.class_type,
+          wagonId: data[0].coach._id,
           preloader: false
         });
       })
@@ -101,13 +103,26 @@ export default class SeatsChoosing extends Component {
   }
   
   changeWagonTypeLeave(param) {
+    let foundEl = this.state.seats.find(function(el) {
+      return el.coach.class_type === param;
+    });
+    if (foundEl) {
+      this.setState({
+        wagonTypeLeave: param,
+        wagonId: foundEl.coach._id
+      });
+    }
+  }
+
+  changeWagonLeave(id, type) {
     this.setState({
-      wagonTypeLeave: param
+      wagonTypeLeave: type,
+      wagonId: id
     });
   }
   
   render() {
-    const { preloader, ticketsNumLeave, seats, wagonTypeLeave } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, wagonId } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -122,7 +137,7 @@ export default class SeatsChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      console.log(seats);
+      console.log(this.props.location.state);
       let departureFromTime = new Date(direction.departure.from.datetime);
       let departureToTime = new Date(direction.departure.to.datetime);
       let departureDurationTravel = new Date(direction.departure.duration);
@@ -302,11 +317,15 @@ export default class SeatsChoosing extends Component {
                       <p className="wagon__available">
                         Вагоны 
                         {seats.map((item) => 
-                          <span key={item.coach._id} className={
+                          <span 
+                            key={item.coach._id} 
+                            className={
                             (item.coach.class_type === wagonTypeLeave) ?
                             "wagon__available_num wagon__available_num_active" :
                             "wagon__available_num"
-                          }> {item.coach.name}</span>
+                            }
+                            onClick={this.changeWagonLeave.bind(this, item.coach._id, item.coach.class_type)}
+                          > {item.coach.name}</span>
                         )}
                       </p>
                       <p className="wagon__note">Нумерация вагонов начинается с головы поезда</p>
@@ -319,9 +338,16 @@ export default class SeatsChoosing extends Component {
                         <span className="wagon__number_caption">вагон</span>
                       </div>
                       <div className="wagon__seats">
-                        <p className="wagon__seats_general">Места <span className="wagon__seats_general_num">11</span></p>
-                        <p className="wagon__seats_upper">Верхние <span className="wagon__seats_upper_num">3</span></p>
-                        <p className="wagon__seats_lower">Нижние <span className="wagon__seats_lower_num">8</span></p>
+                        <p className="wagon__seats_general">
+                          Места 
+                          {seats.map((item) => {
+                            if (item.coach._id === wagonId) {
+                              return <span key={item.coach._id} className="wagon__seats_general_num"> {item.coach.available_seats}</span>;
+                            }
+                          })}
+                          </p>
+                        <p className="wagon__seats_upper">Верхние <span className="wagon__seats_upper_num">-</span></p>
+                        <p className="wagon__seats_lower">Нижние <span className="wagon__seats_lower_num">-</span></p>
                       </div>
                       <div className="wagon__price">
                         <p className="wagon__price_subtitle">Стоимость</p>
@@ -356,7 +382,7 @@ export default class SeatsChoosing extends Component {
 
                 </div>
 
-
+                { direction.arrival &&
                 <div className="seat-choosing-wrap">
                   <div className="seat-choosing-row seat-choosing-row_back seat-choosing-row_padding">
                     <div className="back__arrow back__arrow_content">
@@ -486,6 +512,7 @@ export default class SeatsChoosing extends Component {
                   </div>
 
                 </div>
+                }
 
                 <NavLink to={{ pathname: '/passengers/' }} className="next-button">Далее</NavLink>
 
