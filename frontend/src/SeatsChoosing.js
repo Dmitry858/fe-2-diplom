@@ -14,7 +14,7 @@ import seatPlace from './img/seat_place.svg';
 import train from './img/train.svg';
 import trainYellow from './img/train_yellow.svg';
 import clock from './img/clock.svg';
-import wagonScheme from './img/wagon-scheme.png';
+import WagonScheme from './WagonScheme.js';
 
 import {
   NavLink
@@ -31,7 +31,7 @@ export default class SeatsChoosing extends Component {
         baby: 0
       },
       wagonTypeLeave: '',
-      wagonId: ''
+      currentWagon: ''
     };
   }
   
@@ -43,7 +43,7 @@ export default class SeatsChoosing extends Component {
         this.setState({
           seats: data,
           wagonTypeLeave: data[0].coach.class_type,
-          wagonId: data[0].coach._id,
+          currentWagon: data[0],
           preloader: false
         });
       })
@@ -109,20 +109,20 @@ export default class SeatsChoosing extends Component {
     if (foundEl) {
       this.setState({
         wagonTypeLeave: param,
-        wagonId: foundEl.coach._id
+        currentWagon: foundEl
       });
     }
   }
 
-  changeWagonLeave(id, type) {
+  changeWagonLeave(item, type) {
     this.setState({
       wagonTypeLeave: type,
-      wagonId: id
+      currentWagon: item
     });
   }
   
   render() {
-    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, wagonId } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -137,7 +137,6 @@ export default class SeatsChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      console.log(this.props.location.state);
       let departureFromTime = new Date(direction.departure.from.datetime);
       let departureToTime = new Date(direction.departure.to.datetime);
       let departureDurationTravel = new Date(direction.departure.duration);
@@ -324,35 +323,27 @@ export default class SeatsChoosing extends Component {
                             "wagon__available_num wagon__available_num_active" :
                             "wagon__available_num"
                             }
-                            onClick={this.changeWagonLeave.bind(this, item.coach._id, item.coach.class_type)}
+                            onClick={this.changeWagonLeave.bind(this, item, item.coach.class_type)}
                           > {item.coach.name}</span>
                         )}
                       </p>
                       <p className="wagon__note">Нумерация вагонов начинается с головы поезда</p>
                       <div className="wagon__number">
-                        {seats.map((item) => {
-                          if (item.coach.class_type === wagonTypeLeave) {
-                            return parseInt(item.coach.name.replace(/\D+/g,''), 10);
-                          }
-                        })}
+                        {parseInt(currentWagon.coach.name.replace(/\D+/g,''), 10)}
                         <span className="wagon__number_caption">вагон</span>
                       </div>
                       <div className="wagon__seats">
                         <p className="wagon__seats_general">
                           Места 
-                          {seats.map((item) => {
-                            if (item.coach._id === wagonId) {
-                              return <span key={item.coach._id} className="wagon__seats_general_num"> {item.coach.available_seats}</span>;
-                            }
-                          })}
-                          </p>
+                          <span className="wagon__seats_general_num"> {currentWagon.coach.available_seats}</span>
+                        </p>
                         <p className="wagon__seats_upper">Верхние <span className="wagon__seats_upper_num">-</span></p>
                         <p className="wagon__seats_lower">Нижние <span className="wagon__seats_lower_num">-</span></p>
                       </div>
                       <div className="wagon__price">
                         <p className="wagon__price_subtitle">Стоимость</p>
-                        <p className="wagon__price_upper">2 920 <i className="fa fa-rub" aria-hidden="true"></i></p>
-                        <p className="wagon__price_lower">3 530 <i className="fa fa-rub" aria-hidden="true"></i></p>
+                        <p className="wagon__price_upper">{currentWagon.coach.top_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
+                        <p className="wagon__price_lower">{currentWagon.coach.bottom_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
                       </div>
                       <div className="wagon__service">
                         <p className="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
@@ -375,9 +366,7 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__message-wrap">
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
-                      <div className="wagon__scheme">
-                        <img src={wagonScheme} alt="Схема вагона" />
-                      </div>
+                      <WagonScheme currentWagon={currentWagon} />
                   </div>
 
                 </div>
@@ -506,9 +495,7 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__message-wrap">
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
-                      <div className="wagon__scheme">
-                        <img src={wagonScheme} alt="Схема вагона" />
-                      </div>
+                      <WagonScheme />
                   </div>
 
                 </div>

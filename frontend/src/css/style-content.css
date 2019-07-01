@@ -1450,11 +1450,73 @@
 }
 
 .wagon__scheme {
+  position: relative;
   padding: 3px 20px 0;
 }
 
 .wagon__scheme img {
   width: 100%;
+}
+
+.wagon__scheme-row {
+  position: absolute;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  top: 23%;
+}
+
+.wagon__scheme-row_first {
+  width: 87.5%;
+  padding: 0 0 0 13.6%;
+}
+
+.wagon__scheme-section {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  width: 13%;
+  padding: 0 1%;
+}
+
+.wagon__scheme-seat {
+  padding: 20% 0;
+  width: 19px;
+  text-align: center;
+  font-size: 14px;
+  background: #cccccc;
+  cursor: default;
+}
+
+.wagon__scheme-seat_available {
+  background: #f2f2f2;
+  cursor: pointer;
+}
+
+.wagon__scheme-seat_available:hover {
+  outline: 2px solid #fdd27f;
+}
+
+.wagon__scheme-seat_active, .wagon__scheme-seat_active:hover {
+  outline: 2px solid #FFA800;
+}
+
+.wagon__num {
+  position: absolute;
+  top: 2px;
+  left: 6.6%;
+  min-width: 28px;
+  padding: 1px 4px;
+  background: #333333;
+  color: #ffffff;
+  text-align: center;
 }
 
 .next-button {
