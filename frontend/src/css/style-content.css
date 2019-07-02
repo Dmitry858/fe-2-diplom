@@ -1470,7 +1470,7 @@
   top: 23%;
 }
 
-.wagon__scheme-row_first {
+.wagon__scheme-row_first, .wagon__scheme-row_second {
   width: 87.5%;
   padding: 0 0 0 13.6%;
 }
@@ -1493,6 +1493,10 @@
   font-size: 14px;
   background: #cccccc;
   cursor: default;
+}
+
+.wagon__scheme-seat_second {
+  padding: 13% 0;
 }
 
 .wagon__scheme-seat_available {
