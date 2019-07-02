@@ -169,6 +169,10 @@ summary::-moz-list-bullet {
   display: none !important;
 }
 
+.invisible {
+  opacity: 0 !important;
+}
+
 .pagination {
   display: -webkit-flex;
   display: -moz-flex;

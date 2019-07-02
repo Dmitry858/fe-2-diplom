@@ -121,6 +121,11 @@ export default class SeatsChoosing extends Component {
     });
   }
   
+  // Обработчик данных, полученных от компонента WagonScheme
+  wagonSchemeDataHandler(num, action) {
+    console.log(num, action);
+  }
+  
   render() {
     const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
@@ -337,13 +342,19 @@ export default class SeatsChoosing extends Component {
                           Места 
                           <span className="wagon__seats_general_num"> {currentWagon.coach.available_seats}</span>
                         </p>
+                        { (wagonTypeLeave === 'second' || wagonTypeLeave === 'third') &&
+                        <React.Fragment>
                         <p className="wagon__seats_upper">Верхние <span className="wagon__seats_upper_num">-</span></p>
                         <p className="wagon__seats_lower">Нижние <span className="wagon__seats_lower_num">-</span></p>
+                        </React.Fragment>
+                        }
                       </div>
                       <div className="wagon__price">
                         <p className="wagon__price_subtitle">Стоимость</p>
                         <p className="wagon__price_upper">{currentWagon.coach.top_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
+                        { (wagonTypeLeave === 'second' || wagonTypeLeave === 'third') && 
                         <p className="wagon__price_lower">{currentWagon.coach.bottom_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
+                        }
                       </div>
                       <div className="wagon__service">
                         <p className="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
@@ -366,7 +377,7 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__message-wrap">
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
-                      <WagonScheme currentWagon={currentWagon} />
+                      <WagonScheme currentWagon={currentWagon} sendData={this.wagonSchemeDataHandler.bind(this)} />
                   </div>
 
                 </div>

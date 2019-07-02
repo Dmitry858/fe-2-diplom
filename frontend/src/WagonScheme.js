@@ -14,8 +14,9 @@ export default class WagonScheme extends Component {
   seatsInfoGenerator(props) {
     const currentWagon = props.currentWagon;
     if (currentWagon) {
-      let seats = currentWagon.seats;
-      let schemeSections = [];
+      let seats = currentWagon.seats,
+          schemeSections = [],
+          schemeRows = [];
       if (currentWagon.coach.class_type === 'first' ) {
         if (seats.length < 16) {
           while (seats.length < 16) {
@@ -50,9 +51,59 @@ export default class WagonScheme extends Component {
         }, []);
       }
 
+      if (currentWagon.coach.class_type === 'third' ) {
+        if (seats.length < 48) {
+          while (seats.length < 48) {
+            seats.push({
+              index: seats.length + 1,
+              available: false
+            });
+          }
+        }
+
+        schemeSections = seats.reduce(function(result, value, index, array) {
+          if (index % 4 === 0)
+            result.push(array.slice(index, index + 4));
+          return result;
+        }, []);
+        
+        schemeRows[0] = schemeSections.slice(0, 8);
+        schemeRows[1] = schemeSections.slice(8);
+      }
+      
+      if (currentWagon.coach.class_type === 'fourth' ) {
+        if (seats.length < 62) {
+          while (seats.length < 62) {
+            seats.push({
+              index: seats.length + 1,
+              available: false
+            });
+          }
+        }
+        
+        seats.splice(32, 0, {
+          index: 0,
+          available: false
+        });
+        seats.splice(62, 0, {
+          index: 0,
+          available: false
+        });
+
+        schemeSections = seats.reduce(function(result, value, index, array) {
+          if (index % 4 === 0)
+            result.push(array.slice(index, index + 4));
+          return result;
+        }, []);
+        
+        schemeRows[0] = schemeSections.slice(0, 8);
+        schemeRows[1] = schemeSections.slice(8);
+      }
+
       this.setState({
         seats: seats, 
-        schemeSections: schemeSections
+        schemeSections: schemeSections,
+        schemeRows: schemeRows
       }); 
     }
   }
@@ -67,17 +118,37 @@ export default class WagonScheme extends Component {
     }
   }
   
-  chooseSeatHandler(event) {
-    if (event.currentTarget.classList.contains('wagon__scheme-seat_available')) {
-      event.currentTarget.classList.toggle('wagon__scheme-seat_active');
+  componentDidMount() {
+    this.doInvisibleElements();
+  }
+  
+  componentDidUpdate() {
+    this.doInvisibleElements();
+  }
+  
+  doInvisibleElements() {
+    if (this.props.currentWagon.coach.class_type === 'fourth') {
+      Array.from(document.getElementsByClassName('wagon__scheme-seat_fourth')).forEach(function(item, i) {
+        if (item.textContent === '0') {
+          item.classList.add('invisible');
+        }
+      });
     }
+  }
+  
+  chooseSeatHandler(event) {
+    if (event.currentTarget.classList.contains('wagon__scheme-seat_active')) {
+      event.currentTarget.classList.remove('wagon__scheme-seat_active');
+      this.props.sendData(event.currentTarget.textContent, 'remove');
+    } else {
+      event.currentTarget.classList.add('wagon__scheme-seat_active');
+      this.props.sendData(event.currentTarget.textContent, 'add');
+    } 
   }
   
   render() {
     const { currentWagon } = this.props;
     if (!currentWagon) return null;
-
-        console.log(this.state);
 
     return (
       <div className="wagon__scheme">
@@ -113,6 +184,94 @@ export default class WagonScheme extends Component {
               );
             })
           } 
+          
+          { currentWagon.coach.class_type === 'third' && 
+            this.state.schemeRows.map((row, i) => {
+              if (i === 0) {
+                return (
+                  <div key={i} className="wagon__row-inner wagon__row-inner_third">
+                    {row.map((item, i) => {
+                      return (
+                        <div key={i} className="wagon__scheme-section">
+                          <div className="wagon__seats-group">
+                            <div className={(item[1].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[1].index}</div>
+                            <div className={(item[0].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[0].index}</div>
+                          </div>
+                          <div className="wagon__seats-group">
+                            <div className={(item[3].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[3].index}</div>
+                            <div className={(item[2].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[2].index}</div>
+                          </div>
+                        </div>
+                      ); 
+                    })}                 
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={i} className="wagon__row-inner wagon__row-inner_third">
+                    {row.map((item, i) => {
+                      return (
+                        <div key={i} className="wagon__scheme-section wagon__scheme-section_horizontal">
+                          <div className="wagon__seats-group wagon__seats-group_horizontal">
+                            <div className={(item[0].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[0].index}</div>
+                            <div className={(item[1].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[1].index}</div>
+                          </div>
+                          <div className="wagon__seats-group wagon__seats-group_horizontal">
+                            <div className={(item[2].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[2].index}</div>
+                            <div className={(item[3].available) ? "wagon__scheme-seat wagon__scheme-seat_third wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_third"} onClick={this.chooseSeatHandler.bind(this)}>{item[3].index}</div>
+                          </div>
+                        </div>
+                      ); 
+                    })}                 
+                  </div>
+                );
+              }
+            })
+          }
+          
+          { currentWagon.coach.class_type === 'fourth' && 
+            this.state.schemeRows.map((row, i) => {
+              if (i === 0) {
+                return (
+                  <div key={i} className="wagon__row-inner">
+                    {row.map((item, i) => {
+                      return (
+                        <div key={i} className="wagon__scheme-section">
+                          <div className="wagon__seats-group">
+                            <div className={(item[1].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[1].index}</div>
+                            <div className={(item[0].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[0].index}</div>
+                          </div>
+                          <div className="wagon__seats-group">
+                            <div className={(item[3].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[3].index}</div>
+                            <div className={(item[2].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[2].index}</div>
+                          </div>
+                        </div>
+                      ); 
+                    })}                 
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={i} className="wagon__row-inner">
+                    {row.map((item, i) => {
+                      return (
+                        <div key={i} className="wagon__scheme-section">
+                          <div className="wagon__seats-group">
+                            <div className={(item[0].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[0].index}</div>
+                            <div className={(item[1].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[1].index}</div>
+                          </div>
+                          <div className="wagon__seats-group">
+                            <div className={(item[2].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[2].index}</div>
+                            <div className={(item[3].available) ? "wagon__scheme-seat wagon__scheme-seat_fourth wagon__scheme-seat_available" : "wagon__scheme-seat wagon__scheme-seat_fourth"} onClick={this.chooseSeatHandler.bind(this)}>{item[3].index}</div>
+                          </div>
+                        </div>
+                      ); 
+                    })}                 
+                  </div>
+                );
+              }
+            })
+          }
         </div>
         
         { currentWagon.coach.class_type === 'first' && <img src={firstScheme} alt="Схема вагона" /> }
