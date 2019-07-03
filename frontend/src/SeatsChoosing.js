@@ -24,6 +24,7 @@ export default class SeatsChoosing extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      chosenSeats: [],
       preloader: true,
       ticketsNumLeave: {
         adult: 0,
@@ -122,12 +123,25 @@ export default class SeatsChoosing extends Component {
   }
   
   // Обработчик данных, полученных от компонента WagonScheme
-  wagonSchemeDataHandler(num, action) {
-    console.log(num, action);
+  wagonSchemeDataHandler(seat, action) {
+    let chosenSeats = this.state.chosenSeats;
+    if (action === 'add') {
+      chosenSeats.push(seat);
+    }
+    if (action === 'remove') {
+      let foundEl = chosenSeats.find((item, i, arr) => {
+        if (item.seatNum === seat.seatNum && item.wagonNum === seat.wagonNum) return item;
+      });
+      let i = chosenSeats.indexOf(foundEl);
+      chosenSeats.splice(i, 1);
+    }
+    this.setState({
+      chosenSeats: chosenSeats
+    });
   }
   
   render() {
-    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon, chosenSeats } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -377,7 +391,7 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__message-wrap">
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
-                      <WagonScheme currentWagon={currentWagon} sendData={this.wagonSchemeDataHandler.bind(this)} />
+                      <WagonScheme currentWagon={currentWagon} chosenSeats={chosenSeats} sendData={this.wagonSchemeDataHandler.bind(this)} />
                   </div>
 
                 </div>
@@ -512,7 +526,28 @@ export default class SeatsChoosing extends Component {
                 </div>
                 }
 
-                <NavLink to={{ pathname: '/passengers/' }} className="next-button">Далее</NavLink>
+                { (chosenSeats.length > 0) ?
+                  <NavLink to={{ 
+                    pathname: '/passengers/',
+                    state: {
+                      cityFrom: cityFrom,
+                      cityTo: cityTo,
+                      direction: direction,
+                      dateLeave: dateLeave,
+                      dateBack: dateBack,
+                      filterParams: filterParams,
+                      minPrice: minPrice,
+                      maxPrice: maxPrice,
+                      startDepartureTime: startDepartureTime,
+                      startArrivalTime: startArrivalTime,
+                      endDepartureTime: endDepartureTime,
+                      endArrivalTime: endArrivalTime,
+                      ticketsNumLeave: ticketsNumLeave,
+                      chosenSeats: chosenSeats
+                    }
+                  }} className="next-button">Далее</NavLink> :
+                  <a className="next-button next-button_inactive" href="">Далее</a>
+                }
 
               </section>
 

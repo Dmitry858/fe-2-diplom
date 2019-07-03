@@ -120,10 +120,12 @@ export default class WagonScheme extends Component {
   
   componentDidMount() {
     this.doInvisibleElements();
+    this.markChosenSeats();
   }
   
   componentDidUpdate() {
     this.doInvisibleElements();
+    this.markChosenSeats();
   }
   
   doInvisibleElements() {
@@ -136,18 +138,40 @@ export default class WagonScheme extends Component {
     }
   }
   
+  markChosenSeats() {
+    const { currentWagon, chosenSeats } = this.props;
+    const wagonNum = parseInt(currentWagon.coach.name.replace(/\D+/g,''), 10);
+    let allSeats = Array.from(document.getElementsByClassName('wagon__scheme-seat'));
+    const foundElements = chosenSeats.filter((item) => {
+      return item.wagonNum === wagonNum;
+    });
+    foundElements.forEach((item) => {
+      let el = allSeats.find((seat) => {
+        return item.seatNum === parseInt(seat.textContent, 10);
+      });
+      if (el) el.classList.add('wagon__scheme-seat_active');
+    });
+  }
+  
   chooseSeatHandler(event) {
+    let seatNum = parseInt(event.currentTarget.textContent, 10);
     if (event.currentTarget.classList.contains('wagon__scheme-seat_active')) {
       event.currentTarget.classList.remove('wagon__scheme-seat_active');
-      this.props.sendData(event.currentTarget.textContent, 'remove');
+      this.props.sendData({
+        seatNum: seatNum,
+        wagonNum: parseInt(this.props.currentWagon.coach.name.replace(/\D+/g,''), 10)
+      }, 'remove');
     } else {
       event.currentTarget.classList.add('wagon__scheme-seat_active');
-      this.props.sendData(event.currentTarget.textContent, 'add');
+      this.props.sendData({
+        seatNum: seatNum,
+        wagonNum: parseInt(this.props.currentWagon.coach.name.replace(/\D+/g,''), 10)
+      }, 'add');
     } 
   }
   
   render() {
-    const { currentWagon } = this.props;
+    const { currentWagon, chosenSeats } = this.props;
     if (!currentWagon) return null;
 
     return (
