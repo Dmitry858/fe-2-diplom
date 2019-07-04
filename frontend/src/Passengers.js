@@ -19,7 +19,7 @@ export default class Passengers extends Component {
   render() {
     console.log(this.props.location.state);
 
-    const { direction, dateLeave, dateBack } = this.props.location.state;
+    const { direction, dateLeave, dateBack, ticketsNumLeave, cost } = this.props.location.state;
 
     if (this.state.preloader) {
       return (
@@ -43,7 +43,7 @@ export default class Passengers extends Component {
             <div className="container">
               <section className="sidebar">
 
-                <SidebarDetails direction={direction} dateLeave={dateLeave} dateBack={dateBack} />
+                <SidebarDetails direction={direction} dateLeave={dateLeave} dateBack={dateBack} ticketsNumLeave={ticketsNumLeave} cost={cost} />
 
               </section>
 
@@ -101,7 +101,7 @@ export default class Passengers extends Component {
 
                     <div className="passenger__detail-row">
                       <input type="checkbox" id="checkbox_passenger1" />
-                      <label for="checkbox_passenger1">ограниченная подвижность</label>
+                      <label htmlFor="checkbox_passenger1">ограниченная подвижность</label>
                     </div>
 
                     <div className="passenger__detail-row passenger__document-wrap">

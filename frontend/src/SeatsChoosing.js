@@ -25,6 +25,7 @@ export default class SeatsChoosing extends Component {
     super(props);
     this.state = {
       chosenSeats: [],
+      cost: 0,
       preloader: true,
       ticketsNumLeave: {
         adult: 0,
@@ -124,9 +125,16 @@ export default class SeatsChoosing extends Component {
   
   // Обработчик данных, полученных от компонента WagonScheme
   wagonSchemeDataHandler(seat, action) {
+    const { cost, wagonTypeLeave, currentWagon } = this.state;
     let chosenSeats = this.state.chosenSeats;
+    let totalCost = cost;
     if (action === 'add') {
       chosenSeats.push(seat);
+      if (wagonTypeLeave === 'first') {
+        totalCost = totalCost + currentWagon.coach.price;
+      } else {
+        totalCost = totalCost + currentWagon.coach.bottom_price;
+      }
     }
     if (action === 'remove') {
       let foundEl = chosenSeats.find((item, i, arr) => {
@@ -136,12 +144,13 @@ export default class SeatsChoosing extends Component {
       chosenSeats.splice(i, 1);
     }
     this.setState({
-      chosenSeats: chosenSeats
+      chosenSeats: chosenSeats,
+      cost: totalCost
     });
   }
   
   render() {
-    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon, chosenSeats } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon, chosenSeats, cost } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -365,7 +374,7 @@ export default class SeatsChoosing extends Component {
                       </div>
                       <div className="wagon__price">
                         <p className="wagon__price_subtitle">Стоимость</p>
-                        <p className="wagon__price_upper">{currentWagon.coach.top_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
+                        <p className="wagon__price_upper">{(wagonTypeLeave === 'first') ? currentWagon.coach.price : currentWagon.coach.top_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
                         { (wagonTypeLeave === 'second' || wagonTypeLeave === 'third') && 
                         <p className="wagon__price_lower">{currentWagon.coach.bottom_price} <i className="fa fa-rub" aria-hidden="true"></i></p>
                         }
@@ -543,7 +552,8 @@ export default class SeatsChoosing extends Component {
                       endDepartureTime: endDepartureTime,
                       endArrivalTime: endArrivalTime,
                       ticketsNumLeave: ticketsNumLeave,
-                      chosenSeats: chosenSeats
+                      chosenSeats: chosenSeats,
+                      cost: cost
                     }
                   }} className="next-button">Далее</NavLink> :
                   <a className="next-button next-button_inactive" href="">Далее</a>

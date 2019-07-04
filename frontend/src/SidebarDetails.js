@@ -8,9 +8,17 @@ export default class SidebarDetails extends Component {
     };
   }
   
+  timeFormatConverter(time) {
+    if (String(time).length === 1) return `0${time}`;
+    return time;
+  }
+  
   render() {
-    const { direction, dateLeave, dateBack } = this.props;
-
+    const { direction, dateLeave, dateBack, ticketsNumLeave, cost } = this.props;
+    let departureFromTime = new Date(direction.departure.from.datetime),
+        departureToTime = new Date(direction.departure.to.datetime),
+        departureDurationTravel = new Date(direction.departure.duration);
+    
     return (
       <React.Fragment>
         <div className="details">
@@ -43,20 +51,25 @@ export default class SidebarDetails extends Component {
 
             <div className="details__row">
               <div className="details__info_leave_departure">
-                <p className="details__info-time">00:10</p>
+                <p className="details__info-time">
+                { `${this.timeFormatConverter(departureFromTime.getHours())}:${this.timeFormatConverter(departureFromTime.getMinutes())}` }
+                </p>
                 <p className="details__info-date">{dateLeave}</p>
-                <p className="details__info-city">Москва</p>
-                <p className="details__info-station">Курский вокзал</p>
+                <p className="details__info-city">{direction.departure.from.city.name[0].toUpperCase() + direction.departure.from.city.name.substring(1)}</p>
+                <p className="details__info-station">{`${direction.departure.from.railway_station_name} вокзал`}</p>
               </div>
               <div className="details__info_leave_arrow">
-                <p className="details__travel-time">9:42</p>
+                <p className="details__travel-time">
+                  { `${departureDurationTravel.getHours()}:${this.timeFormatConverter(departureDurationTravel.getMinutes())}` }
+                </p>
                 <i className="fa fa-long-arrow-right details__arrow" aria-hidden="true"></i>
               </div>
               <div className="details__info_leave_arrival">
-                <p className="details__info-time">09:52</p>
+                <p className="details__info-time">
+                { `${this.timeFormatConverter(departureToTime.getHours())}:${this.timeFormatConverter(departureToTime.getMinutes())}` }</p>
                 <p className="details__info-date">{dateLeave}</p>
-                <p className="details__info-city">Санкт-Петербург</p>
-                <p className="details__info-station">Ладожский вокзал</p>
+                <p className="details__info-city">{direction.departure.to.city.name[0].toUpperCase() + direction.departure.to.city.name.substring(1)}</p>
+                <p className="details__info-station">{`${direction.departure.to.railway_station_name} вокзал`}</p>
               </div>
             </div>
 
@@ -125,13 +138,15 @@ export default class SidebarDetails extends Component {
 
             <div className="passengers-info">
               <div className="passengers-info__row">
-                <p className="passengers-info__item">2 Взрослых</p>
-                <div className="passengers-info__price">5 840 <i className="fa fa-rub" aria-hidden="true"></i></div>
+                <p className="passengers-info__item">{`${ticketsNumLeave.adult} Взрослых`}</p>
+                <div className="passengers-info__price">{cost} <i className="fa fa-rub" aria-hidden="true"></i></div>
               </div>
+              { (ticketsNumLeave.child > 0 || ticketsNumLeave.baby > 0) && 
               <div className="passengers-info__row">
-                <p className="passengers-info__item">1 Ребенок</p>
+                <p className="passengers-info__item">{`${ticketsNumLeave.child + ticketsNumLeave.baby} Ребенок`}</p>
                 <div className="passengers-info__price">1 920 <i className="fa fa-rub" aria-hidden="true"></i></div>
               </div>
+              }
             </div>
 
           </details>
@@ -139,7 +154,7 @@ export default class SidebarDetails extends Component {
 
           <div className="details__total">
             <h3 className="details__total_subtitle">Итог</h3>
-            <p className="details__total_price">7 760 <i className="fa fa-rub" aria-hidden="true"></i></p>
+            <p className="details__total_price">{cost} <i className="fa fa-rub" aria-hidden="true"></i></p>
           </div>
 
         </div>
