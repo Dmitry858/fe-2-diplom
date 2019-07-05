@@ -13,7 +13,8 @@ export default class Passengers extends Component {
     super(props);
     this.state = {
       passengers: [],
-      preloader: false
+      preloader: false,
+      nextStepAllow: false
     };
   }
   
@@ -39,18 +40,44 @@ export default class Passengers extends Component {
       passengers: passengers
     });
   }
+
+  // Функция, проверяющая все ли данные по пассажирам заполнены
+  nextStepIsAllow(passengers = []) {
+    let arr = [];
+    passengers.forEach(function(item) {
+      for (let key in item) {
+        if (item[key] === '') {
+          arr.push('empty');
+        } else {
+          arr.push('filled');
+        }
+      }
+    });
+    let foundEl = arr.find(function(el) {
+      return el === 'empty';
+    });
+
+    if (foundEl) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   
   passengerInfoHandler(property, index, event) {
     const passengers = this.state.passengers;
     passengers[index][property] = event.currentTarget.value;
+    let nextStepAllow = this.nextStepIsAllow(passengers);
+
     this.setState({
-      passengers: passengers
+      passengers: passengers,
+      nextStepAllow: nextStepAllow
     });
   }
   
   render() {
     console.log(this.state);
-    const { passengers, preloader } = this.state;
+    const { passengers, preloader, nextStepAllow } = this.state;
     const { direction, dateLeave, dateBack, ticketsNumLeave, cost } = this.props.location.state;
 
     if (preloader) {
@@ -202,7 +229,11 @@ export default class Passengers extends Component {
                   </div>
                 </div>
 
-                <NavLink to={{ pathname: '/payment/' }} className="next-button">Далее</NavLink>
+                { nextStepAllow ? 
+                  <NavLink to={{ pathname: '/payment/' }} className="next-button">Далее</NavLink> :
+                  <a className="next-button next-button_inactive" href="#">Далее</a>
+                }
+                
 
               </section>
 
