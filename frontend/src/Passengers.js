@@ -23,14 +23,15 @@ export default class Passengers extends Component {
     const passengers = this.state.passengers;
     let passengersNum = ticketsNumLeave.adult + ticketsNumLeave.child + ticketsNumLeave.baby;
     const template = {
-      type: '',
+      type: 'adult',
       name: '',
       patronymic: '',
       surname: '',
       gender: '',
       dateOfBirth: '',
       limitedMobility: false,
-      docType: '',
+      docType: 'passport',
+      docSeries: '',
       docNum: ''
     };
     for (let i = 0; i < passengersNum; i++) {
@@ -65,20 +66,32 @@ export default class Passengers extends Component {
   }
   
   passengerInfoHandler(property, index, event) {
-    const passengers = this.state.passengers;
-    passengers[index][property] = event.currentTarget.value;
+    const passengers = [];
+    for (let i = 0; i < this.state.passengers.length; i++) {
+      passengers[i] = {...this.state.passengers[i]};
+    }
+    if (property === 'gender') {
+      passengers[index][property] = event.currentTarget.textContent;
+    } else if (property === 'limitedMobility') {
+      passengers[index][property] = event.currentTarget.checked;
+    } else {
+      passengers[index][property] = event.currentTarget.value;
+    }
+    
     let nextStepAllow = this.nextStepIsAllow(passengers);
-
     this.setState({
       passengers: passengers,
       nextStepAllow: nextStepAllow
     });
   }
   
+  goToNextPassenger(event) {
+    event.preventDefault();
+  }
+  
   render() {
-    console.log(this.state);
     const { passengers, preloader, nextStepAllow } = this.state;
-    const { direction, dateLeave, dateBack, ticketsNumLeave, cost } = this.props.location.state;
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost } = this.props.location.state;
 
     if (preloader) {
       return (
@@ -109,114 +122,89 @@ export default class Passengers extends Component {
               <section className="content">
 
                 { passengers.map((item, i) => {
-                    if (i === 0) {
-                      return (
-                        <div key={i} className="passenger">
-                          <div className="passenger__announce">
-                            <div className="passenger__toggle">
-                              <i className="fa fa-minus" aria-hidden="true"></i>
-                            </div>
-                            <p className="passenger__title">{`Пассажир ${i + 1}`}</p>
-                            <div className="passenger__close">
-                              <i className="fa fa-times" aria-hidden="true"></i>
-                            </div>
+                    return (
+                      <div key={i} className="passenger">
+                        <div className="passenger__announce">
+                          <div className="passenger__toggle">
+                            <i className="fa fa-minus" aria-hidden="true"></i>
+                          </div>
+                          <p className="passenger__title">{`Пассажир ${i + 1}`}</p>
+                          <div className="passenger__close">
+                            <i className="fa fa-times" aria-hidden="true"></i>
+                          </div>
+                        </div>
+
+                        <div className="passenger__detail">
+                          <div className="passenger__detail-row">
+                            <select className="passenger__type" onChange={this.passengerInfoHandler.bind(this, 'type', i)}>
+                              <option className="passenger__type-item" value="adult">Взрослый</option>
+                              <option className="passenger__type-item" value="child">Детский</option>
+                            </select>
+                          </div>
+                          <div className="passenger__detail-row">
+                            <label className="passenger__name">
+                              Фамилия
+                              <input className="passenger__input" name={`surname${i}`} type="text" value={item.surname} onChange={this.passengerInfoHandler.bind(this, 'surname', i)} />
+                            </label>
+
+                            <label className="passenger__name">
+                              Имя
+                              <input className="passenger__input" name="name" type="text" value={item.name} onChange={this.passengerInfoHandler.bind(this, 'name', i)} />
+                            </label>
+
+                            <label className="passenger__name">
+                              Отчество
+                              <input className="passenger__input" name="patronymic" type="text" value={item.patronymic} onChange={this.passengerInfoHandler.bind(this, 'patronymic', i)} />
+                            </label>
                           </div>
 
-                          <div className="passenger__detail">
-                            <div className="passenger__detail-row">
-                              <select className="passenger__type">
-                                <option className="passenger__type-item" value="взрослый">Взрослый</option>
-                                <option className="passenger__type-item" value="детский">Детский</option>
+                          <div className="passenger__detail-row passenger__detail-row_left">
+                            <div className="passenger__gender">
+                              Пол
+                              <div className="passenger__gender-field">
+                                <div className={(item.gender === 'М') ? "passenger__gender-value passenger__gender-value_man passenger__gender-value_active" : "passenger__gender-value passenger__gender-value_man"} onClick={this.passengerInfoHandler.bind(this, 'gender', i)}>М</div>
+                                <div className={(item.gender === 'Ж') ? "passenger__gender-value passenger__gender-value_woman passenger__gender-value_active" : "passenger__gender-value passenger__gender-value_woman"} onClick={this.passengerInfoHandler.bind(this, 'gender', i)}>Ж</div>
+                              </div>
+                            </div>
+
+                            <label className="passenger__date-birth">
+                              Дата рождения
+                              <input className="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД/ММ/ГГ" value={item.dateOfBirth} onChange={this.passengerInfoHandler.bind(this, 'dateOfBirth', i)} />
+                            </label>
+                          </div>
+
+                          <div className="passenger__detail-row">
+                            <input type="checkbox" id={`checkbox_passenger${i+1}`} onChange={this.passengerInfoHandler.bind(this, 'limitedMobility', i)} />
+                            <label htmlFor={`checkbox_passenger${i+1}`}>ограниченная подвижность</label>
+                          </div>
+
+                          <div className="passenger__detail-row passenger__document-wrap">
+                            <label className="passenger__document">
+                              Тип документа
+                              <select className="passenger__document-type" onChange={this.passengerInfoHandler.bind(this, 'docType', i)}>
+                                <option className="passenger__document-item" value="passport">Паспорт РФ</option>
+                                <option className="passenger__document-item" value="certificate">Свидетельство о рождении</option>
                               </select>
-                            </div>
-                            <div className="passenger__detail-row">
-                              <label className="passenger__name">
-                                Фамилия
-                                <input className="passenger__input" name="surname" type="text" value={item.surname} onChange={this.passengerInfoHandler.bind(this, 'surname', i)} />
-                              </label>
+                            </label>
 
-                              <label className="passenger__name">
-                                Имя
-                                <input className="passenger__input" name="name" type="text" value={item.name} onChange={this.passengerInfoHandler.bind(this, 'name', i)} />
-                              </label>
+                            <label className="passenger__document">
+                              Серия
+                              <input className="passenger__input" name="doc-series" type="text" value={item.docSeries} onChange={this.passengerInfoHandler.bind(this, 'docSeries', i)} />
+                            </label>
 
-                              <label className="passenger__name">
-                                Отчество
-                                <input className="passenger__input" name="patronymic" type="text" value={item.patronymic} onChange={this.passengerInfoHandler.bind(this, 'patronymic', i)} />
-                              </label>
-                            </div>
-
-                            <div className="passenger__detail-row passenger__detail-row_left">
-                              <div className="passenger__gender">
-                                Пол
-                                <div className="passenger__gender-field">
-                                  <div className="passenger__gender-value passenger__gender-value_man">М</div>
-                                  <div className="passenger__gender-value passenger__gender-value_woman passenger__gender-value_active">Ж</div>
-                                </div>
-                              </div>
-
-                              <label className="passenger__date-birth">
-                                Дата рождения
-                                <input className="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД/ММ/ГГ" />
-                              </label>
-                            </div>
-
-                            <div className="passenger__detail-row">
-                              <input type="checkbox" id="checkbox_passenger1" />
-                              <label htmlFor="checkbox_passenger1">ограниченная подвижность</label>
-                            </div>
-
-                            <div className="passenger__detail-row passenger__document-wrap">
-                              <label className="passenger__document">
-                                Тип документа
-                                <select className="passenger__document-type">
-                                  <option className="passenger__document-item" value="паспорт">Паспорт РФ</option>
-                                  <option className="passenger__document-item" value="свидетельство">Свидетельство о рождении</option>
-                                </select>
-                              </label>
-
-                              <label className="passenger__document">
-                                Серия
-                                <input className="passenger__input" name="doc-series" type="text" />
-                              </label>
-
-                              <label className="passenger__document">
-                                Номер
-                                <input className="passenger__input" name="doc-number" type="text" />
-                              </label>
-                            </div>
-
-                            <div className="passenger__detail-row passenger__next-wrap passenger__next-wrap_allow">
-                              <div className="passenger__next-message passenger__next-message_allow">
-                                <div className="passenger__message-icon passenger__message-icon_allow">
-                                  <i className="fa fa-check" aria-hidden="true"></i>
-                                </div>
-                                Готово
-                              </div>
-
-                              <a className="passenger__next-button" href="#">Следующий пассажир</a>
-                            </div>
-
-                          </div>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div key={i} className="passenger">
-                          <div className="passenger__announce passenger__announce_collapse">
-                            <div className="passenger__toggle passenger__toggle_collapse">
-                              <i className="fa fa-plus" aria-hidden="true"></i>
-                            </div>
-                            <p className="passenger__title">{`Пассажир ${i + 1}`}</p>
-                            <div className="passenger__close hidden">
-                              <i className="fa fa-times" aria-hidden="true"></i>
-                            </div>
+                            <label className="passenger__document">
+                              Номер
+                              <input className="passenger__input" name="doc-number" type="text" value={item.docNum} onChange={this.passengerInfoHandler.bind(this, 'docNum', i)} />
+                            </label>
                           </div>
 
-                          <div className="passenger__detail hidden"></div>
+                          <div className="passenger__detail-row passenger__next-wrap">
+                            <a className="passenger__next-button" href="#" onClick={this.goToNextPassenger.bind(this)}>Следующий пассажир</a>
+                          </div>
+
                         </div>
-                      );
-                    }
+                      </div>
+                    );
                   })
                 }
 
@@ -230,7 +218,20 @@ export default class Passengers extends Component {
                 </div>
 
                 { nextStepAllow ? 
-                  <NavLink to={{ pathname: '/payment/' }} className="next-button">Далее</NavLink> :
+                  <NavLink to={{ 
+                    pathname: '/payment/',
+                    state: {
+                      cityFrom: cityFrom,
+                      cityTo: cityTo,
+                      direction: direction,
+                      dateLeave: dateLeave,
+                      dateBack: dateBack,
+                      ticketsNumLeave: ticketsNumLeave,
+                      chosenSeats: chosenSeats,
+                      cost: cost,
+                      passengers: passengers
+                    }
+                  }} className="next-button">Далее</NavLink> :
                   <a className="next-button next-button_inactive" href="#">Далее</a>
                 }
                 
