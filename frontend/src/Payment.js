@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header.js';
 import Steps from './Steps.js';
+import SidebarDetails from './SidebarDetails.js';
 import loader from './img/preloader.gif';
 import passenger from './img/passenger.svg';
 
@@ -12,12 +13,71 @@ export default class Payment extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      preloader: false
+      customer: {
+        name: '',
+        patronymic: '',
+        surname: '',
+        phone: '',
+        email: '',
+        paymentOnline: false,
+        paymentCash: false
+      },
+      preloader: false,
+      nextStepAllow: false
     };
   }
   
+  // Функция, проверяющая все ли поля заполнены
+  nextStepIsAllow(customer = {}) {
+    let arr = [];
+
+    for (let key in customer) {
+      if (customer[key] === '') {
+        arr.push('empty');
+      } else if ( (key === 'paymentOnline') && (customer.paymentOnline === customer.paymentCash) ) {
+        arr.push('empty');
+      } else {
+        arr.push('filled');
+      }
+    }
+
+    let foundEl = arr.find(function(el) {
+      return el === 'empty';
+    });
+
+    if (foundEl) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  customerInfoHandler(property, event) {
+    const customer = this.state.customer;
+    if (property === 'paymentOnline') {
+      customer.paymentOnline = true;
+      customer.paymentCash = false;
+    } else if (property === 'paymentCash') {
+      customer.paymentOnline = false;
+      customer.paymentCash = true;
+    } else {
+      customer[property] = event.currentTarget.value;
+    }
+    
+    let nextStepAllow = this.nextStepIsAllow(customer);
+    
+    this.setState({
+      customer: customer,
+      nextStepAllow: nextStepAllow
+    });
+  }
+  
   render() {
-    if (this.state.preloader) {
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost, passengers } = this.props.location.state;
+    
+    const { customer, preloader, nextStepAllow } = this.state;
+    
+    if (preloader) {
       return (
         <React.Fragment>
           <Header currentPage={'inner'} />
@@ -38,131 +98,9 @@ export default class Payment extends Component {
           <div className="content-wrap">
             <div className="container">
               <section className="sidebar">
-                <div className="details">
-                  <h3 className="details__title">Детали поездки</h3>
-                  <hr/>
-
-                  <details className="leave-wrap" open>
-                    <summary className="leave">
-                      <div className="leave__arrow">
-                        <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
-                      </div>
-                      <p className="leave__title">Туда</p>
-                      <p className="leave__date">30.08.2018</p>
-                      <div className="leave__button">
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                        <i className="fa fa-minus" aria-hidden="true"></i>
-                      </div>
-                    </summary>
-
-                    <div className="details__row details__row_center">
-                      <p className="train-num__caption">№ Поезда</p>
-                      <p className="train-num__value train-num__value_leave">116C</p>
-                    </div>
-                    <div className="details__row">
-                      <p className="train-name__caption">Название</p>
-                      <p className="train-name__value train-name__value_leave">Адлер<br/>Санкт-Петербург</p>
-                    </div>
-
-                    <div className="details__row">
-                      <div className="details__info_leave_departure">
-                        <p className="details__info-time">00:10</p>
-                        <p className="details__info-date">30.08.2018</p>
-                        <p className="details__info-city">Москва</p>
-                        <p className="details__info-station">Курский вокзал</p>
-                      </div>
-                      <div className="details__info_leave_arrow">
-                        <p className="details__travel-time">9:42</p>
-                        <i className="fa fa-long-arrow-right details__arrow" aria-hidden="true"></i>
-                      </div>
-                      <div className="details__info_leave_arrival">
-                        <p className="details__info-time">09:52</p>
-                        <p className="details__info-date">31.08.2018</p>
-                        <p className="details__info-city">Санкт-Петербург</p>
-                        <p className="details__info-station">Ладожский вокзал</p>
-                      </div>
-                    </div>
-
-                  </details>
-                  <hr/>
-
-                  <details className="back-wrap" open>
-                    <summary className="back">
-                      <div className="back__arrow">
-                        <i className="fa fa-long-arrow-left" aria-hidden="true"></i>
-                      </div>
-                      <p className="back__title">Обратно</p>
-                      <p className="back__date">09.09.2018</p>
-                      <div className="back__button">
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                        <i className="fa fa-minus" aria-hidden="true"></i>
-                      </div>
-                    </summary>
-
-                    <div className="details__row details__row_center">
-                      <p className="train-num__caption">№ Поезда</p>
-                      <p className="train-num__value train-num__value_back">116C</p>
-                    </div>
-                    <div className="details__row">
-                      <p className="train-name__caption">Название</p>
-                      <p className="train-name__value train-name__value_back">Адлер<br/>Санкт-Петербург</p>
-                    </div>
-
-                    <div className="details__row">
-                      <div className="details__info_back_departure">
-                        <p className="details__info-time">00:10</p>
-                        <p className="details__info-date">30.08.2018</p>
-                        <p className="details__info-city">Москва</p>
-                        <p className="details__info-station">Курский вокзал</p>
-                      </div>
-                      <div className="details__info_back_arrow">
-                        <p className="details__travel-time">9:42</p>
-                        <i className="fa fa-long-arrow-left details__arrow" aria-hidden="true"></i>
-                      </div>
-                      <div className="details__info_back_arrival">
-                        <p className="details__info-time">09:52</p>
-                        <p className="details__info-date">31.08.2018</p>
-                        <p className="details__info-city">Санкт-Петербург</p>
-                        <p className="details__info-station">Ладожский вокзал</p>
-                      </div>
-                    </div>
-
-                  </details>
-                  <hr/>
-
-                  <details className="passengers-wrap" open>
-                    <summary className="passengers">
-                      <div className="passengers__icon">
-                        <img src={passenger} alt="Пассажиры" />
-                      </div>
-                      <p className="passengers__title">Пассажиры</p>
-                      <div className="passengers__button">
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                        <i className="fa fa-minus" aria-hidden="true"></i>
-                      </div>
-                    </summary>
-
-                    <div className="passengers-info">
-                      <div className="passengers-info__row">
-                        <p className="passengers-info__item">2 Взрослых</p>
-                        <div className="passengers-info__price">5 840 <i className="fa fa-rub" aria-hidden="true"></i></div>
-                      </div>
-                      <div className="passengers-info__row">
-                        <p className="passengers-info__item">1 Ребенок</p>
-                        <div className="passengers-info__price">1 920 <i className="fa fa-rub" aria-hidden="true"></i></div>
-                      </div>
-                    </div>
-
-                  </details>
-                  <hr/>
-
-                  <div className="details__total">
-                    <h3 className="details__total_subtitle">Итог</h3>
-                    <p className="details__total_price">7 760 <i className="fa fa-rub" aria-hidden="true"></i></p>
-                  </div>
-
-                </div>
-
+               
+                <SidebarDetails direction={direction} dateLeave={dateLeave} dateBack={dateBack} ticketsNumLeave={ticketsNumLeave} cost={cost} />
+                
               </section>
 
               <section className="content">
@@ -175,31 +113,31 @@ export default class Payment extends Component {
                   <div className="payment-row payment-row_dotted">
                     <label className="passenger__name passenger__name_dark">
                       Фамилия
-                      <input className="passenger__input" name="surname" type="text" />
+                      <input className="passenger__input" name="surname" type="text" value={customer.surname} onChange={this.customerInfoHandler.bind(this, 'surname')} />
                     </label>
 
                     <label className="passenger__name passenger__name_dark">
                       Имя
-                      <input className="passenger__input" name="name" type="text" />
+                      <input className="passenger__input" name="name" type="text" value={customer.name} onChange={this.customerInfoHandler.bind(this, 'name')} />
                     </label>
 
                     <label className="passenger__name passenger__name_dark">
                       Отчество
-                      <input className="passenger__input" name="patronymic" type="text" />
+                      <input className="passenger__input" name="patronymic" type="text" value={customer.patronymic} onChange={this.customerInfoHandler.bind(this, 'patronymic')} />
                     </label>
                   </div>
 
                   <div className="payment-row">
                     <label className="passenger__phone">
                       Контактный телефон
-                      <input className="passenger__input" name="phone" type="text" placeholder="+7 ___ ___ __ __" />
+                      <input className="passenger__input" name="phone" type="text" placeholder="+7 ___ ___ __ __" value={customer.phone} onChange={this.customerInfoHandler.bind(this, 'phone')} />
                     </label>
                   </div>
 
                   <div className="payment-row">
                     <label className="passenger__phone">
                       E-mail
-                      <input className="passenger__input" name="email" type="text" placeholder="inbox@gmail.com" />
+                      <input className="passenger__input" name="email" type="text" placeholder="inbox@gmail.com" value={customer.email} onChange={this.customerInfoHandler.bind(this, 'email')} />
                     </label>
                   </div>
 
@@ -208,8 +146,8 @@ export default class Payment extends Component {
                   </div>
 
                   <div className="payment-row payment-row_margin-top">
-                    <input className="yellow-checkbox" type="checkbox" id="checkbox_pay-online" />
-                    <label className="payment__checkbox-label" for="checkbox_pay-online">Онлайн</label>
+                    <input className="yellow-checkbox" type="checkbox" id="checkbox_pay-online" checked={customer.paymentOnline} onChange={this.customerInfoHandler.bind(this, 'paymentOnline')} />
+                    <label className="payment__checkbox-label" htmlFor="checkbox_pay-online">Онлайн</label>
                   </div>
 
                   <div className="payment-row payment-row_methods payment-row_margin-bottom">
@@ -219,13 +157,30 @@ export default class Payment extends Component {
                   </div>
 
                   <div className="payment-row payment-row_dotted payment-row_margin-bottom">
-                    <input className="yellow-checkbox" type="checkbox" id="checkbox_pay-cash" />
-                    <label className="payment__checkbox-label payment__checkbox-label_cash" for="checkbox_pay-cash">Наличными</label>
+                    <input className="yellow-checkbox" type="checkbox" id="checkbox_pay-cash" checked={customer.paymentCash} onChange={this.customerInfoHandler.bind(this, 'paymentCash')} />
+                    <label className="payment__checkbox-label payment__checkbox-label_cash" htmlFor="checkbox_pay-cash">Наличными</label>
                   </div>
 
                 </div>
-
-                <NavLink to={{ pathname: '/order-confirm/' }} className="next-button">Купить билеты</NavLink>
+                
+                { nextStepAllow ? 
+                  <NavLink to={{ 
+                    pathname: '/order-confirm/',
+                    state: {
+                      cityFrom: cityFrom,
+                      cityTo: cityTo,
+                      direction: direction,
+                      dateLeave: dateLeave,
+                      dateBack: dateBack,
+                      ticketsNumLeave: ticketsNumLeave,
+                      chosenSeats: chosenSeats,
+                      cost: cost,
+                      passengers: passenger,
+                      customer: customer
+                    }
+                  }} className="next-button">Купить билеты</NavLink> :
+                  <a className="next-button next-button_inactive" href="#">Купить билеты</a>
+                }
 
               </section>
 
