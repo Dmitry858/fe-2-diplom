@@ -4,8 +4,15 @@ import passenger from './img/passenger.svg';
 export default class SidebarDetails extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
+  }
+  
+  componentWillMount() {
+    const { ticketsNumLeave, cost } = this.props;
+    let totalTickets = ticketsNumLeave.adult + ticketsNumLeave.child + ticketsNumLeave.baby;
+    this.setState({
+      costPerPerson: Math.ceil(cost / totalTickets)
+    });
   }
   
   timeFormatConverter(time) {
@@ -15,6 +22,7 @@ export default class SidebarDetails extends Component {
   
   render() {
     const { direction, dateLeave, dateBack, ticketsNumLeave, cost } = this.props;
+    const { costPerPerson } = this.state;
     let departureFromTime = new Date(direction.departure.from.datetime),
         departureToTime = new Date(direction.departure.to.datetime),
         departureDurationTravel = new Date(direction.departure.duration);
@@ -139,12 +147,12 @@ export default class SidebarDetails extends Component {
             <div className="passengers-info">
               <div className="passengers-info__row">
                 <p className="passengers-info__item">{`${ticketsNumLeave.adult} Взрослых`}</p>
-                <div className="passengers-info__price">{cost} <i className="fa fa-rub" aria-hidden="true"></i></div>
+                <div className="passengers-info__price">{ticketsNumLeave.adult * costPerPerson} <i className="fa fa-rub" aria-hidden="true"></i></div>
               </div>
               { (ticketsNumLeave.child > 0 || ticketsNumLeave.baby > 0) && 
               <div className="passengers-info__row">
                 <p className="passengers-info__item">{`${ticketsNumLeave.child + ticketsNumLeave.baby} Ребенок`}</p>
-                <div className="passengers-info__price">1 920 <i className="fa fa-rub" aria-hidden="true"></i></div>
+                <div className="passengers-info__price">{ticketsNumLeave.child * costPerPerson} <i className="fa fa-rub" aria-hidden="true"></i></div>
               </div>
               }
             </div>
