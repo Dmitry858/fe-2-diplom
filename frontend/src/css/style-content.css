@@ -2201,7 +2201,12 @@
 }
 
 .order-card__rating-stars .fa {
+  padding-right: 4px;
   cursor: pointer;
+}
+
+.order-card__rating-stars .fa:last-child {
+  padding-right: 0;
 }
 
 .order-card__link {
