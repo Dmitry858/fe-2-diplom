@@ -96,7 +96,7 @@ export default class Passengers extends Component {
     if (preloader) {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
 
           <div className="content-wrap content-wrap_loader">
             <p className="loader-text">идет поиск</p>
@@ -107,7 +107,7 @@ export default class Passengers extends Component {
     } else {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
           
           <Steps currentStep={2} />
           

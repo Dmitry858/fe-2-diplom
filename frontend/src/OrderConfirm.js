@@ -22,10 +22,12 @@ export default class OrderConfirm extends Component {
   }
   
   render() {
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost, passengers, customer } = this.props.location.state;
+    
     if (this.state.preloader) {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
 
           <div className="content-wrap content-wrap_loader">
             <p className="loader-text">идет поиск</p>
@@ -36,7 +38,7 @@ export default class OrderConfirm extends Component {
     } else {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
           
           <Steps currentStep={4} />
           

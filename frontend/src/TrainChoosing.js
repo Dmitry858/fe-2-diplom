@@ -324,10 +324,12 @@ export default class TrainChoosing extends Component {
   }
   
   render() {
-    if (this.state.preloader) {
+    const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack, filter, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime, preloader } = this.state;
+    
+    if (preloader) {
       return (
         <React.Fragment>
-          <Header currentPage={'inner'} />
+          <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
 
           <div className="content-wrap content-wrap_loader">
             <p className="loader-text">идет поиск</p>
@@ -336,8 +338,6 @@ export default class TrainChoosing extends Component {
         </React.Fragment>
       );
     } else {
-      const { data, showByNum, currentPage, cityFrom, cityTo, dateLeave, dateBack, filter, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.state;
-//console.log(data.items);
       return (
         <React.Fragment>
           <Header currentPage={'inner'} cityFrom={cityFrom} cityTo={cityTo} dateLeave={dateLeave} dateBack={dateBack} />
