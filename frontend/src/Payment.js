@@ -175,7 +175,7 @@ export default class Payment extends Component {
                       ticketsNumLeave: ticketsNumLeave,
                       chosenSeats: chosenSeats,
                       cost: cost,
-                      passengers: passenger,
+                      passengers: passengers,
                       customer: customer
                     }
                   }} className="next-button">Купить билеты</NavLink> :
