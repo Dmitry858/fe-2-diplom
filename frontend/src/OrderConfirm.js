@@ -170,7 +170,11 @@ export default class OrderConfirm extends Component {
                 <NavLink to={{ 
                   pathname: '/order-done/',
                   state: {
+                    direction: direction,
+                    ticketsNumLeave: ticketsNumLeave,
+                    chosenSeats: chosenSeats,
                     cost: cost,
+                    passengers: passengers,
                     customer: customer
                   }
                 }} className="next-button">Подтвердить</NavLink>
