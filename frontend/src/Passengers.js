@@ -20,9 +20,10 @@ export default class Passengers extends Component {
   
   componentWillMount() {
     const { ticketsNumLeave } = this.props.location.state;
-    const passengers = this.state.passengers;
+    const passengers = [];
     let passengersNum = ticketsNumLeave.adult + ticketsNumLeave.child + ticketsNumLeave.baby;
     const template = {
+      collapsed: false,
       type: 'adult',
       name: '',
       patronymic: '',
@@ -35,7 +36,9 @@ export default class Passengers extends Component {
       docNum: ''
     };
     for (let i = 0; i < passengersNum; i++) {
-      passengers.push(template);
+      let tpl = {...template};
+      if (i > 0) tpl.collapsed = true;
+      passengers.push(tpl);
     }
     this.setState({
       passengers: passengers
@@ -74,6 +77,12 @@ export default class Passengers extends Component {
       passengers[index][property] = event.currentTarget.textContent;
     } else if (property === 'limitedMobility') {
       passengers[index][property] = event.currentTarget.checked;
+    } else if (property === 'collapsed') {
+      if (passengers[index][property]) {
+        passengers[index][property] = false;
+      } else {
+        passengers[index][property] = true;
+      }
     } else {
       passengers[index][property] = event.currentTarget.value;
     }
@@ -85,8 +94,21 @@ export default class Passengers extends Component {
     });
   }
   
-  goToNextPassenger(event) {
+  goToNextPassenger(index, event) {
     event.preventDefault();
+    let nextIndex = index + 1;
+    if (nextIndex >= this.state.passengers.length) return;
+    
+    const passengers = [];
+    for (let i = 0; i < this.state.passengers.length; i++) {
+      passengers[i] = {...this.state.passengers[i]};
+    }
+    passengers[index].collapsed = true;
+    passengers[nextIndex].collapsed = false;
+
+    this.setState({
+      passengers: passengers
+    });
   }
   
   render() {
@@ -124,17 +146,17 @@ export default class Passengers extends Component {
                 { passengers.map((item, i) => {
                     return (
                       <div key={i} className="passenger">
-                        <div className="passenger__announce">
-                          <div className="passenger__toggle">
-                            <i className="fa fa-minus" aria-hidden="true"></i>
+                        <div className={item.collapsed ? "passenger__announce passenger__announce_collapse" : "passenger__announce"}>
+                          <div className={item.collapsed ? "passenger__toggle passenger__toggle_collapse" : "passenger__toggle"} onClick={this.passengerInfoHandler.bind(this, 'collapsed', i)}>
+                            <i className={item.collapsed ? "fa fa-plus" : "fa fa-minus"} aria-hidden="true"></i>
                           </div>
-                          <p className="passenger__title">{`Пассажир ${i + 1}`}</p>
-                          <div className="passenger__close">
+                          <p className="passenger__title" onClick={this.passengerInfoHandler.bind(this, 'collapsed', i)}>{`Пассажир ${i + 1}`}</p>
+                          <div className={item.collapsed ? "passenger__close hidden" : "passenger__close"}>
                             <i className="fa fa-times" aria-hidden="true"></i>
                           </div>
                         </div>
 
-                        <div className="passenger__detail">
+                        <div className={item.collapsed ? "passenger__detail hidden" : "passenger__detail"}>
                           <div className="passenger__detail-row">
                             <select className="passenger__type" onChange={this.passengerInfoHandler.bind(this, 'type', i)}>
                               <option className="passenger__type-item" value="adult">Взрослый</option>
@@ -199,7 +221,7 @@ export default class Passengers extends Component {
                           </div>
 
                           <div className="passenger__detail-row passenger__next-wrap">
-                            <a className="passenger__next-button" href="#" onClick={this.goToNextPassenger.bind(this)}>Следующий пассажир</a>
+                            <a className="passenger__next-button" href="#" onClick={this.goToNextPassenger.bind(this, i)}>Следующий пассажир</a>
                           </div>
 
                         </div>
