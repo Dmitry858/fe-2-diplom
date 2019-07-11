@@ -37,7 +37,7 @@ export default class OrderConfirm extends Component {
   }
   
   render() {
-    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost, passengers, customer } = this.props.location.state;
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, getParams, ticketsNumLeave, chosenSeats, cost, passengers, customer } = this.props.location.state;
     
     if (this.state.preloader) {
       return (
@@ -120,7 +120,13 @@ export default class OrderConfirm extends Component {
                       { direction.departure.have_third_class && <img className="last-tickets__item-filter-icon" src={reservedSeat} alt="Плацкарт" /> }
                       { direction.departure.have_fourth_class && <img className="last-tickets__item-filter-icon" src={seatPlace} alt="Сидячий" /> }
                     </div>
-                    <a className="change__button" href="#" onClick={this.linkHandler}>Изменить</a>
+
+                    <NavLink 
+                      to={{ pathname: '/train-choosing/', search: getParams }}
+                      className="change__button">
+                      Изменить
+                    </NavLink>
+                  
                   </div>
                 </div>
 

@@ -113,7 +113,7 @@ export default class Passengers extends Component {
   
   render() {
     const { passengers, preloader, nextStepAllow } = this.state;
-    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost } = this.props.location.state;
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, getParams, ticketsNumLeave, chosenSeats, cost } = this.props.location.state;
 
     if (preloader) {
       return (
@@ -248,6 +248,7 @@ export default class Passengers extends Component {
                       direction: direction,
                       dateLeave: dateLeave,
                       dateBack: dateBack,
+                      getParams: getParams,
                       ticketsNumLeave: ticketsNumLeave,
                       chosenSeats: chosenSeats,
                       cost: cost,

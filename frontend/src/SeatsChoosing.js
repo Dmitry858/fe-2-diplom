@@ -544,6 +544,7 @@ export default class SeatsChoosing extends Component {
                       direction: direction,
                       dateLeave: dateLeave,
                       dateBack: dateBack,
+                      getParams: getParams,
                       filterParams: filterParams,
                       minPrice: minPrice,
                       maxPrice: maxPrice,

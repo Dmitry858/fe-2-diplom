@@ -73,7 +73,7 @@ export default class Payment extends Component {
   }
   
   render() {
-    const { cityFrom, cityTo, direction, dateLeave, dateBack, ticketsNumLeave, chosenSeats, cost, passengers } = this.props.location.state;
+    const { cityFrom, cityTo, direction, dateLeave, dateBack, getParams, ticketsNumLeave, chosenSeats, cost, passengers } = this.props.location.state;
     
     const { customer, preloader, nextStepAllow } = this.state;
     
@@ -172,6 +172,7 @@ export default class Payment extends Component {
                       direction: direction,
                       dateLeave: dateLeave,
                       dateBack: dateBack,
+                      getParams: getParams,
                       ticketsNumLeave: ticketsNumLeave,
                       chosenSeats: chosenSeats,
                       cost: cost,
