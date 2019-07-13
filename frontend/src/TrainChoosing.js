@@ -358,6 +358,7 @@ export default class TrainChoosing extends Component {
                   endDepartureTime={endDepartureTime}
                   endArrivalTime={endArrivalTime}
                   sendData={this.getSidebarFilterData.bind(this)}
+                  step='train-choosing'
                 />
 
                 <LastTickets />                

@@ -15,6 +15,7 @@ import train from './img/train.svg';
 import trainYellow from './img/train_yellow.svg';
 import clock from './img/clock.svg';
 import WagonScheme from './WagonScheme.js';
+import Modal from './Modal.js';
 
 import {
   NavLink
@@ -23,6 +24,7 @@ import {
 export default class SeatsChoosing extends Component {
   constructor (props) {
     super(props);
+//    this.getResponseFromModal = this.getResponseFromModal.bind(this); 
     this.state = {
       chosenSeats: [],
       cost: 0,
@@ -33,7 +35,11 @@ export default class SeatsChoosing extends Component {
         baby: 0
       },
       wagonTypeLeave: '',
-      currentWagon: ''
+      currentWagon: '',
+      modal: {
+        hidden: true,
+        message: ''
+      }
     };
   }
   
@@ -149,8 +155,28 @@ export default class SeatsChoosing extends Component {
     });
   }
   
+  // Обработчик данных, полученных от компонента Modal
+  getResponseFromModal() {
+    this.setState({
+      modal: {
+        hidden: true,
+        message: ''
+      }
+    });
+  }
+  
+  // Функция, принимающая ответ от SidebarFilter
+  getSidebarFilterResponse() {
+    this.setState({      
+      modal: {
+        hidden: false,
+        message: 'На данном этапе изменять параметры фильтра нельзя. Вы можете воспользоваться кнопкой "Выбрать другой поезд", чтобы вернуться на предыдущий этап.'
+      }
+    })
+  }
+  
   render() {
-    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon, chosenSeats, cost } = this.state;
+    const { preloader, ticketsNumLeave, seats, wagonTypeLeave, currentWagon, chosenSeats, cost, modal } = this.state;
     const { cityFrom, cityTo, direction, getParams, dateLeave, dateBack, filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props.location.state;
     
     if (preloader) {
@@ -188,6 +214,8 @@ export default class SeatsChoosing extends Component {
                   startArrivalTime={startArrivalTime}
                   endDepartureTime={endDepartureTime}
                   endArrivalTime={endArrivalTime}
+                  sendData={this.getSidebarFilterResponse.bind(this)}
+                  step='seats-choosing'
                 />
 
                 <LastTickets />
@@ -564,6 +592,8 @@ export default class SeatsChoosing extends Component {
 
             </div>
           </div>
+          
+          <Modal hidden={modal.hidden} message={modal.message} sendResponse={this.getResponseFromModal.bind(this)} />
         </React.Fragment>
       );
     }
