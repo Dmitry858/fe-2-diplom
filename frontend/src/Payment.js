@@ -27,6 +27,14 @@ export default class Payment extends Component {
     };
   }
   
+  componentWillMount() {
+    if (this.props.location.state.customer) {
+      this.setState({
+        customer: this.props.location.state.customer
+      });
+    }
+  }
+  
   // Функция, проверяющая все ли поля заполнены
   nextStepIsAllow(customer = {}) {
     let arr = [];

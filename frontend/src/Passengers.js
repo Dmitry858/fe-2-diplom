@@ -19,30 +19,36 @@ export default class Passengers extends Component {
   }
   
   componentWillMount() {
-    const { ticketsNumLeave } = this.props.location.state;
-    const passengers = [];
-    let passengersNum = ticketsNumLeave.adult + ticketsNumLeave.child + ticketsNumLeave.baby;
-    const template = {
-      collapsed: false,
-      type: 'adult',
-      name: '',
-      patronymic: '',
-      surname: '',
-      gender: '',
-      dateOfBirth: '',
-      limitedMobility: false,
-      docType: 'passport',
-      docSeries: '',
-      docNum: ''
-    };
-    for (let i = 0; i < passengersNum; i++) {
-      let tpl = {...template};
-      if (i > 0) tpl.collapsed = true;
-      passengers.push(tpl);
+    if (this.props.location.state.passengers) {
+      this.setState({
+        passengers: this.props.location.state.passengers
+      });
+    } else {
+      const { ticketsNumLeave } = this.props.location.state;
+      const passengers = [];
+      let passengersNum = ticketsNumLeave.adult + ticketsNumLeave.child + ticketsNumLeave.baby;
+      const template = {
+        collapsed: false,
+        type: 'adult',
+        name: '',
+        patronymic: '',
+        surname: '',
+        gender: '',
+        dateOfBirth: '',
+        limitedMobility: false,
+        docType: 'passport',
+        docSeries: '',
+        docNum: ''
+      };
+      for (let i = 0; i < passengersNum; i++) {
+        let tpl = {...template};
+        if (i > 0) tpl.collapsed = true;
+        passengers.push(tpl);
+      }
+      this.setState({
+        passengers: passengers
+      });
     }
-    this.setState({
-      passengers: passengers
-    });
   }
 
   // Функция, проверяющая все ли данные по пассажирам заполнены
