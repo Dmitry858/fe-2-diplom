@@ -31,6 +31,11 @@ export default class Footer extends Component {
         });
   }
   
+  scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo(0, 0);
+  }
+  
   render() {
     const { subscribe } = this.state;
     return (
@@ -65,7 +70,7 @@ export default class Footer extends Component {
           <div className="footer__copyright">
             <div className="container">
               <img className="footer__logo" src={logo} alt="Лого" />
-              <a className="back-to-top" href="#top"><i className="fa fa-angle-up" aria-hidden="true"></i></a>
+              <a className="back-to-top" href="#top" onClick={this.scrollToTop}><i className="fa fa-angle-up" aria-hidden="true"></i></a>
               <p className="footer__col-text">2019 WEB</p>
             </div>
           </div>

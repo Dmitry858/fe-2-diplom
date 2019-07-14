@@ -189,10 +189,10 @@ export default class Header extends Component {
               <NavLink to={{ pathname: '/' }}><img className="header__logo_mobile" src={logo} alt="Лого" /></NavLink>
               <label htmlFor="menu-checkbox" className="toggle-button" data-open="Menu" data-close="Close" onclick></label>
               <ul className="header__nav">
-                <li className="header__nav-item"><a href="#about-us">О нас</a></li>
-                <li className="header__nav-item"><a href="#how-it-works">Как это работает</a></li>
-                <li className="header__nav-item"><a href="#reviews-block">Отзывы</a></li>
-                <li className="header__nav-item"><a href="#contacts">Контакты</a></li>
+                <li className="header__nav-item"><NavLink to={{ pathname: '/', hash: '#about-us' }}>О нас</NavLink></li>
+                <li className="header__nav-item"><NavLink to={{ pathname: '/', hash: '#how-it-works' }}>Как это работает</NavLink></li>
+                <li className="header__nav-item"><NavLink to={{ pathname: '/', hash: '#reviews-block' }}>Отзывы</NavLink></li>
+                <li className="header__nav-item"><NavLink to={{ pathname: '/', hash: '#contacts' }}>Контакты</NavLink></li>
               </ul>
             </nav>
           </div>

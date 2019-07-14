@@ -13,6 +13,22 @@ export default class Home extends Component {
     this.state = {};
   }
   
+  componentDidMount() {
+    if (window.location.hash !== '') this.scrollToAnchor();
+  }
+  
+  componentDidUpdate() {
+    if (window.location.hash !== '') this.scrollToAnchor();
+  }
+  
+  scrollToAnchor() {
+    let elemId = window.location.hash.replace('#', '');
+    if (document.getElementById(elemId)) {
+      let pageY = document.getElementById(elemId).getBoundingClientRect().y;
+      window.scrollTo(0, pageY);
+    }
+  }
+  
   render() {
     return (
       <React.Fragment>
