@@ -24,7 +24,6 @@ import {
 export default class SeatsChoosing extends Component {
   constructor (props) {
     super(props);
-//    this.getResponseFromModal = this.getResponseFromModal.bind(this); 
     this.state = {
       chosenSeats: [],
       cost: 0,
@@ -129,11 +128,28 @@ export default class SeatsChoosing extends Component {
     });
   }
   
+  changeServices(service, event) {
+    let className = `wagon__service-icon_${service}_active`;
+    event.currentTarget.classList.toggle('wagon__service-icon_active');
+    event.currentTarget.classList.toggle(className);
+  }
+  
   // Обработчик данных, полученных от компонента WagonScheme
   wagonSchemeDataHandler(seat, action) {
+    if (action === 'modal') {
+      this.setState({      
+        modal: {
+          hidden: false,
+          message: 'Количество выбранных мест не может быть больше указанного количества билетов (исключая категорию Детские "без места")'
+        }
+      })
+      return;
+    }
+
     const { cost, wagonTypeLeave, currentWagon } = this.state;
     let chosenSeats = this.state.chosenSeats;
     let totalCost = cost;
+
     if (action === 'add') {
       chosenSeats.push(seat);
       if (wagonTypeLeave === 'first') {
@@ -148,7 +164,13 @@ export default class SeatsChoosing extends Component {
       });
       let i = chosenSeats.indexOf(foundEl);
       chosenSeats.splice(i, 1);
+      if (wagonTypeLeave === 'first') {
+        totalCost = totalCost - currentWagon.coach.price;
+      } else {
+        totalCost = totalCost - currentWagon.coach.bottom_price;
+      }
     }
+    
     this.setState({
       chosenSeats: chosenSeats,
       cost: totalCost
@@ -380,7 +402,7 @@ export default class SeatsChoosing extends Component {
                             "wagon__available_num"
                             }
                             onClick={this.changeWagonLeave.bind(this, item, item.coach.class_type)}
-                          > {item.coach.name}</span>
+                          > {item.coach.name.replace(/\D+/g,'')}</span>
                         )}
                       </p>
                       <p className="wagon__note">Нумерация вагонов начинается с головы поезда</p>
@@ -410,16 +432,16 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__service">
                         <p className="wagon__service-subtitle">Обслуживание <span>ФПК</span></p>
                         <div className="wagon__service-icons">
-                          <div className="wagon__service-icon wagon__service-icon_cond">
+                          <div className="wagon__service-icon wagon__service-icon_cond" onClick={this.changeServices.bind(this, 'cond')}>
                             <div className="wagon__service_desc wagon__service_desc_cond">кондиционер</div>
                           </div>
-                          <div className="wagon__service-icon wagon__service-icon_wifi">
+                          <div className="wagon__service-icon wagon__service-icon_wifi" onClick={this.changeServices.bind(this, 'wifi')}>
                             <div className="wagon__service_desc wagon__service_desc_wifi">wi-fi</div>
                           </div>
-                          <div className="wagon__service-icon wagon__service-icon_active wagon__service-icon_linen_active">
+                          <div className="wagon__service-icon wagon__service-icon_linen" onClick={this.changeServices.bind(this, 'linen')}>
                             <div className="wagon__service_desc wagon__service_desc_linen">белье</div>
                           </div>
-                          <div className="wagon__service-icon wagon__service-icon_active wagon__service-icon_tea_active">
+                          <div className="wagon__service-icon wagon__service-icon_tea" onClick={this.changeServices.bind(this, 'tea')}>
                             <div className="wagon__service_desc wagon__service_desc_tea">чай</div>
                           </div>
                         </div>
@@ -428,7 +450,7 @@ export default class SeatsChoosing extends Component {
                       <div className="wagon__message-wrap">
                         <div className="wagon__message">11 человек выбирают места в этом поезде</div>
                       </div>
-                      <WagonScheme currentWagon={currentWagon} chosenSeats={chosenSeats} sendData={this.wagonSchemeDataHandler.bind(this)} />
+                      <WagonScheme currentWagon={currentWagon} chosenSeats={chosenSeats} ticketsNumLeave={ticketsNumLeave} sendData={this.wagonSchemeDataHandler.bind(this)} />
                   </div>
 
                 </div>

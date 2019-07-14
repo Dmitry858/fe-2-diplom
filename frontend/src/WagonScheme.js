@@ -154,6 +154,8 @@ export default class WagonScheme extends Component {
   }
   
   chooseSeatHandler(event) {
+    const { chosenSeats, ticketsNumLeave } = this.props;
+    
     let seatNum = parseInt(event.currentTarget.textContent, 10);
     if (event.currentTarget.classList.contains('wagon__scheme-seat_active')) {
       event.currentTarget.classList.remove('wagon__scheme-seat_active');
@@ -162,11 +164,15 @@ export default class WagonScheme extends Component {
         wagonNum: parseInt(this.props.currentWagon.coach.name.replace(/\D+/g,''), 10)
       }, 'remove');
     } else {
-      event.currentTarget.classList.add('wagon__scheme-seat_active');
-      this.props.sendData({
-        seatNum: seatNum,
-        wagonNum: parseInt(this.props.currentWagon.coach.name.replace(/\D+/g,''), 10)
-      }, 'add');
+      if (chosenSeats.length === (ticketsNumLeave.adult + ticketsNumLeave.child)) {
+        this.props.sendData({}, 'modal');
+      } else {
+        event.currentTarget.classList.add('wagon__scheme-seat_active');
+        this.props.sendData({
+          seatNum: seatNum,
+          wagonNum: parseInt(this.props.currentWagon.coach.name.replace(/\D+/g,''), 10)
+        }, 'add'); 
+      }
     } 
   }
   
