@@ -25,6 +25,17 @@ export default class Header extends Component {
     };
   }
   
+  componentDidUpdate() {
+    const { cityFrom, cityTo } = this.props;
+    if (cityFrom && cityTo && !this.state.trainChoosingAllow) {
+      this.setState({
+        cityFrom: cityFrom,
+        cityTo: cityTo,
+        trainChoosingAllow: true
+      });
+    }
+  }
+  
   handleButton(event) {
     event.preventDefault();
   }
@@ -208,7 +219,7 @@ export default class Header extends Component {
                 <p className={this.getHeaderClasses('field-title')}>Направление</p>
                 <p className={(currentPage === 'home') ? "hidden" : "header__form-field-title header__form-field-title_inner"}>Дата</p>
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="Откуда" onChange={this.handleChangeFrom.bind(this)} defaultValue={this.props.cityFrom ? (this.props.cityFrom[0].toUpperCase() + this.props.cityFrom.substring(1)) : ''} />
+                  <input className="header__form-field" type="text" placeholder="Откуда" onChange={this.handleChangeFrom.bind(this)} defaultValue={(this.props.cityFrom && this.props.cityFrom.name) ? (this.props.cityFrom.name[0].toUpperCase() + this.props.cityFrom.name.substring(1)) : ''} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                   <ul className={(citiesFrom.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
                     {citiesFrom.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'from')}>{item.name}</li>)}
@@ -216,7 +227,7 @@ export default class Header extends Component {
                 </div>
                 <img className={this.getHeaderClasses('arrows')} src={roundArrows} alt="" />
                 <div className={this.getHeaderClasses('field-wrap')}>
-                  <input className="header__form-field" type="text" placeholder="Куда" onChange={this.handleChangeTo.bind(this)} defaultValue={this.props.cityTo ? (this.props.cityTo[0].toUpperCase() + this.props.cityTo.substring(1)) : ''} />
+                  <input className="header__form-field" type="text" placeholder="Куда" onChange={this.handleChangeTo.bind(this)} defaultValue={(this.props.cityTo && this.props.cityTo.name) ? (this.props.cityTo.name[0].toUpperCase() + this.props.cityTo.name.substring(1)) : ''} />
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                   <ul className={(citiesTo.length === 0) ? "header__form-field_hint hidden" : "header__form-field_hint"}>
                     {citiesTo.map((item, i) => <li key={i} onClick={this.selectCity.bind(this, item, 'to')}>{item.name}</li>)}
@@ -249,8 +260,8 @@ export default class Header extends Component {
                     pathname: '/train-choosing/',
                     search: `?from_city_id=${this.state.cityFrom._id}&to_city_id=${this.state.cityTo._id}&date_start=${formatDateLeave}&date_end=${formatDateBack}`,
                     state: {
-                      cityFrom: cityFrom.name, 
-                      cityTo: cityTo.name,
+                      cityFrom: cityFrom, 
+                      cityTo: cityTo,
                       dateLeave: dateLeave,
                       dateBack: dateBack,
                     }

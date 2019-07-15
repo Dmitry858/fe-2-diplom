@@ -204,6 +204,30 @@ export default class TrainChoosing extends Component {
           console.log(err);
         });
     }
+    if (this.props.location.state) {
+      if ((prevProps.location.state.cityFrom !== this.props.location.state.cityFrom) || (prevProps.location.state.cityTo !== this.props.location.state.cityTo)) {
+        const { cityFrom, cityTo, dateLeave, dateBack } = this.props.location.state;
+        let formatDateLeave = '',
+            formatDateBack = '';
+        if (dateLeave && dateBack) {
+          formatDateLeave = `${dateLeave.getFullYear()}-${dateLeave.toLocaleString("ru", {month: '2-digit'})}-${dateLeave.toLocaleString("ru", {day: '2-digit'})}`;
+          formatDateBack = `${dateBack.getFullYear()}-${dateBack.toLocaleString("ru", {month: '2-digit'})}-${dateBack.toLocaleString("ru", {day: '2-digit'})}`;
+        }
+        fetch( `https://netology-trainbooking.herokuapp.com/routes?from_city_id=${cityFrom._id}&to_city_id=${cityTo._id}&date_start=${formatDateLeave}&date_end=${formatDateBack}` )
+          .then( response => response.json())
+          .then( data => {
+            this.setState({
+              data: data,
+              cityFrom: cityFrom,
+              cityTo: cityTo,
+              preloader: false
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   }
   
   timeFormatConverter(time) {

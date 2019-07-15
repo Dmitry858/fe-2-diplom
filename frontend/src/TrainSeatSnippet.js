@@ -13,47 +13,61 @@ export default class TrainSeatSnippet extends Component {
     };
   }
   
+  updateData() {
+    const { item, hasClass, wagonType } = this.props;
+    let value,
+        num,
+        price,
+        topSeatPrice,
+        bottomSeatPrice;
+    if (wagonType === 'fourth_class') {
+      value = 'Сидячий';
+      num = item.departure.available_seats_info.fourth;
+      price = item.departure.price_info.fourth.top_price;
+      topSeatPrice = item.departure.price_info.fourth.top_price;
+      bottomSeatPrice = item.departure.price_info.fourth.bottom_price;
+    } else if (wagonType === 'third_class') {
+      value = 'Плацкарт';
+      num = item.departure.available_seats_info.third;
+      price = item.departure.price_info.third.side_price;
+      topSeatPrice = item.departure.price_info.third.top_price;
+      bottomSeatPrice = item.departure.price_info.third.bottom_price;
+    } else if (wagonType === 'second_class') {
+      value = 'Купе';
+      num = item.departure.available_seats_info.second;
+      price = item.departure.price_info.second.top_price;
+      topSeatPrice = item.departure.price_info.second.top_price;
+      bottomSeatPrice = item.departure.price_info.second.bottom_price;
+    } else if (wagonType === 'first_class') {
+      value = 'Люкс';
+      num = item.departure.available_seats_info.first;
+      price = item.departure.price_info.first.price;
+      topSeatPrice = item.departure.price_info.first.top_price;
+      bottomSeatPrice = item.departure.price_info.first.bottom_price;
+    }
+
+    this.setState({
+      item: item,
+      wagonType: value,
+      seatsNumber: num,
+      price: price,
+      topSeatPrice: topSeatPrice,
+      bottomSeatPrice: bottomSeatPrice
+    });
+  }
+  
   componentWillMount() {
     const { item, hasClass, wagonType } = this.props;
     if (hasClass) {
-      let value,
-          num,
-          price,
-          topSeatPrice,
-          bottomSeatPrice;
-      if (wagonType === 'fourth_class') {
-        value = 'Сидячий';
-        num = item.departure.available_seats_info.fourth;
-        price = item.departure.price_info.fourth.top_price;
-        topSeatPrice = item.departure.price_info.fourth.top_price;
-        bottomSeatPrice = item.departure.price_info.fourth.bottom_price;
-      } else if (wagonType === 'third_class') {
-        value = 'Плацкарт';
-        num = item.departure.available_seats_info.third;
-        price = item.departure.price_info.third.side_price;
-        topSeatPrice = item.departure.price_info.third.top_price;
-        bottomSeatPrice = item.departure.price_info.third.bottom_price;
-      } else if (wagonType === 'second_class') {
-        value = 'Купе';
-        num = item.departure.available_seats_info.second;
-        price = item.departure.price_info.second.top_price;
-        topSeatPrice = item.departure.price_info.second.top_price;
-        bottomSeatPrice = item.departure.price_info.second.bottom_price;
-      } else if (wagonType === 'first_class') {
-        value = 'Люкс';
-        num = item.departure.available_seats_info.first;
-        price = item.departure.price_info.first.price;
-        topSeatPrice = item.departure.price_info.first.top_price;
-        bottomSeatPrice = item.departure.price_info.first.bottom_price;
+      this.updateData();
+    }
+  }
+  
+  componentDidUpdate(prevProps) {
+    if (prevProps.item && prevProps.item !== this.props.item) {
+      if (this.props.hasClass) {
+        this.updateData();
       }
-
-      this.setState({
-        wagonType: value,
-        seatsNumber: num,
-        price: price,
-        topSeatPrice: topSeatPrice,
-        bottomSeatPrice: bottomSeatPrice
-      });
     }
   }
   
@@ -70,8 +84,8 @@ export default class TrainSeatSnippet extends Component {
   }
   
   render() {
-    const { item, hasClass } = this.props;
-    const { wagonType, seatsNumber, price, topSeatPrice, bottomSeatPrice, hidden } = this.state;
+    const { hasClass } = this.props;
+    const { item, wagonType, seatsNumber, price, topSeatPrice, bottomSeatPrice, hidden } = this.state;
     
     if (item && hasClass) {
       return (
