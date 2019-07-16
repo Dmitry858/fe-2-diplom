@@ -16,14 +16,40 @@ export default class SidebarFilter extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      dateLeave: '',
+      dateBack: '',
       calendarFrom: false,
       calendarTo: false
     };
   }
   
-  handleCalendar(point) {
-    if (this.props.step === 'seats-choosing') this.props.sendData();
+  handleCalendar(point, event) {
+    if (this.props.step === 'seats-choosing') {
+      this.props.sendData();
+    } else {
+      if (point === 'from' && !this.state.calendarFrom && event.type === 'focus') {
+        this.setState({
+          calendarFrom: true
+        });
+      }
+      if (point === 'from' && this.state.calendarFrom) {
+        this.setState({
+          calendarFrom: false
+        });
+      }
+      if (point === 'to' && !this.state.calendarTo && event.type === 'focus') {
+        this.setState({
+          calendarTo: true
+        });
+      }
+      if (point === 'to' && this.state.calendarTo) {
+        this.setState({
+          calendarTo: false
+        });
+      }
+    }
   }
+  
   
   checkboxHandler(param) {
     if (this.props.step === 'seats-choosing') {
@@ -73,6 +99,22 @@ export default class SidebarFilter extends Component {
     }
   }
   
+  handleCalendarResponse(response, direction) {
+    if (direction === 'from') {
+      this.props.sendData(response, 'date_from');
+      this.setState({
+        dateLeave: response,
+        calendarFrom: false
+      }); 
+    }
+    if (direction === 'to') {
+      this.setState({
+        dateBack: response,
+        calendarTo: false
+      }); 
+    }
+  }
+  
   render() {
     const { filterParams, minPrice, maxPrice, startDepartureTime, startArrivalTime, endDepartureTime, endArrivalTime } = this.props;
     const currentDate = new Date();
@@ -82,17 +124,17 @@ export default class SidebarFilter extends Component {
         <div className="search-filter">
           <p className="search-filter__field-title">Дата поездки</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateLeave ? this.props.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} onFocus={this.handleCalendar.bind(this, 'leave')} />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateLeave ? this.props.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : this.state.dateLeave.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'})} onFocus={this.handleCalendar.bind(this, 'from')} />
             <i className="fa fa-calendar" aria-hidden="true"></i>
-            { this.state.calendarFrom && <Calendar currentDate={currentDate} /> }
+            { this.state.calendarFrom && <Calendar currentDate={currentDate} direction={'from'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
             
           </div>
 
           <p className="search-filter__field-title">Дата возвращения</p>
           <div className="search-filter__form-field-wrap">
-            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateBack ? this.props.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} onFocus={this.handleCalendar.bind(this, 'back')} />
+            <input className="search-filter__form-field" type="text" placeholder="ДД.ММ.ГГГГ" defaultValue={this.props.dateBack ? this.props.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) : ''} onFocus={this.handleCalendar.bind(this, 'to')} />
             <i className="fa fa-calendar" aria-hidden="true"></i>
-            { this.state.calendarTo && <Calendar currentDate={currentDate} /> }
+            { this.state.calendarTo && <Calendar currentDate={currentDate} direction={'to'} responseHandler={this.handleCalendarResponse.bind(this)} /> }
           </div>
           <hr/>
 

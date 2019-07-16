@@ -278,8 +278,38 @@ export default class TrainChoosing extends Component {
     }
   }
   
+  // Новый GET-запрос при изменении параметров фильтра
+  useFetch(param, type, newGetParams) {
+    setTimeout(() => {
+      this.setState({
+        preloader: true
+      });
+      window.history.pushState(null, '', newGetParams);
+      fetch( `https://netology-trainbooking.herokuapp.com/routes${newGetParams}` )
+        .then( response => response.json())
+        .then( data => {
+          if (type === 'date_from') {
+            this.setState({
+              data: data,
+              dateLeave: param.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}),
+              preloader: false
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 400);
+  }
+  
   // Функция, принимающая данные от SidebarFilter
   getSidebarFilterData(param, type) {
+    if (type === 'date_from') {
+      let formatDateLeave = `${param.getFullYear()}-${param.toLocaleString("ru", {month: '2-digit'})}-${param.toLocaleString("ru", {day: '2-digit'})}`;
+      let newGetParams = this.props.location.search.replace(/&date_start=[^&]*/, `&date_start=${formatDateLeave}`);
+      this.useFetch(param, type, newGetParams);
+    }
+    
     if (type === 'checkbox') {
       const filter = this.state.filter;
 
