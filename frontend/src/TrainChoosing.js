@@ -294,6 +294,25 @@ export default class TrainChoosing extends Component {
               dateLeave: param.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}),
               preloader: false
             });
+          } else if (type === 'date_to') {
+            this.setState({
+              data: data,
+              dateBack: param.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}),
+              preloader: false
+            }); 
+          } else if (type === 'checkbox') {
+            this.setState({
+              data: data,
+              filter: param,
+              preloader: false
+            }); 
+          } else if (type === 'pricerange') {
+            this.setState({
+              data: data,
+              minPrice: param.min,
+              maxPrice: param.max,
+              preloader: false
+            });
           }
         })
         .catch((err) => {
@@ -306,34 +325,41 @@ export default class TrainChoosing extends Component {
   getSidebarFilterData(param, type) {
     if (type === 'date_from') {
       let formatDateLeave = `${param.getFullYear()}-${param.toLocaleString("ru", {month: '2-digit'})}-${param.toLocaleString("ru", {day: '2-digit'})}`;
-      let newGetParams = this.props.location.search.replace(/&date_start=[^&]*/, `&date_start=${formatDateLeave}`);
+      let newGetParams = window.location.search.replace(/&date_start=[^&]*/, `&date_start=${formatDateLeave}`);
+      this.useFetch(param, type, newGetParams);
+    }
+    if (type === 'date_to') {
+      let formatDateBack = `${param.getFullYear()}-${param.toLocaleString("ru", {month: '2-digit'})}-${param.toLocaleString("ru", {day: '2-digit'})}`;
+      let newGetParams = window.location.search.replace(/&date_end=[^&]*/, `&date_end=${formatDateBack}`);
       this.useFetch(param, type, newGetParams);
     }
     
     if (type === 'checkbox') {
       const filter = this.state.filter;
-
+      let newGetParams = window.location.search;
       for (let key in filter) {
         if (param === key) {
           if (filter[key]) {
             filter[key] = false;
-            window.location.href = window.location.href.replace(`&${param}=true`, '');
+            newGetParams = window.location.search.replace(`&${param}=true`, '');
           } else {
             filter[key] = true;
-            window.location.href = window.location.href + `&${param}=true`;
+            newGetParams = window.location.search + `&${param}=true`;
           }
         }
       }
+      this.useFetch(filter, type, newGetParams);
     }
     
     if (type === 'pricerange') {
-      if (window.location.href.includes('&price_from=')) {
-        let newUrl = window.location.href.replace(/&price_from=\d+/, `&price_from=${param.min}`);
-        newUrl = newUrl.replace(/&price_to=\d+/, `&price_to=${param.max}`);
-        window.location.href = newUrl;
+      let newGetParams = window.location.search;
+      if (window.location.search.includes('&price_from=')) {
+        newGetParams = newGetParams.replace(/&price_from=\d+/, `&price_from=${param.min}`);
+        newGetParams = newGetParams.replace(/&price_to=\d+/, `&price_to=${param.max}`);
       } else {
-        window.location.href = window.location.href + `&price_from=${param.min}&price_to=${param.max}`;
+        newGetParams = newGetParams + `&price_from=${param.min}&price_to=${param.max}`;
       }
+      this.useFetch(param, type, newGetParams);
     }
 
     if (type === 'timestartdeprange') {
