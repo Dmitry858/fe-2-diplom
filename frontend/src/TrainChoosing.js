@@ -313,6 +313,30 @@ export default class TrainChoosing extends Component {
               maxPrice: param.max,
               preloader: false
             });
+          } else if (type === 'timestartdeprange') {
+            this.setState({
+              data: data,
+              startDepartureTime: param,
+              preloader: false
+            });
+          } else if (type === 'timestartarrange') {
+            this.setState({
+              data: data,
+              startArrivalTime: param,
+              preloader: false
+            });
+          } else if (type === 'timeenddeprange') {
+            this.setState({
+              data: data,
+              endDepartureTime: param,
+              preloader: false
+            }); 
+          } else if (type === 'timeendarrange') {
+            this.setState({
+              data: data,
+              endArrivalTime: param,
+              preloader: false
+            });  
           }
         })
         .catch((err) => {
@@ -323,20 +347,20 @@ export default class TrainChoosing extends Component {
   
   // Функция, принимающая данные от SidebarFilter
   getSidebarFilterData(param, type) {
+    let newGetParams = window.location.search;
     if (type === 'date_from') {
       let formatDateLeave = `${param.getFullYear()}-${param.toLocaleString("ru", {month: '2-digit'})}-${param.toLocaleString("ru", {day: '2-digit'})}`;
-      let newGetParams = window.location.search.replace(/&date_start=[^&]*/, `&date_start=${formatDateLeave}`);
+      newGetParams = window.location.search.replace(/&date_start=[^&]*/, `&date_start=${formatDateLeave}`);
       this.useFetch(param, type, newGetParams);
     }
     if (type === 'date_to') {
       let formatDateBack = `${param.getFullYear()}-${param.toLocaleString("ru", {month: '2-digit'})}-${param.toLocaleString("ru", {day: '2-digit'})}`;
-      let newGetParams = window.location.search.replace(/&date_end=[^&]*/, `&date_end=${formatDateBack}`);
+      newGetParams = window.location.search.replace(/&date_end=[^&]*/, `&date_end=${formatDateBack}`);
       this.useFetch(param, type, newGetParams);
     }
     
     if (type === 'checkbox') {
       const filter = this.state.filter;
-      let newGetParams = window.location.search;
       for (let key in filter) {
         if (param === key) {
           if (filter[key]) {
@@ -352,7 +376,6 @@ export default class TrainChoosing extends Component {
     }
     
     if (type === 'pricerange') {
-      let newGetParams = window.location.search;
       if (window.location.search.includes('&price_from=')) {
         newGetParams = newGetParams.replace(/&price_from=\d+/, `&price_from=${param.min}`);
         newGetParams = newGetParams.replace(/&price_to=\d+/, `&price_to=${param.max}`);
@@ -363,43 +386,43 @@ export default class TrainChoosing extends Component {
     }
 
     if (type === 'timestartdeprange') {
-      if (window.location.href.includes('&start_departure_hour_from=')) {
-        let newUrl = window.location.href.replace(/&start_departure_hour_from=\d+/, `&start_departure_hour_from=${param.min}`);
-        newUrl = newUrl.replace(/&start_departure_hour_to=\d+/, `&start_departure_hour_to=${param.max}`);
-        window.location.href = newUrl;
+      if (window.location.search.includes('&start_departure_hour_from=')) {
+        newGetParams = newGetParams.replace(/&start_departure_hour_from=\d+/, `&start_departure_hour_from=${param.min}`);
+        newGetParams = newGetParams.replace(/&start_departure_hour_to=\d+/, `&start_departure_hour_to=${param.max}`);
       } else {
-        window.location.href = window.location.href + `&start_departure_hour_from=${param.min}&start_departure_hour_to=${param.max}`;
+        newGetParams = newGetParams + `&start_departure_hour_from=${param.min}&start_departure_hour_to=${param.max}`;
       }
+      this.useFetch(param, type, newGetParams);
     }
     
     if (type === 'timestartarrange') {
       if (window.location.href.includes('&start_arrival_hour_from=')) {
-        let newUrl = window.location.href.replace(/&start_arrival_hour_from=\d+/, `&start_arrival_hour_from=${param.min}`);
-        newUrl = newUrl.replace(/&start_arrival_hour_to=\d+/, `&start_arrival_hour_to=${param.max}`);
-        window.location.href = newUrl;
+        newGetParams = newGetParams.replace(/&start_arrival_hour_from=\d+/, `&start_arrival_hour_from=${param.min}`);
+        newGetParams = newGetParams.replace(/&start_arrival_hour_to=\d+/, `&start_arrival_hour_to=${param.max}`);
       } else {
-        window.location.href = window.location.href + `&start_arrival_hour_from=${param.min}&start_arrival_hour_to=${param.max}`;
+        newGetParams = newGetParams + `&start_arrival_hour_from=${param.min}&start_arrival_hour_to=${param.max}`;
       }
+      this.useFetch(param, type, newGetParams);
     }
     
     if (type === 'timeenddeprange') {
       if (window.location.href.includes('&end_departure_hour_from=')) {
-        let newUrl = window.location.href.replace(/&end_departure_hour_from=\d+/, `&end_departure_hour_from=${param.min}`);
-        newUrl = newUrl.replace(/&end_departure_hour_to=\d+/, `&end_departure_hour_to=${param.max}`);
-        window.location.href = newUrl;
+        newGetParams = newGetParams.replace(/&end_departure_hour_from=\d+/, `&end_departure_hour_from=${param.min}`);
+        newGetParams = newGetParams.replace(/&end_departure_hour_to=\d+/, `&end_departure_hour_to=${param.max}`);
       } else {
-        window.location.href = window.location.href + `&end_departure_hour_from=${param.min}&end_departure_hour_to=${param.max}`;
+        newGetParams = newGetParams + `&end_departure_hour_from=${param.min}&end_departure_hour_to=${param.max}`;
       }
+      this.useFetch(param, type, newGetParams);
     }
     
     if (type === 'timeendarrange') {
       if (window.location.href.includes('&end_arrival_hour_from=')) {
-        let newUrl = window.location.href.replace(/&end_arrival_hour_from=\d+/, `&end_arrival_hour_from=${param.min}`);
-        newUrl = newUrl.replace(/&end_arrival_hour_to=\d+/, `&end_arrival_hour_to=${param.max}`);
-        window.location.href = newUrl;
+        newGetParams = newGetParams.replace(/&end_arrival_hour_from=\d+/, `&end_arrival_hour_from=${param.min}`);
+        newGetParams = newGetParams.replace(/&end_arrival_hour_to=\d+/, `&end_arrival_hour_to=${param.max}`);
       } else {
-        window.location.href = window.location.href + `&end_arrival_hour_from=${param.min}&end_arrival_hour_to=${param.max}`;
+        newGetParams = newGetParams + `&end_arrival_hour_from=${param.min}&end_arrival_hour_to=${param.max}`;
       }
+      this.useFetch(param, type, newGetParams);
     }
   }
   
