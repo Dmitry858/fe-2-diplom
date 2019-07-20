@@ -79,7 +79,10 @@ export default class Passengers extends Component {
     for (let i = 0; i < this.state.passengers.length; i++) {
       passengers[i] = {...this.state.passengers[i]};
     }
-    if (property === 'gender') {
+    if (property === 'surname' || property === 'name' || property === 'patronymic') {
+      let value = event.currentTarget.value.replace(/[0-9`~№!?@#$%&*()"+=\^;:,.\/]/, '');
+      passengers[index][property] = value;
+    } else if (property === 'gender') {
       passengers[index][property] = event.currentTarget.textContent;
     } else if (property === 'limitedMobility') {
       passengers[index][property] = event.currentTarget.checked;
@@ -89,6 +92,10 @@ export default class Passengers extends Component {
       } else {
         passengers[index][property] = true;
       }
+    } else if (property === 'dateOfBirth') {
+      let value = event.currentTarget.value.replace(/[^0-9.]/, '');
+      if (value.length > 10) value = value.slice(0, 10);
+      passengers[index][property] = value;
     } else {
       passengers[index][property] = event.currentTarget.value;
     }
@@ -197,7 +204,7 @@ export default class Passengers extends Component {
 
                             <label className="passenger__date-birth">
                               Дата рождения
-                              <input className="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД/ММ/ГГ" value={item.dateOfBirth} onChange={this.passengerInfoHandler.bind(this, 'dateOfBirth', i)} />
+                              <input className="passenger__input passenger__input_date-birth" name="birth" type="text" placeholder="ДД.ММ.ГГГГ" value={item.dateOfBirth} onChange={this.passengerInfoHandler.bind(this, 'dateOfBirth', i)} />
                             </label>
                           </div>
 
