@@ -126,8 +126,8 @@ export default class TrainChoosing extends Component {
     }
 
     if (this.props.location.state) {
-      sessionStorage.setItem('cityFrom', this.props.location.state.cityFrom);
-      sessionStorage.setItem('cityTo', this.props.location.state.cityTo);
+      sessionStorage.setItem('cityFrom', JSON.stringify(this.props.location.state.cityFrom));
+      sessionStorage.setItem('cityTo', JSON.stringify(this.props.location.state.cityTo));
       cityFrom = this.props.location.state.cityFrom;
       cityTo = this.props.location.state.cityTo;
       if (this.props.location.state.dateLeave) {
@@ -139,8 +139,8 @@ export default class TrainChoosing extends Component {
         dateBack = this.props.location.state.dateBack.toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'});
       }
     } else {
-      cityFrom = sessionStorage.getItem('cityFrom');
-      cityTo = sessionStorage.getItem('cityTo');
+      cityFrom = JSON.parse(sessionStorage.getItem('cityFrom'));
+      cityTo = JSON.parse(sessionStorage.getItem('cityTo'));
       dateLeave = sessionStorage.getItem('dateLeave');
       dateBack = sessionStorage.getItem('dateBack');
     }
@@ -248,34 +248,36 @@ export default class TrainChoosing extends Component {
   showByHandler(num, event) {
     if (num === this.state.showByNum) return;
     
-    let newUrl = window.location.href,
+    let newGetParams = window.location.search,
         regExp = /&limit=\d+/,
         regExpOffset = /&offset=\d+/;
     
-    if (this.props.location.query.offset) {
-      newUrl = newUrl.replace(regExpOffset, '');
+    if (regExpOffset.test(window.location.search)) {
+      newGetParams = newGetParams.replace(regExpOffset, '');
     }
     
-    if (regExp.test(this.props.location.search)) {
-      newUrl = newUrl.replace(regExp, `&limit=${num}`);
+    if (regExp.test(window.location.search)) {
+      newGetParams = newGetParams.replace(regExp, `&limit=${num}`);
     } else {
-      newUrl = newUrl + `&limit=${num}`;
+      newGetParams = newGetParams + `&limit=${num}`;
     }
     
-    window.location.href = newUrl;
+    this.useFetch(num, 'showBy', newGetParams);
   }
   
   trainsListUpdate(pageNum = 1) {
     const { showByNum, currentPage } = this.state;
     if (pageNum === currentPage) return;
 
-    let regExp = /&offset=\d+/;
+    let regExp = /&offset=\d+/,
+        newGetParams = window.location.search;
     
-    if (regExp.test(this.props.location.search)) {
-      window.location.href = window.location.href.replace(regExp, `&offset=${(pageNum - 1) * showByNum}`);
+    if (regExp.test(window.location.search)) {
+      newGetParams = newGetParams.replace(regExp, `&offset=${(pageNum - 1) * showByNum}`);
     } else {
-      window.location.href = window.location.href + `&offset=${(pageNum - 1) * showByNum}`;
+      newGetParams = newGetParams + `&offset=${(pageNum - 1) * showByNum}`;
     }
+    this.useFetch(pageNum, 'pagination', newGetParams);
   }
   
   // Новый GET-запрос при изменении параметров фильтра
@@ -335,6 +337,19 @@ export default class TrainChoosing extends Component {
             this.setState({
               data: data,
               endArrivalTime: param,
+              preloader: false
+            });  
+          } else if (type === 'showBy') {
+            this.setState({
+              data: data,
+              showByNum: param,
+              currentPage: 1,
+              preloader: false
+            });
+          } else if (type === 'pagination') {
+            this.setState({
+              data: data,
+              currentPage: param,
               preloader: false
             });  
           }

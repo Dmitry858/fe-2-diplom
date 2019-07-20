@@ -180,6 +180,7 @@ summary::-moz-list-bullet {
   display: -o-flex;
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   margin-top: 60px;
 }
 
@@ -187,6 +188,7 @@ summary::-moz-list-bullet {
   width: 60px;
   height: 60px;
   margin-right: 20px;
+  margin-bottom: 10px;
   border: 2px solid #C4C4C4;
   box-sizing: border-box;
   border-radius: 5px;
