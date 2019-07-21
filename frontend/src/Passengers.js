@@ -57,14 +57,22 @@ export default class Passengers extends Component {
     passengers.forEach(function(item) {
       for (let key in item) {
         if (item[key] === '') {
-          arr.push('empty');
+          arr.push('incorrect');
+        } else if (key === 'name' || key === 'patronymic' || key === 'surname') {
+          if (item[key].length < 2) arr.push('incorrect');
+        } else if (key === 'dateOfBirth' && item[key].length < 8) {
+          arr.push('incorrect');
+        } else if (key === 'docSeries' && item[key].length < 4) {
+          arr.push('incorrect');
+        } else if (key === 'docNum' && item[key].length < 6) {
+          arr.push('incorrect');
         } else {
-          arr.push('filled');
+          arr.push('correct');
         }
       }
     });
     let foundEl = arr.find(function(el) {
-      return el === 'empty';
+      return el === 'incorrect';
     });
 
     if (foundEl) {
@@ -96,10 +104,18 @@ export default class Passengers extends Component {
       let value = event.currentTarget.value.replace(/[^0-9.]/, '');
       if (value.length > 10) value = value.slice(0, 10);
       passengers[index][property] = value;
+    } else if (passengers[index].docType === 'passport' && property === 'docSeries') {
+      let value = event.currentTarget.value.replace(/[^0-9]/, '');
+      if (value.length > 4) value = value.slice(0, 4);
+      passengers[index][property] = value;
+    } else if (property === 'docNum') {
+      let value = event.currentTarget.value.replace(/[^0-9]/, '');
+      if (value.length > 6) value = value.slice(0, 6);
+      passengers[index][property] = value;
     } else {
       passengers[index][property] = event.currentTarget.value;
     }
-    
+
     let nextStepAllow = this.nextStepIsAllow(passengers);
     this.setState({
       passengers: passengers,
