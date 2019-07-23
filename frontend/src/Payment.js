@@ -40,17 +40,21 @@ export default class Payment extends Component {
     let arr = [];
 
     for (let key in customer) {
-      if (customer[key] === '') {
-        arr.push('empty');
+      if (customer[key].length < 2) {
+        arr.push('incorrect');
+      } else if (key === 'phone' && customer[key].length < 10) {
+        arr.push('incorrect');    
+      } else if (key === 'email' && !/^[A-Za-z0-9_.-]+@\w+\.\D{2,7}/.test(customer[key])) {
+        arr.push('incorrect');
       } else if ( (key === 'paymentOnline') && (customer.paymentOnline === customer.paymentCash) ) {
-        arr.push('empty');
+        arr.push('incorrect');
       } else {
-        arr.push('filled');
+        arr.push('correct');
       }
     }
 
     let foundEl = arr.find(function(el) {
-      return el === 'empty';
+      return el === 'incorrect';
     });
 
     if (foundEl) {
@@ -62,7 +66,14 @@ export default class Payment extends Component {
   
   customerInfoHandler(property, event) {
     const customer = this.state.customer;
-    if (property === 'paymentOnline') {
+    if (property === 'surname' || property === 'name' || property === 'patronymic') {
+      let value = event.currentTarget.value.replace(/[0-9`~№!?@#$%&*()"+=\^;:,.\/]/, '');
+      customer[property] = value;
+    } else if (property === 'phone') {
+      let value = event.currentTarget.value.replace(/[^0-9\+)(-\s]/, '');
+      if (value.length > 16) value = value.slice(0, 16);
+      customer[property] = value;
+    } else if (property === 'paymentOnline') {
       customer.paymentOnline = true;
       customer.paymentCash = false;
     } else if (property === 'paymentCash') {
